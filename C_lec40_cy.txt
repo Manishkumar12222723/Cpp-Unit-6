@@ -1,0 +1,1482 @@
+
+
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+In a talent show, you have a system that stores the scores given by judges for various performances in an integer vector called "performanceScores." The vector contains distinct elements, where each element represents the score given by a different judge for a specific performance. Now, the talent show organizers want to display the performance scores in reverse order to show the highest-rated performances first.
+
+
+
+To achieve this, implement a function named "customReverse" that will reverse the elements of the "performanceScores" vector in place without using any pre-built STL algorithm like "reverse."
+
+
+
+Note: This kind of question will be helpful in clearing CTS recruitment.
+
+Input format :
+The first line of the input contains an integer n, representing the number of performance scores.
+
+The second line of the input contains n space-separated distinct integers, representing the performance scores given by different judges.
+
+Output format :
+The program displays the performance scores in reverse order, separated by spaces.
+
+Code constraints :
+1 <= n <= 1000 
+
+0 <= performance score <= 103
+
+Sample test cases :
+Input 1 :
+9
+1 2 9 9 6 2 2 9 6
+Output 1 :
+6 9 2 2 6 9 9 2 1 
+Input 2 :
+-5
+Output 2 :
+Invalid input
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+
+void customReverse(std::vector<int>& dataVec) {
+    int n = dataVec.size();
+    for (int i = 0; i < n / 2; i++) {
+        int temp = dataVec[i];
+        dataVec[i] = dataVec[n - 1 - i];
+        dataVec[n - 1 - i] = temp;
+    }
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+    if (n <= 0) {
+        std::cout << "Invalid input";
+        return 0;
+    }
+    std::vector<int> dataVec(n);
+    for (int i = 0; i < n; i++) {
+        std::cin >> dataVec[i];
+    }
+    customReverse(dataVec);
+    for (int num : dataVec) {
+        std::cout << num << " ";
+    }
+    return 0;
+}
+
+
+
+Question No: 2
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+In a data analysis system, you are provided with an array of integer elements representing the scores of students in a game. Your task is to process the scores and convert the array into its reduced form using vectors of pairs. Additionally, you need to implement two functions, convert() and printArr() to handle the conversion and display the reduced form, respectively.
+
+
+
+convert() Function:
+
+Implement the convert() function, which takes the input array of integer elements and returns the reduced form of the array using vectors of pairs. The function should assign a new value to each element of the array based on its position when the elements are sorted in ascending order.
+
+The smallest element in the array should be assigned the value 0.
+The second smallest element should be assigned the value 1.
+...
+The largest element should be assigned the value n-1, where n is the number of elements in the array.
+
+
+printArr() Function:
+
+Implement the printArr() function to display the elements of the reduced form array.
+
+
+
+Please write the code for the two functions, convert() and printArr(), to accomplish the given scenario. The main function will handle the input of the array and call these functions to convert and display the reduced form of the array.
+
+
+
+Example
+
+
+
+Input:
+
+5
+
+48 12 8 96 42
+
+
+
+Output:
+
+Input Array: 48 12 8 96 42 
+
+Converted Array: 3 1 0 4 2 
+
+Input format :
+The first line consists of the array size and the second line consists of array elements separated by a space.
+
+Output format :
+The output displays the input array and converted array in separate lines.
+
+Code constraints :
+0 < Array Size <= 15
+
+Sample test cases :
+Input 1 :
+5
+48 12 8 96 42
+Output 1 :
+Input Array: 48 12 8 96 42 
+Converted Array: 3 1 0 4 2 
+Input 2 :
+-8
+Output 2 :
+-1
+
+
+
+// You are using GCC
+#include <bits/stdc++.h> 
+using namespace std; 
+void convert(int arr[], int n) {
+    vector <pair<int, int> > v; 
+    for (int i = 0; i < n; i++) 
+        v.push_back(make_pair(arr[i], i)); 
+    sort(v.begin(), v.end()); 
+    for (int i=0; i<n; i++) 
+        arr[v[i].second] = i; 
+} 
+void printArr(int arr[], int n) { 
+    for (int i=0; i<n; i++) 
+        cout << arr[i] << " "; 
+} 
+int main(){ 
+    int n; 
+    cin>>n;
+    if(n<1||n>15) {
+        cout<<"-1";
+        return 0;
+    }
+    int arr[n];
+    for(int i =0;i<n;i++)
+        cin>>arr[i];
+    cout<<"Input Array: ";
+    printArr(arr, n); 
+    convert(arr , n); 
+    cout << "\nConverted Array: "; 
+    printArr(arr, n); 
+    return 0; 
+} 
+
+
+
+uestion No: 3
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+In the context of DK's Home Interior Design, you have been assigned the task of developing a program to efficiently manage different types of furniture and home accessories for clients. The program will utilize a linked list data structure to keep track of the available items for decoration. 
+
+
+
+Each node within the linked list will represent either a furniture item or a home accessory. The main functionalities of the program will include adding new items, removing existing items, and displaying the list of available items to the clients. To maintain a custom implementation, you are specifically instructed not to use any pre-built STL algorithms such as insert, erase, or sort when managing the linked list.
+
+
+
+ Instead, you'll need to create custom functions to handle the required operations effectively. By doing so, DK's Home Interior Design will have a tailored and efficient program to manage their diverse inventory of furniture and home accessories for their clients. 
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line contains an integer n, representing the number of items to be added to the home decoration list.
+
+The next 2n lines contain the name and price of each item in each line.
+
+The last line of input consists of the item to be removed from the list.
+
+Output format :
+The program will display the output as follows:
+
+For each item added, it will print: Item "item_name" added with price $item_price.
+
+After adding all items, it will display the available items.
+
+When removing an item, it will print: Item "item_name" removed. if the item is found in the list.
+
+If the item is not found in the list, it will print: Item "item_name" not found in the list. Cannot remove.
+
+After removing an item, it will display the updated available items list.
+
+Code constraints :
+0 < Number of items <= 25
+
+Sample test cases :
+Input 1 :
+4
+Sofa
+800
+Coffee Table
+200
+Lamp
+50
+Bookshelf
+300
+Coffee Table
+Output 1 :
+Item "Sofa" added with price Rs.800
+Item "Coffee Table" added with price Rs.200
+Item "Lamp" added with price Rs.50
+Item "Bookshelf" added with price Rs.300
+Available items:
+- Sofa Rs.800
+- Coffee Table Rs.200
+- Lamp Rs.50
+- Bookshelf Rs.300
+Item "Coffee Table" removed.
+Available items:
+- Sofa Rs.800
+- Lamp Rs.50
+- Bookshelf Rs.300
+Input 2 :
+4
+Sofa
+800
+Coffee Table
+200
+Lamp
+50
+Bookshelf
+300
+Table
+Output 2 :
+Item "Sofa" added with price Rs.800
+Item "Coffee Table" added with price Rs.200
+Item "Lamp" added with price Rs.50
+Item "Bookshelf" added with price Rs.300
+Available items:
+- Sofa Rs.800
+- Coffee Table Rs.200
+- Lamp Rs.50
+- Bookshelf Rs.300
+Item "Table" not found in the list. Cannot remove.
+Available items:
+- Sofa Rs.800
+- Coffee Table Rs.200
+- Lamp Rs.50
+- Bookshelf Rs.300
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+
+class HomeItem {
+public:
+    std::string name;
+    double price;
+    HomeItem(const std::string& itemName, double itemPrice) : name(itemName), price(itemPrice) {}
+};
+
+class HomeDecoration {
+private:
+    std::vector<HomeItem> items;
+public:
+    void addItem(const std::string& name, double price) {
+        items.push_back(HomeItem(name, price));
+        std::cout << "Item \"" << name << "\" added with price Rs." << price << std::endl;
+    }
+    void removeItem(const std::string& name) {
+        for (auto it = items.begin(); it != items.end(); ++it) {
+            if (it->name == name) {
+                items.erase(it);
+                std::cout << "Item \"" << name << "\" removed." << std::endl;
+                return;
+            }
+        }
+        std::cout << "Item \"" << name << "\" not found in the list. Cannot remove." << std::endl;
+    }
+    void displayItems() const {
+        if (items.empty()) {
+            std::cout << "List is empty. No items to display." << std::endl;
+            return;
+        }
+        std::cout << "Available items:" << std::endl;
+        for (const HomeItem& item : items) {
+            std::cout << "- " << item.name << " Rs." << item.price << std::endl;
+        }
+    }
+};
+
+int main() {
+    HomeDecoration decoration;
+    int n;
+    std::cin >> n;
+    for (int i = 0; i < n; i++) {
+        std::string name;
+        double price;
+        std::cin.ignore();
+        std::getline(std::cin, name);
+        std::cin >> price;
+        decoration.addItem(name, price);
+    }
+    decoration.displayItems();
+    std::string itemToRemove;
+    std::cin.ignore();
+    std::getline(std::cin, itemToRemove);
+    decoration.removeItem(itemToRemove);
+    decoration.displayItems();
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+At CKS Fish Market, you are tasked with developing a program to efficiently manage fish sales and stock. The program will handle different types of fish, and to achieve this, you'll utilize a linked list data structure. Each node within the linked list will represent a fish item, containing its name, price, and current stock quantity. The primary functionalities of the program include adding new fish, updating fish prices, selling fish, and displaying the list of available fish and their respective quantities. 
+
+
+
+To maintain a custom implementation, you must avoid using any pre-built STL algorithms such as insert, erase, or sort when managing the linked list. Instead, you'll be responsible for creating custom functions that handle the required operations efficiently. By achieving this, CKS Fish Market will have a tailored and efficient program to manage its fish inventory and sales seamlessly. 
+
+Input format :
+The first line contains an integer n, representing the number of fish items.
+
+For each fish item, the next three lines contain:
+
+a. The name of the fish (a string containing alphanumeric characters and spaces).
+
+b. The price of the fish (a positive floating-point number).
+
+c. The quantity of the fish in stock (an integer).
+
+The next two lines consist of a string representing the name of the fish whose price needs to be updated and a positive floating-point number representing the new price of the fish.
+
+The last two lines consist of a string representing the name of the fish to be sold and an integer representing the quantity of the fish to be sold.
+
+Output format :
+After adding fish items, the program will display the available fish items and their quantities.
+
+After updating the price of a fish item, the program will display the updated price of the fish.
+
+After selling fish with sufficient quantity, the program will display the quantity of fish sold.
+
+After attempting to sell fish with insufficient quantity, the program will display an error message stating insufficient quantity.
+
+After attempting to update or sell a fish item not found in the list, the program will display an error message stating fish not found.
+
+Code constraints :
+1 ≤ n ≤ 1000
+
+﻿0 ≤ quantity ≤ 1000
+
+Sample test cases :
+Input 1 :
+3
+Salmon
+12.5
+50
+Tuna
+8.75
+40
+Snapper
+15.0
+30
+Tuna
+10.0
+Salmon
+20
+Snapper
+40
+Output 1 :
+Fish Salmon added with price Rs.12.5 and quantity 50
+Fish Tuna added with price Rs.8.75 and quantity 40
+Fish Snapper added with price Rs.15 and quantity 30
+Available fish:
+- Salmon Rs.12.5; Quantity: 50
+- Tuna Rs.8.75; Quantity: 40
+- Snapper Rs.15; Quantity: 30
+Fish Tuna price updated to Rs.10
+20 units of fish Salmon sold.
+Available fish:
+- Salmon Rs.12.5; Quantity: 30
+- Tuna Rs.10; Quantity: 40
+- Snapper Rs.15; Quantity: 30
+Input 2 :
+4
+Trout
+9.5
+35
+Bass
+7.25
+25
+Mackerel
+11.0
+50
+Bass
+6.0
+Mackerel
+60
+Trout
+30
+Output 2 :
+Fish Trout added with price Rs.9.5 and quantity 35
+Fish Bass added with price Rs.7.25 and quantity 25
+Fish Mackerel added with price Rs.11 and quantity 50
+Fish Bass added with price Rs.6 and quantity 0
+Available fish:
+- Trout Rs.9.5; Quantity: 35
+- Bass Rs.7.25; Quantity: 25
+- Mackerel Rs.11; Quantity: 50
+- Bass Rs.6; Quantity: 0
+Fish  not found in the list. Cannot update price.
+Fish  not found in the list. Cannot sell.
+Available fish:
+- Trout Rs.9.5; Quantity: 35
+- Bass Rs.7.25; Quantity: 25
+- Mackerel Rs.11; Quantity: 50
+- Bass Rs.6; Quantity: 0
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+
+class FishItem {
+public:
+    std::string name;
+    double price;
+    int quantity;
+    FishItem(const std::string& fishName, double fishPrice, int fishQuantity)
+        : name(fishName), price(fishPrice), quantity(fishQuantity) {}
+};
+
+class FishMarket {
+private:
+    std::vector<FishItem> fishItems;
+public:
+    void addFish(const std::string& name, double price, int quantity) {
+        fishItems.push_back(FishItem(name, price, quantity));
+        std::cout << "Fish " << name << " added with price Rs." << price << " and quantity " << quantity << std::endl;
+    }
+    void updateFishPrice(const std::string& name, double newPrice) {
+        for (FishItem& fish : fishItems) {
+            if (fish.name == name) {
+                fish.price = newPrice;
+                std::cout << "Fish " << name << " price updated to Rs." << newPrice << std::endl;
+                return;
+            }
+        }
+        std::cout << "Fish " << name << " not found in the list. Cannot update price." << std::endl;
+    }
+
+    void sellFish(const std::string& name, int quantity) {
+        for (FishItem& fish : fishItems) {
+            if (fish.name == name) {
+                if (fish.quantity >= quantity) {
+                    fish.quantity -= quantity;
+                    std::cout << quantity << " units of fish " << name << " sold." << std::endl;
+                    return;
+                } else {
+                    std::cout << "Insufficient quantity of fish " << name << " in stock. Cannot sell." << std::endl;
+                    return;
+                }
+            }
+        }
+        std::cout << "Fish " << name << " not found in the list. Cannot sell." << std::endl;
+    }
+
+    void displayFish() const {
+        if (fishItems.empty()) {
+            std::cout << "List is empty. No fish to display." << std::endl;
+            return;
+        }
+        std::cout << "Available fish:" << std::endl;
+        for (const FishItem& fish : fishItems) {
+            std::cout << "- " << fish.name << " Rs." << fish.price << "; Quantity: " << fish.quantity << std::endl;
+        }
+    }
+};
+
+int main() {
+    FishMarket fishMarket;
+    int n;
+    std::cin >> n;
+    for (int i = 0; i < n; i++) {
+        std::string name;
+        double price;
+        int quantity;
+        std::cin.ignore();
+        std::getline(std::cin, name);
+        std::cin >> price;
+        std::cin >> quantity;
+        fishMarket.addFish(name, price, quantity);
+    }
+
+    fishMarket.displayFish();
+    std::string fishToUpdate;
+    double newPrice;
+    std::cin.ignore();
+    std::getline(std::cin, fishToUpdate);
+    std::cin >> newPrice;
+    fishMarket.updateFishPrice(fishToUpdate, newPrice);
+    std::string fishToSell;
+    int quantityToSell;
+    std::cin.ignore();
+    std::getline(std::cin, fishToSell);
+    std::cin >> quantityToSell;
+    fishMarket.sellFish(fishToSell, quantityToSell);
+    fishMarket.displayFish();
+    return 0;
+}
+
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+﻿Banu wants to develop a simple shopping cart management system for her online store. The system should allow users to add items to their shopping cart, update the quantity of items, view the total bill, and exit the program when they are done shopping. To implement this system, Banu decides to use algorithms and iterators to efficiently manage the items in the shopping cart.
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The input consists of the following options:
+
+
+
+Add Item: Add an item to their shopping cart by providing the name, quantity, and price of the item.
+Update Quantity: Update the quantity of an item in their cart by providing the item's name and the new quantity.
+View Total Bill: View the total bill for all the items in their cart.
+Exit: Exit the program when they are done shopping.
+Output format :
+The output displays the following format:
+
+
+
+For option 1 (Add Item), the program should display a message confirming the addition of the item to the cart.
+
+For option 2 (Update Quantity), the program should display a message confirming the update of the item's quantity.
+
+For option 3 (View Total Bill), the program should display the total bill amount for all the items in the cart.
+
+For option 4 (Exit), the program should display a goodbye message and terminate.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+Item names will be alphanumeric and contain at most 50 characters.
+
+The quantity of an item will be a positive integer.
+
+The price of an item will be a positive double-point number.
+
+The bill will be a positive double - point number.
+
+Sample test cases :
+Input 1 :
+1
+Laptop
+2
+800.00
+3
+4
+Output 1 :
+Total Bill: 1600
+Exiting the program.
+Input 2 :
+1
+Shirt
+5
+25.00
+2
+Shirt
+3
+5
+4
+Output 2 :
+Invalid choice
+Exiting the program.
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+struct Item {
+    std::string name;
+    int quantity;
+    double price;
+};
+
+class ShoppingCart {
+private:
+    std::vector<Item> items;
+public:
+    void addItem(const std::string& name, int quantity, double price) {
+        items.push_back({name, quantity, price});
+    }
+    void updateQuantity(const std::string& name, int newQuantity) {
+        auto it = std::find_if(items.begin(), items.end(), [name](const Item& item) {
+            return item.name == name;
+        });
+        if (it != items.end()) {
+            it->quantity = newQuantity;
+        }
+    }
+
+    double getTotalBill() {
+        double total = 0.0;
+        for (const Item& item : items) {
+            total += item.price * item.quantity;
+        }
+        return total;
+    }
+};
+
+int main() {
+    ShoppingCart cart;
+    std::string name;
+    int quantity;
+    double price;
+    double bill;
+    char choice;
+    do {
+        std::cin >> choice;
+        switch (choice) {
+            case '1':
+                std::cin.ignore();
+                std::getline(std::cin, name);
+                std::cin >> quantity;
+                std::cin >> price;
+                cart.addItem(name, quantity, price);
+                break;
+
+            case '2':
+                std::cin.ignore();
+                std::getline(std::cin, name);
+                std::cin >> quantity;
+                cart.updateQuantity(name, quantity);
+                break;
+
+            case '3':
+                bill = cart.getTotalBill();
+                std::cout << "Total Bill: " << bill << std::endl;
+                break;
+
+            case '4':
+                std::cout << "Exiting the program.";
+                break;
+
+            default:
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
+
+    } while (choice != '4');
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+Mythili is the owner of a small dairy shop that sells different brands of milk. She wants to manage her milk inventory efficiently. She needs a program that can help her add new milk brands, update the quantity of milk in liters for each brand, display the current inventory, and exit the program when she's done. The milk inventory will be represented by a vector of milk products using algorithms and iterators.
+
+
+
+Features:
+
+
+
+Add Milk: The program should allow Mythili to add a new milk brand to the inventory. For each brand, she needs to provide the brand name, quantity of milk in liters, and price per liter.
+
+
+
+Update Milk Quantity: If Mythili receives a new batch of milk for a specific brand, she should be able to update the quantity in liters for that brand.
+
+
+
+Display Milk Inventory: Mythili wants to see the current details of all the milk brands in the inventory, including their brand names, quantities in liters, and prices per liter.
+
+
+
+Exit Program: The program should provide an option for Mythili to exit the inventory management system when she is done managing the milk inventory.
+
+Input format :
+The input consists of a menu with the following options:
+
+
+
+Add Milk
+Update Milk Quantity
+Display Milk Inventory
+Exit
+Select an option by entering the corresponding number (1, 2, 3, or 4). For options 1 and 2, the user will need to provide additional information as follows:
+
+
+
+Add Milk:
+
+The brand name of the milk (a string).
+
+The quantity of milk available in liters (an integer).
+
+The price per liter of milk (a decimal number).
+
+Update Milk Quantity:
+
+The brand name of the milk (a string).
+
+The new quantity of milk available is in liters (an integer).
+
+
+
+Refer to the sample input for the formatting specifications.
+
+Output format :
+The output displays the following format:
+
+For option 1, display a message confirming the addition of the milk to the inventory.
+
+For option 2, display a message confirming the update of the milk quantity.
+
+For option 3, display the details of the milk inventory, including brand names, quantities in liters, and prices per liter.
+
+For option 4, display a message indicating the program is exiting.
+
+If the option is greater than 4, it will print an Invalid Choice message.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The brand name of the milk will be a string of alphanumeric characters, and it will not exceed 50 characters in length.
+
+The quantity of milk will be a non-negative integer value, and it should be at most 10000 liters.
+
+The price per liter will be a non-negative decimal value, and it should not exceed $100.
+
+Sample test cases :
+Input 1 :
+1
+Milk Brand A
+100
+2.5
+1
+Milk Brand B
+50
+3.0
+2
+Milk Brand A
+150
+3
+4
+Output 1 :
+Milk Inventory Details:
+Brand: Milk Brand A, Quantity (Liters): 150, Price per Liter: $2.5
+Brand: Milk Brand B, Quantity (Liters): 50, Price per Liter: $3
+Exiting the program.
+Input 2 :
+1
+Amul
+50
+3.5
+3
+6
+4
+Output 2 :
+Invalid choice
+Exiting the program.
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <limits>
+
+struct Milk {
+    std::string brand;
+    int quantityInLiters;
+    double pricePerLiter;
+};
+
+class MilkInventory {
+private:
+    std::vector<Milk> milks;
+public:
+    void addMilk(const std::string& brand, int quantityInLiters, double pricePerLiter) {
+        milks.push_back({brand, quantityInLiters, pricePerLiter});
+    }
+    void updateQuantity(const std::string& brand, int newQuantity) {
+        auto it = std::find_if(milks.begin(), milks.end(), [brand](const Milk& m) {
+            return m.brand == brand;
+        });
+        if (it != milks.end()) {
+            it->quantityInLiters = newQuantity;
+        }
+    }
+
+    void displayMilkInventory() {
+        std::cout << "Milk Inventory Details:" << std::endl;
+        for (const Milk& m : milks) {
+            std::cout << "Brand: " << m.brand << ", Quantity (Liters): " << m.quantityInLiters
+                      << ", Price per Liter: $" << m.pricePerLiter << std::endl;
+        }
+    }
+};
+
+int main() {
+    MilkInventory milkInventory;
+    std::string brand;
+    int quantity;
+    double price;
+    char choice;
+    do {
+        std::cin >> choice;
+        switch (choice) {
+            case '1':
+                std::cin.ignore();
+                std::getline(std::cin, brand);
+                std::cin >> quantity;
+                std::cin >> price;
+                milkInventory.addMilk(brand, quantity, price);
+                break;
+
+            case '2':
+                std::cin.ignore();
+                std::getline(std::cin, brand);
+                std::cin >> quantity;
+                milkInventory.updateQuantity(brand, quantity);
+                break;
+
+            case '3':
+                milkInventory.displayMilkInventory();
+                break;
+
+            case '4':
+                std::cout << "Exiting the program.";
+                break;
+
+            default:
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    } while (choice != '4');
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+Raju is a music enthusiast and loves to manage his music collection using a playlist manager. He wants to create a program that allows him to manage his playlist of songs. Each song in the playlist has a title, artist, and duration (in seconds).
+
+
+
+Raju wants to implement a playlist management system using algorithms and iterators with the following features:
+
+
+
+Features:
+
+
+
+Add Song: Raju wants to add a new song to his playlist. He will provide the title, artist, and duration of the song.
+Remove Song: Raju wants to remove a song from the playlist by providing the title of the song.
+Display Playlist: Raju wants to view the details of all the songs in the playlist, including their title, artist, and duration.
+Exit: Raju wants to be able to exit the program when he is done managing his playlist.
+
+
+Note: This kind of question will be helpful in clearing Mettl recruitment.
+
+Input format :
+The input consists of four options: '1', '2', '3', or '4' based on the feature.
+
+For '1' (Add Song), the title, artist, and duration of the song.
+
+For '2' (Remove Song), the title of the song they want to remove.
+
+For '3' (Display Playlist), the details of all the songs in the playlist.
+
+For '4' (Exit), the program will terminate.
+
+Output format :
+The output displays the following format:
+
+For '1' (Add Song), the program will display a confirmation message after adding the song.
+
+For '2' (Remove Song), the program will display a confirmation message after removing the song or an error message if the song is not found.
+
+For '3' (Display Playlist), the program will display the details of all the songs in the playlist.
+
+For '4' (Exit), the program will display a message indicating that it is exiting.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The title and artist of each song will be a string with a maximum length of 100 characters.
+
+The duration of each song will be an integer between 1 and 1000 (representing the duration in seconds).
+
+The playlist can contain a maximum of 100 songs.
+
+Sample test cases :
+Input 1 :
+1
+Believer
+Imagine Dragons
+210
+1
+Someone Like You
+Adele
+290
+1
+Shape of You
+Ed Sheeran
+230
+3
+4
+Output 1 :
+Playlist:
+ Believer Imagine Dragons 210 
+ Someone Like You Adele 290 
+ Shape of You Ed Sheeran 230 
+Exiting the program.
+Input 2 :
+1
+Havana
+Camila Cabello
+240
+1
+Despacito
+Luis Fonsi
+270
+3
+2
+Havana
+3
+4
+Output 2 :
+Playlist:
+ Havana Camila Cabello 240 
+ Despacito Luis Fonsi 270 
+Playlist:
+ Despacito Luis Fonsi 270 
+Exiting the program.
+Input 3 :
+1
+Lose Yourself
+Eminem
+320
+3
+6
+4
+Output 3 :
+Playlist:
+ Believer Imagine Dragons 210 
+Invalid choice
+Exiting the program.
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+struct Song {
+    std::string title;
+    std::string artist;
+    int duration; 
+};
+
+class Playlist {
+private:
+    std::vector<Song> songs;
+public:
+    void addSong(const std::string& title, const std::string& artist, int duration) {
+        songs.push_back({title, artist, duration});
+    }
+    void removeSong(const std::string& title) {
+        auto it = std::remove_if(songs.begin(), songs.end(), [title](const Song& song) {
+            return song.title == title;
+        });
+        songs.erase(it, songs.end());
+    }
+
+    void displayPlaylist() {
+        std::cout << "Playlist:" << std::endl;
+        for (const Song& song : songs) {
+            std::cout << " " << song.title << " " << song.artist << " " << song.duration << " " << std::endl;
+        }
+    }
+};
+
+int main() {
+    Playlist playlist;
+    std::string title, artist;
+    int duration;
+    char choice;
+    do {
+        std::cin >> choice;
+        switch (choice) {
+            case '1':
+                std::cin.ignore();
+                std::getline(std::cin, title);
+                std::getline(std::cin, artist);
+                std::cin >> duration;
+                playlist.addSong(title, artist, duration);
+                break;
+
+            case '2':
+                std::cin.ignore();
+                std::getline(std::cin, title);
+                playlist.removeSong(title);
+                break;
+
+            case '3':
+                playlist.displayPlaylist();
+                break;
+
+            case '4':
+                std::cout << "Exiting the program.";
+                break;
+
+            default:
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
+    } while (choice != '4');
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Jennifer is a university student who is studying computer science. She wants to create a Student Database Management System using for her university project. The system should allow users to perform various operations on the student database, such as adding a new student, updating a student's grades, and displaying student details. Jennifer has decided to use algorithms and iterators to efficiently manage the database and perform the required tasks.
+
+Input format :
+The input consists of the following format:
+
+Add Student: This option allows the user to add a new student to the database. The student's name (a string) and roll number (an integer).
+Update Student Grades: This option allows the user to update the grades of a specific student in the database. The student's roll number (an integer) and three grades (three integers separated by spaces).
+Display Student Details: This option allows the user to view the details of a specific student in the database. The student's roll number (an integer).
+Exit: This option allows the user to exit the program.
+
+
+Refer to the sample input for the formatting specifications.
+
+Output format :
+The output consists of the following format:
+
+
+
+When adding a student, the program will confirm the successful addition of the student.
+
+When updating grades, the program will inform the user if the student's roll number is found in the database; otherwise, it will print a not found message.
+
+When displaying student details, the program will print the student's name, roll number, and grades.
+
+If the choice is greater than 4, it prints the Invalid choice.
+
+On the last line, print the exit message.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The student name will be a string containing alphanumeric characters and spaces, and its length will not exceed 100 characters.
+
+The student roll number will be an integer in the range of 1 to 10000.
+
+The grades will be three integers in the range of 0 to 100.
+
+The maximum number of students in the database will not exceed 1000.
+
+Sample test cases :
+Input 1 :
+1
+Jane Smith
+1002
+2
+1002
+8 9 7
+3
+1002
+4
+Output 1 :
+Name: Jane Smith
+Roll Number: 1002
+Grades: 8 9 7 
+Exiting the program.
+Input 2 :
+1
+Alice Johnson
+1003
+3
+1002
+5
+4
+Output 2 :
+Student with Roll Number 1002 not found.
+Invalid choice
+Exiting the program.
+Whitelist
+Set 1:
+class
+vector
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm> 
+#include <limits>    
+
+struct Student {
+    std::string name;
+    int rollNumber;
+    int grades[3];
+};
+
+class StudentDatabase {
+private:
+    std::vector<Student> students;
+public:
+    void addStudent(const std::string& name, int rollNumber) {
+        students.push_back({name, rollNumber, {0, 0, 0}}); 
+    }
+    void updateGrades(int rollNumber, const int newGrades[3]) {
+        auto it = std::find_if(students.begin(), students.end(), [rollNumber](const Student& s) {
+            return s.rollNumber == rollNumber;
+        });
+        if (it != students.end()) {
+            std::copy(newGrades, newGrades + 3, it->grades);
+        }
+    }
+
+    void displayStudentDetails(int rollNumber) {
+        auto it = std::find_if(students.begin(), students.end(), [rollNumber](const Student& s) {
+            return s.rollNumber == rollNumber;
+        });
+        if (it != students.end()) {
+            std::cout << "Name: " << it->name << std::endl;
+            std::cout << "Roll Number: " << it->rollNumber << std::endl;
+            std::cout << "Grades: ";
+            for (int i = 0; i < 3; ++i) {
+                std::cout << it->grades[i] << " ";
+            }
+            std::cout << std::endl;
+        } else {
+            std::cout << "Student with Roll Number " << rollNumber << " not found." << std::endl;
+        }
+    }
+};
+
+int main() {
+    StudentDatabase db;
+    std::string name;
+    int rollNumber;
+    int grades[3]; 
+    char choice;
+    do {
+        std::cin >> choice;
+        switch (choice) {
+            case '1':
+                std::cin.ignore();
+                std::getline(std::cin, name);
+
+                std::cin >> rollNumber;
+
+                db.addStudent(name, rollNumber);
+                break;
+
+            case '2':
+                std::cin >> rollNumber;
+                for (int i = 0; i < 3; ++i) {
+                    std::cin >> grades[i];
+                }
+                db.updateGrades(rollNumber, grades);
+                break;
+
+            case '3':
+                std::cin >> rollNumber;
+                db.displayStudentDetails(rollNumber);
+                break;
+
+            case '4':
+                std::cout << "Exiting the program.";
+                break;
+
+            default:
+                std::cout << "Invalid choice" << std::endl;
+                break;
+        }
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    } while (choice != '4');
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Ashwin is tasked with writing a program to calculate the dot product of two vectors of varying data types: integers and floating-point numbers. The program should prompt the user to enter the size of the vectors (number of elements) and then ask for the elements of both vectors.
+
+
+
+After obtaining the input, the program should compute the dot product for both types of vectors and display the results separately. Write a program to accomplish this task.
+
+
+
+Note: This kind of question will help in clearing HCL recruitment.
+
+Input format :
+The first line of the input represents the number of elements n.
+
+The second line contains n space-separated integers representing the elements of the first vector, v1.
+
+The third line contains n space-separated integers representing the elements of the second vector, v2.
+
+The fourth line contains n space-separated floating-point numbers representing the elements of the third vector, v3.
+
+The fifth line contains n space-separated floating-point numbers representing the elements of the fourth vector, v4.
+
+Output format :
+The output prints the dot product of an integer and floating-point vectors in separate lines.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1<=n<=100
+
+Sample test cases :
+Input 1 :
+3
+1 2 3
+4 5 6
+1.5 2.5 3.5
+4.5 5.5 6.5
+Output 1 :
+Dot product of integer vectors: 32
+Dot product of floating-point vectors: 43.25
+Input 2 :
+2
+2 4
+1 3
+1.25 2.5
+2.5 1.25
+Output 2 :
+Dot product of integer vectors: 14
+Dot product of floating-point vectors: 6.25
+Note :
+
+
+#include <iostream>
+#include <vector>
+
+template<class T>
+T dotProduct(const std::vector<T>& v1, const std::vector<T>& v2) {
+    T result = 0;
+
+    for (int i = 0; i < v1.size(); i++) {
+        result += v1[i] * v2[i];
+    }
+
+    return result;
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    std::vector<int> v1(n), v2(n);
+    std::vector<double> v3(n), v4(n);
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> v1[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> v2[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> v3[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> v4[i];
+    }
+
+    int intDotProduct = dotProduct(v1, v2);
+    double doubleDotProduct = dotProduct(v3, v4);
+
+    std::cout << "Dot product of integer vectors: " << intDotProduct << std::endl;
+    std::cout << "Dot product of floating-point vectors: " << doubleDotProduct << std::endl;
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Rithick is given an array of integers representing the scores obtained by 'n' students in a class. The scores are unique and range from 0 to (n-1). However, the scores are not in ascending order. His task is to convert the given array in such a way that the value at each index represents the rank of the students. The rank is a 0-based index, where the student with the lowest score has a rank of 0, the student with the second-lowest score has a rank of 1, and so on.
+
+
+
+Example for conversion:
+
+Input: {13, 15, 8, 0, 9}
+
+Output: {3, 4, 1, 0, 2}
+
+
+
+Note: This kind of question will help in clearing Deloitte recruitment.
+
+Input format :
+The first line of the input represents the array size.
+
+The second line consists of the array elements separated by a space.
+
+Output format :
+The output displays the converted array.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+0<Array Size<=15
+
+Sample test cases :
+Input 1 :
+5
+48 12 8 96 42
+Output 1 :
+Input Array: 48 12 8 96 42 
+Converted Array: 3 1 0 4 2 
+Input 2 :
+-8
+Output 2 :
+-1
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+vector<int> convertToRanks(vector<int>& scores) {
+    int n = scores.size();
+    vector<int> ranks(n);
+
+    for (int i = 0; i < n; i++) {
+        int rank = 0;
+        for (int j = 0; j < n; j++) {
+            if (i != j && scores[j] < scores[i]) {
+                rank++;
+            }
+        }
+        ranks[i] = rank;
+    }
+
+    return ranks;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    if(n<=0){
+        cout<<"-1";
+    }
+    else{
+    vector<int> scores(n);
+    for (int i = 0; i < n; i++) {
+        cin >> scores[i];
+    }
+    cout<<"Input Array: ";
+    for(int i=0;i<n;i++){
+        cout<<scores[i]<<" ";
+    }
+    cout<<endl;
+
+    vector<int> ranks = convertToRanks(scores);
+cout<<"Converted Array: ";
+    for (int i = 0; i < n; i++) {
+        cout << ranks[i] << " ";
+    }
+    cout << endl;}
+
+    return 0;
+}
+
+
+
+
+
+
+

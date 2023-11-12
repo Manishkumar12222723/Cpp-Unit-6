@@ -1,0 +1,1018 @@
+
+
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Fincrop is working on a program for an asset management system that effectively tracks various assets owned by a company. The program allows users to update the value of an asset by providing the asset ID and the new value.
+
+
+
+However, in case a user attempts to update the value of an asset with an invalid ID or if the provided value is negative, Fincrop plans to utilize exception handling in C++ to address these scenarios.
+
+
+
+Specifically, they aim to throw custom exceptions named InvalidAssetIDException and NegativeValueException, respectively, to handle such situations effectively.
+
+
+
+Note: This question will be helpful in clearing Mettyl Recruitment.
+
+Input format :
+The first line contains an integer, 'n', representing the number of assets to be added to the asset management system.
+
+The next 'n' lines contain two values each:
+
+a. A string representing the ID of the asset.
+
+b. A floating-point number representing the initial value of the asset.
+
+The last line consists of the company that needs to be updated.
+
+Output format :
+If an asset is added to the system, the output will display: "Asset with ID [asset_id] added with an initial value of [initial_value]".
+
+If the value of an asset is updated, the output will display: "Value of asset with ID [asset_id] updated to [new_value]".
+
+If there is an exception due to an invalid asset ID (asset not found), the output will display: "Exception caught: Error: Invalid asset ID."
+
+If there is an exception due to a negative asset value, the output will display: "Exception caught: Error: Asset value cannot be negative."
+
+If the maximum number of assets (20) is reached, the output will display: "Error: Maximum number of assets reached."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of assets that can be managed is 20 (MAX_ASSETS).
+Each asset ID is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+The initial value of each asset must be a non-negative floating-point number.
+Sample test cases :
+Input 1 :
+5
+ASSET001 1000
+ASSET002 2000
+ASSET003 3000
+ASSET004 4000
+ASSET005 5000
+ASSET003 3500
+Output 1 :
+Asset with ID ASSET001 added with an initial value of 1000
+Asset with ID ASSET002 added with an initial value of 2000
+Asset with ID ASSET003 added with an initial value of 3000
+Asset with ID ASSET004 added with an initial value of 4000
+Asset with ID ASSET005 added with an initial value of 5000
+Value of asset with ID ASSET003 updated to 3500
+Input 2 :
+3
+ASSET001 5000
+ASSET002 3000
+ASSET003 8000
+ASSET004 6000
+Output 2 :
+Asset with ID ASSET001 added with an initial value of 5000
+Asset with ID ASSET002 added with an initial value of 3000
+Asset with ID ASSET003 added with an initial value of 8000
+Exception caught: Error: Invalid asset ID.
+Input 3 :
+2
+ASSET001 7000
+ASSET002 9000
+ASSET001 -7500
+Output 3 :
+Asset with ID ASSET001 added with an initial value of 7000
+Asset with ID ASSET002 added with an initial value of 9000
+Exception caught: Error: Asset value cannot be negative.
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+class InvalidAssetIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid asset ID.";
+    }
+};
+
+class NegativeValueException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Asset value cannot be negative.";
+    }
+};
+
+class AssetManagement {
+private:
+    static const int MAX_ASSETS = 20;
+    std::string assetIDs[MAX_ASSETS];
+    double assetValues[MAX_ASSETS];
+    int numAssets;
+
+public:
+    AssetManagement() : numAssets(0) {}
+
+    void addAsset(const std::string& assetID, double initialValue) {
+        if (numAssets >= MAX_ASSETS) {
+            std::cout << "Error: Maximum number of assets reached." << std::endl;
+            return;
+        }
+
+        assetIDs[numAssets] = assetID;
+        assetValues[numAssets] = initialValue;
+        numAssets++;
+
+        std::cout << "Asset with ID " << assetID << " added with an initial value of " << initialValue << std::endl;
+    }
+
+    void updateAssetValue(const std::string& assetID, double newValue) {
+        int foundIndex = -1;
+        for (int i = 0; i < numAssets; i++) {
+            if (assetIDs[i] == assetID) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            throw InvalidAssetIDException();
+        }
+
+        if (newValue < 0) {
+            throw NegativeValueException();
+        }
+
+        assetValues[foundIndex] = newValue;
+        std::cout << "Value of asset with ID " << assetID << " updated to " << newValue << std::endl;
+    }
+};
+
+int main() {
+    try {
+        AssetManagement assetManager;
+
+        int n;
+        std::cin >> n;
+
+        for (int i = 1; i <= n; ++i) {
+            std::string assetID;
+            double initialValue;
+            std::cin >> assetID;
+            std::cin >> initialValue;
+            assetManager.addAsset(assetID, initialValue);
+        }
+
+        std::string assetID;
+        double newValue;
+        std::cin >> assetID;
+        std::cin >> newValue;
+        assetManager.updateAssetValue(assetID, newValue);
+    } 
+    catch (const InvalidAssetIDException& e) {
+        std::cout << "Exception caught: " << e.what();
+    } 
+    catch (const NegativeValueException& e) {
+        std::cout << "Exception caught: " << e.what();
+    }
+
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+Hi5 Holidays travel agency is working on a program that efficiently manages flight bookings for various destinations. The program enables users to book flights by providing the destination and the number of passengers.
+
+
+
+However, in case a user attempts to book a flight to an unsupported destination or if the number of passengers exceeds the available seats, Hi5 Holidays plans to utilize exception handling in C++ to address these scenarios.
+
+
+
+Specifically, they aim to throw custom exceptions named UnsupportedDestinationException and InsufficientSeatsException, respectively, to handle such situations effectively.
+
+Input format :
+The first line contains an integer, 'numStudents', representing the number of students to be added to the class roster.
+
+The next 'numStudents' lines contain one value each:
+
+a. A string representing the name of the student to be added.
+
+The next line contains two values:
+
+a. A string representing the name of the student for whom the grade needs to be updated.
+
+b. A string representing the letter grade ('A', 'B', 'C', 'D', or 'E') to be assigned to the student.
+
+Output format :
+If a student is added to the class roster, the output will display: "Student [student_name] added to the class roster."
+
+If the class roster is full (20 students), the output will display: "Class roster is full. Cannot add more students."
+
+If the grade of a student is updated, the output will display: "Grade for student [student_name] updated to [letter_grade]."
+
+If there is an exception due to an invalid grade (not between 'A' and 'E'), the output will display: "Exception caught. Error: Invalid grade. Grade should be between A and E."
+
+If there is an exception due to a student not found in the class roster, the output will display: "Exception caught. Error: Student not found in the class roster."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of students that can be managed in the class roster is 20 (MAX_STUDENTS).
+Each student's name is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+Sample test cases :
+Input 1 :
+3
+John
+Jane
+Michael
+John A
+Jane C
+Michael B
+John B
+Output 1 :
+Student John added to the class roster.
+Student Jane added to the class roster.
+Student Michael added to the class roster.
+Grade for student John updated to A.
+Input 2 :
+1
+Alice
+Bob
+Output 2 :
+Student Alice added to the class roster.
+Exception caught. Error: Student not found in the class roster.
+Input 3 :
+3
+Alice
+Bob
+Charlie
+Charlie X
+Output 3 :
+Student Alice added to the class roster.
+Student Bob added to the class roster.
+Student Charlie added to the class roster.
+Exception caught. Error: Invalid grade. Grade should be between A and E.
+Input 4 :
+21
+Student1
+Student2
+Student3
+Student4
+Student5
+Student6
+Student7
+Student8
+Student9
+Student10
+Student11
+Student12
+Student13
+Student14
+Student15
+Student16
+Student17
+Student18
+Student19
+Student20
+Student21
+Output 4 :
+Student Student1 added to the class roster.
+Student Student2 added to the class roster.
+Student Student3 added to the class roster.
+Student Student4 added to the class roster.
+Student Student5 added to the class roster.
+Student Student6 added to the class roster.
+Student Student7 added to the class roster.
+Student Student8 added to the class roster.
+Student Student9 added to the class roster.
+Student Student10 added to the class roster.
+Student Student11 added to the class roster.
+Student Student12 added to the class roster.
+Student Student13 added to the class roster.
+Student Student14 added to the class roster.
+Student Student15 added to the class roster.
+Student Student16 added to the class roster.
+Student Student17 added to the class roster.
+Student Student18 added to the class roster.
+Student Student19 added to the class roster.
+Student Student20 added to the class roster.
+Class roster is full. Cannot add more students.
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+const int MAX_STUDENTS = 20;
+
+class InvalidGradeException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid grade. Grade should be between A and E.";
+    }
+};
+
+class StudentNotFoundException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Student not found in the class roster.\n";
+    }
+};
+
+class StudentGradeManagement {
+private:
+    struct Student {
+        std::string name;
+        std::string grade;
+    };
+
+    Student roster[MAX_STUDENTS];
+    int numStudents;
+
+public:
+    StudentGradeManagement() : numStudents(0) {}
+
+    void addStudent(const std::string& name) {
+        if (numStudents >= MAX_STUDENTS) {
+            std::cout << "Class roster is full. Cannot add more students.";
+            return;
+        }
+
+        roster[numStudents].name = name;
+        roster[numStudents].grade = "N/A";
+        numStudents++;
+
+        std::cout << "Student " << name << " added to the class roster.\n";
+    }
+
+    void updateGrade(const std::string& name, const std::string& letterGrade) {
+        int studentIndex = -1;
+        for (int i = 0; i < numStudents; i++) {
+            if (roster[i].name == name) {
+                studentIndex = i;
+                break;
+            }
+        }
+
+        if (studentIndex == -1) {
+            throw StudentNotFoundException();
+        }
+
+        if (letterGrade != "A" && letterGrade != "B" && letterGrade != "C" && letterGrade != "D" && letterGrade != "E") {
+            throw InvalidGradeException();
+        }
+
+        roster[studentIndex].grade = letterGrade;
+        std::cout << "Grade for student " << name << " updated to " << letterGrade << ".\n";
+    }
+};
+
+int main() {
+    StudentGradeManagement gradeManager;
+    int numStudents;
+    std::string name, letterGrade;
+
+    std::cin >> numStudents;
+
+    for (int i = 0; i < numStudents; i++) {
+        std::cin >> name;
+        gradeManager.addStudent(name);
+    }
+
+    if (numStudents >= MAX_STUDENTS) {
+        return 0;
+    }
+
+    std::cin >> name >> letterGrade;
+
+    try {
+        gradeManager.updateGrade(name, letterGrade);
+    } 
+    catch (const InvalidGradeException& e) {
+        std::cout << "Exception caught. " << e.what();
+    } 
+    catch (const StudentNotFoundException& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Minusha is working on a program for an event management system that efficiently manages ticket bookings for different events. The program enables users to book tickets for an event by providing the event ID and the desired number of tickets.
+
+
+
+However, in case a user attempts to book tickets for an event with an invalid ID or if the requested number of tickets exceeds the available seats, Minusha plans to utilize exception handling to address these scenarios.
+
+
+
+Specifically, she aims to throw custom exceptions named InvalidEventIDException and InsufficientSeatsException, respectively, to handle such situations effectively.
+
+
+
+Note: This question will be helpful in clearing TCS Recruitment.
+
+Input format :
+The first line contains an integer, 'n', representing the number of events to be managed.
+
+The next 'n' lines contain two values each separated by a space:
+
+a. A string representing the ID of the event.
+
+b. An integer representing the total number of seats available for booking in that event.
+
+The last line contains a string, 'eventID', representing the ID of the event for which tickets need to be booked and an integer, 'numTickets', representing the number of tickets to be booked for the specified event.
+
+Output format :
+If an event is added to the management system, the output will display: "Event with ID [event_id] added with [total_seats] seats."
+
+If tickets are booked for an event, the output will display: "[num_tickets] tickets booked for an event with ID [event_id]. Remaining seats: [remaining_seats]"
+
+If there is an exception due to an invalid event ID (event not found), the output will display: "Exception caught: Error: Invalid event ID."
+
+If there is an exception due to insufficient seats for booking, the output will display: "Exception caught: Error: Insufficient seats available for booking."
+
+If the maximum number of events (20) is reached, the output will display: "Exception caught: Error: Maximum number of events reached."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of events that can be managed is 20 (MAX_EVENTS).
+
+Each event ID is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+
+The total number of seats available for each event must be a non-negative integer.
+
+Sample test cases :
+Input 1 :
+2
+Concert1 100
+Conference1 50
+Concert1 80
+Output 1 :
+Event with ID Concert1 added with 100 seats.
+Event with ID Conference1 added with 50 seats.
+80 tickets booked for event with ID Concert1. Remaining seats: 20
+Input 2 :
+1
+Conference1 50
+Conference1 70
+Conference1 20
+Output 2 :
+Event with ID Conference1 added with 50 seats.
+Exception caught: Error: Insufficient seats available for booking.
+Input 3 :
+Event with ID Event1 added with 100 seats.
+Event with ID Event2 added with 80 seats.
+Event with ID Event3 added with 60 seats.
+Event with ID Event4 added with 40 seats.
+Output 3 :
+Exception caught: Error: Invalid event ID.
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+const int MAX_EVENTS = 20;
+
+class InvalidEventIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid event ID.";
+    }
+};
+
+class InsufficientSeatsException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Insufficient seats available for booking.";
+    }
+};
+
+class EventManagement {
+private:
+    std::string eventIDs[MAX_EVENTS];
+    int eventSeats[MAX_EVENTS];
+    int numEvents;
+
+public:
+    EventManagement() : numEvents(0) {}
+
+    void addEvent(const std::string& eventID, int totalSeats) {
+        if (numEvents >= MAX_EVENTS) {
+            throw std::runtime_error("Error: Maximum number of events reached.");
+        }
+
+        eventIDs[numEvents] = eventID;
+        eventSeats[numEvents] = totalSeats;
+        numEvents++;
+
+        std::cout << "Event with ID " << eventID << " added with " << totalSeats << " seats.\n";
+    }
+
+    void bookTickets(const std::string& eventID, int numTickets) {
+        int eventIndex = -1;
+        for (int i = 0; i < numEvents; i++) {
+            if (eventIDs[i] == eventID) {
+                eventIndex = i;
+                break;
+            }
+        }
+
+        if (eventIndex == -1) {
+            throw InvalidEventIDException();
+        }
+
+        int availableSeats = eventSeats[eventIndex];
+
+        if (numTickets > availableSeats) {
+            throw InsufficientSeatsException();
+        }
+
+        eventSeats[eventIndex] -= numTickets;
+
+        std::cout << numTickets << " tickets booked for event with ID " << eventID
+                  << ". Remaining seats: " << eventSeats[eventIndex] << std::endl;
+    }
+};
+
+int main() {
+    try {
+        EventManagement eventManager;
+
+        int n;
+        std::string eventID;
+        int totalSeats, numTickets;
+        std::cin >> n;
+
+        for (int i = 0; i < n; ++i) {
+            std::cin >> eventID;
+            std::cin >> totalSeats;
+            eventManager.addEvent(eventID, totalSeats);
+        }
+
+        std::cin >> eventID;
+        std::cin >> numTickets;
+
+        eventManager.bookTickets(eventID, numTickets);
+
+    } 
+    catch (const InvalidEventIDException& e) {
+        std::cout << "Exception caught: " << e.what();
+    } 
+    catch (const InsufficientSeatsException& e) {
+        std::cout << "Exception caught: " << e.what();
+    } 
+    catch (const std::exception& e) {
+        std::cout << "Exception caught: " << e.what();
+    }
+
+    return 0;
+}
+
+
+
+
+ngle File Programming Question
+Problem Statement
+
+
+
+You are working on a program for a flight reservation system. The program allows users to book seats on different flights. Implement exception handling to address the following scenarios:
+
+
+
+If a user attempts to book a seat on an invalid flight with a non-existent flight number, throw a custom exception named InvalidFlightNumberException.
+
+
+
+If a user tries to book more seats than the available capacity on the selected flight, throw a custom exception named NoAvailableSeatsException.
+
+Input format :
+The input consists of multiple lines read from standard input (std::cin).
+
+The first line contains an integer 'n', representing the number of flights to be added to the Flight Reservation System.
+
+The next 'n' lines contain two values each:
+
+a. A string representing the flight number (flightNumber).
+
+b. An integer representing the total number of seats available for the flight (totalSeats).
+
+The next line contains two values:
+
+a. A string representing the selected flight number (selectedFlight).
+
+b. An integer representing the number of seats to be booked for the selected flight (numSeats).
+
+Output format :
+The output is displayed on the console using standard output (std::cout).
+
+The output will depend on the actions performed in the code:
+
+a. If a flight is added to the reservation system, the output will display: "Flight [flightNumber] added with [totalSeats] seats."
+
+b. If the reservation system is full and no more flights can be added, the output will display: "Exception caught: Error: Flight reservation system is full."
+
+c. If the selected flight number is invalid (not added to the reservation system), the output will display: "Exception caught: Error: Invalid flight number."
+
+d. If there are not enough available seats to book for the selected flight, the output will display: "Exception caught: Error: No available seats on the selected flight."
+
+e. If the seats for the selected flight are successfully booked, the output will display: "[numSeats] seats booked for flight [selectedFlight]. Remaining seats: [remainingSeats]"
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of flights that can be managed in the reservation system is 1 (MAX_FLIGHTS).
+
+Each flight number is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+
+The totalSeats for each flight must be a non-negative integer.
+
+Sample test cases :
+Input 1 :
+1
+ABC123 100
+ABC123 5
+Output 1 :
+Flight ABC123 added with 100 seats.
+5 seats booked for flight ABC123. Remaining seats: 95
+Input 2 :
+1
+XYZ789 50
+XYZ789 60
+Output 2 :
+Flight XYZ789 added with 50 seats.
+Exception caught: Error: No available seats on the selected flight.
+Input 3 :
+2
+DEF456 75
+GHI789 60
+JKL123 10
+Output 3 :
+Flight DEF456 added with 75 seats.
+Exception caught: Error: Flight reservation system is full.
+Input 4 :
+1
+ABC123 100
+ABC124 50
+ABC125 75
+ABC126 40
+ABC127 80
+ABC128 60
+ABC129 90
+ABC130 30
+ABC131 70
+ABC132 85
+ABC123 5
+ABC124 10
+ABC125 15
+ABC126 20
+ABC127 25
+ABC128 30
+ABC129 35
+ABC130 40
+ABC131 45
+ABC132 50
+Output 4 :
+Flight ABC123 added with 100 seats.
+Exception caught: Error: Inval
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+const int MAX_FLIGHTS = 1;
+
+class InvalidFlightNumberException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid flight number.";
+    }
+};
+
+class NoAvailableSeatsException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: No available seats on the selected flight.";
+    }
+};
+
+class FlightReservationSystem {
+private:
+    std::string flightNumbers[MAX_FLIGHTS];
+    int flightSeats[MAX_FLIGHTS];
+    int numFlights;
+
+public:
+    FlightReservationSystem() : numFlights(0) {}
+
+    void addFlight(const std::string& flightNumber, int totalSeats) {
+        if (numFlights >= MAX_FLIGHTS) {
+            throw std::overflow_error("Error: Flight reservation system is full.");
+        }
+
+        flightNumbers[numFlights] = flightNumber;
+        flightSeats[numFlights] = totalSeats;
+        numFlights++;
+
+        std::cout << "Flight " << flightNumber << " added with " << totalSeats << " seats.\n";
+    }
+
+    void bookSeats(const std::string& flightNumber, int numSeats) {
+        int flightIndex = -1;
+        for (int i = 0; i < numFlights; i++) {
+            if (flightNumbers[i] == flightNumber) {
+                flightIndex = i;
+                break;
+            }
+        }
+
+        if (flightIndex == -1) {
+            throw InvalidFlightNumberException();
+        }
+
+        if (numSeats > flightSeats[flightIndex]) {
+            throw NoAvailableSeatsException();
+        }
+
+        flightSeats[flightIndex] -= numSeats;
+        std::cout << numSeats << " seats booked for flight " << flightNumber << ". Remaining seats: " << flightSeats[flightIndex];
+    }
+};
+
+int main() {
+    try {
+        FlightReservationSystem reservationSystem;
+        int n;
+        std::cin >> n;
+
+        std::string flightNumber;
+        int totalSeats;
+        for (int i = 0; i < n; i++) {
+            std::cin >> flightNumber >> totalSeats;
+            reservationSystem.addFlight(flightNumber, totalSeats);
+        }
+
+        std::string selectedFlight;
+        int numSeats;
+        std::cin >> selectedFlight;
+        std::cin >> numSeats;
+        reservationSystem.bookSeats(selectedFlight, numSeats);
+    }
+    catch (const InvalidFlightNumberException& e) {
+        std::cout << "Exception caught: " << e.what();
+    }
+    catch (const NoAvailableSeatsException& e) {
+        std::cout << "Exception caught: " << e.what();
+    }
+    catch (const std::overflow_error& e) {
+        std::cout << "Exception caught: " << e.what();
+    }
+
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+You are working on a user registration system, and you need to validate email addresses provided by users during the registration process. The system should ensure that the email address format is valid and meets certain requirements before accepting it.
+
+Input format :
+The input consists of a string representing the mail id.
+
+Output format :
+The output prints whether the given mail id is valid or not.
+
+
+
+Refer to the sample input and output for the formatting specifications.
+
+Sample test cases :
+Input 1 :
+placement@gmail.com
+Output 1 :
+Email Id is Valid.
+Input 2 :
+abcd@gmail
+Output 2 :
+Exception Caught...
+Invalid Email Id!!!
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool isValidEmail(const string& email) {
+    size_t atPos = email.find('@');
+    size_t dotPos = email.rfind('.');
+    if (atPos == string::npos || dotPos == string::npos || dotPos < atPos) {
+        return false;
+    }
+    return true;
+}
+
+int main() {
+    string email;
+    // cout << "Enter an email address: ";
+    cin >> email;
+    try {
+        if (!isValidEmail(email)) {
+            throw "Invalid Email Id!!!";
+        }
+        cout << "Email Id is Valid.";
+    }
+    catch (const char* msg) {
+        cout << "Exception Caught...\n" << msg;
+    }
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+You are developing a login system for a website that requires users to provide a username and password. 
+
+
+
+The system has specific password requirements: it must have at least 6 characters and contain at least one digit.
+
+
+
+Write a program to accept username and password and throw an exception if the password has less than 6 characters or does not contain a digit.
+
+Input format :
+The input consists of two strings representing username and password in separate lines.
+
+Output format :
+The output displays whether the password is valid or not.
+
+
+
+Refer to the sample output for the exact text.
+
+Sample test cases :
+Input 1 :
+Sam
+sam123
+Output 1 :
+Password is Correct
+Input 2 :
+Sandy
+sansan
+Output 2 :
+Password must have at least one digit
+Caught by Exception 
+Invalid Password Format!
+Input 3 :
+Mano
+2313
+Output 3 :
+Password must be at least 6 characters long
+Caught by Exception 
+Invalid Password Format!
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+bool isValidPassword(const string& password) {
+    if (password.length() < 6) {
+        throw "Password must be at least 6 characters long";
+    }
+    bool hasDigit = false;
+    for (char c : password) {
+        if (isdigit(c)) {
+            hasDigit = true;
+            break;
+        }
+    }
+    if (!hasDigit) {
+        throw "Password must have at least one digit";
+    }
+    return true;
+}
+
+int main() {
+    string username, password;
+    // cout << "Enter username: ";
+    getline(cin, username);
+    // cout << "Enter password: ";
+    getline(cin, password);
+    try {
+        if (!isValidPassword(password)) {
+            throw "Invalid Password Format!";
+        }
+        cout << "Password is Correct";
+    }
+    catch (const char* msg) {
+        cout << msg << "\nCaught by Exception\nInvalid Password Format!";
+    }
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+You are working on a user registration system, and you need to validate email addresses provided by users during the registration process. The system should ensure that the email address format is valid and meets certain requirements before accepting it.
+
+Input format :
+The input consists of a string representing the mail id.
+
+Output format :
+The output prints whether the given mail id is valid or not.
+
+
+
+Refer to the sample input and output for the formatting specifications.
+
+Sample test cases :
+Input 1 :
+placement@gmail.com
+Output 1 :
+Email Id is Valid.
+Input 2 :
+abcd@gmail
+Output 2 :
+Exception Caught...
+Invalid Email Id!!!
+
+
+
+
+
+#include <iostream>
+#include <regex>
+
+bool validateEmail(const std::string& email) {
+    // Regular expression pattern for email validation
+    std::regex pattern(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
+    
+    // Check if the email matches the pattern
+    return std::regex_match(email, pattern);
+}
+
+int main() {
+    std::string email;
+    std::cin >> email;
+    
+    try {
+        if (validateEmail(email)) {
+            std::cout << "Email Id is Valid." << std::endl;
+        } else {
+            throw std::runtime_error("Invalid Email Id!!!");
+        }
+    } catch (const std::exception& e) {
+        std::cout << "Exception Caught..." << std::endl;
+        std::cout << e.what() << std::endl;
+    }
+    
+    return 0;
+}
+
+
+
+

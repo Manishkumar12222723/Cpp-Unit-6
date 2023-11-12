@@ -1,0 +1,2270 @@
+
+
+
+Problem Statement
+
+
+
+﻿Pankaj is working on a banking application, and a portion of his code deals with handling withdrawal transactions from a customer's account. 
+
+
+
+Prior to processing the withdrawal, he aims to verify whether the account balance is adequate to cover the requested amount. 
+
+
+
+In case the account balance is insufficient (less than the requested withdrawal amount), Pankaj plans to throw an exception of type std::underflow_error. How should he go about implementing this functionality in his banking application? 
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line of input consists of the initial balance of the bank account(double).
+
+The second line of input consists of the withdrawal amount to withdraw from the account(double).
+
+Output format :
+If the withdrawal amount is less than or equal to the account balance, the code will display the new account balance after the withdrawal.
+
+If the withdrawal amount is greater than the account balance, the code will catch the exception of type std::underflow_error and display a simple error message indicating insufficient funds.
+
+Code constraints :
+1 <= initial amount, withdraw amount <= 106
+
+Sample test cases :
+Input 1 :
+15000
+10000
+Output 1 :
+Withdrawal successful.
+New balance: 5000
+Input 2 :
+8000
+9000
+Output 2 :
+Exception caught.
+Error: Insufficient money for withdrawal.
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+class BankAccount {
+private:
+    double balance;
+
+public:
+    BankAccount(double initialBalance) : balance(initialBalance) {}
+
+    double getBalance() const {
+        return balance;
+    }
+
+    void withdraw(double amount) {
+        if (balance < amount) {
+            throw std::underflow_error("\nError: Insufficient money for withdrawal.");
+        }
+        balance -= amount;
+    }
+};
+
+int main() {
+    try {
+        double initialBalance;
+        std::cin >> initialBalance;
+        BankAccount account(initialBalance);
+        double withdrawalAmount;
+        std::cin >> withdrawalAmount;
+
+        account.withdraw(withdrawalAmount);
+
+        std::cout << "Withdrawal successful.\nNew balance: " << account.getBalance();
+    } 
+    
+    catch (const std::underflow_error& e) {
+        std::cout << "Exception caught." << e.what();
+    }
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Monisha is working on a program to manage a dynamic array. The program allows users to input the size of the array they want to create. However, there is a maximum limit set to 1000 elements. If a user attempts to allocate an array larger than this limit, the program should throw a std::length_error exception with the message "Error: Array size exceeds the maximum limit."
+
+
+
+Monisha wants to handle other scenarios as well:
+
+
+
+If the user provides a non-positive integer for the array size, the program should throw a std::invalid_argument exception with the message "Error: Array size must be a positive integer."
+
+
+
+For any other unexpected exceptions, the program should catch them using a generic catch (const std::exception& e) block and display a message indicating "Exception caught" followed by the specific error message.
+
+
+
+The program should be designed to handle these exceptions and allocate the array correctly within the specified limits while ensuring proper memory deallocation.
+
+Input format :
+The input consists of a single integer value representing the size of the array.
+
+Output format :
+If the input is a valid positive integer for the array size, and the size does not exceed the maximum limit (MAX_ARRAY_SIZE), the code will display the message: "Array allocated successfully.".
+
+If the user provides a non-positive integer for the array size, the code will throw a std::invalid_argument exception with the following error message: "Error: Array size must be a positive integer.".
+
+If the user provides an array size greater than MAX_ARRAY_SIZE, the code will throw a std::length_error exception with the following error message: "Error: Array size exceeds the maximum limit.".
+
+For the other exceptions, the code will throw std::exception exception with the following error message: "Exception caught.".
+
+Code constraints :
+MAX_ARRAY_SIZE = 1000
+
+Sample test cases :
+Input 1 :
+500
+Output 1 :
+Array allocated successfully.
+Input 2 :
+1001
+Output 2 :
+Length error caught.
+Error: Array size exceeds the maximum limit.
+Input 3 :
+-5
+Output 3 :
+Invalid argument caught.
+Error: Array size must be a positive integer.
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+const int MAX_ARRAY_SIZE = 1000;
+
+void allocateArray(int size) {
+    if (size > MAX_ARRAY_SIZE) {
+        throw std::length_error("\nError: Array size exceeds the maximum limit.");
+    }
+
+    int* dynamicArray = new int[size];
+    delete[] dynamicArray; 
+    std::cout << "Array allocated successfully.\n";
+}
+
+int main() {
+    try {
+        int userSize;
+        std::cin >> userSize;
+
+        if (userSize <= 0) {
+            throw std::invalid_argument("\nError: Array size must be a positive integer.");
+        }
+
+        allocateArray(userSize);
+    } 
+    catch (const std::length_error& e) {
+        std::cout << "Length error caught." << e.what();
+    } 
+    catch (const std::invalid_argument& e) {
+        std::cout << "Invalid argument caught." << e.what();
+    } 
+    catch (const std::exception& e) {
+        std::cout << "Exception caught." << e.what();
+    }
+
+    return 0;
+}
+
+
+
+Help Julie to write a program to handle array operations gracefully using exception handling. The program takes an integer as input, representing the size of an array, and prints the same in the output.
+
+
+
+-If the input is a non-positive number, it should display "Exception caught. Array size should be a positive number." and terminate gracefully.
+
+-If the input is zero, it should display "Exception caught. Array is empty." and terminate gracefully.
+
+-If the input is positive, the program dynamically allocates memory for the array, takes integer elements as input, and prints them separated by spaces.
+
+-If any runtime error occurs during array processing, it should catch and display the exception message as "Exception caught. <error_message>". Ensure proper memory deallocation to avoid memory leaks.
+
+
+
+Note: This kind of question will be helpful in clearing CTS recruitment.
+
+Input format :
+The first line of input consists of the size of the array, n.
+
+The second line of input consists of n space-separated elements.
+
+Output format :
+The output displays the array of elements separated by a space.
+
+If the size is either zero or a negative integer, the output displays the appropriate error message.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+Array size <= 105
+
+Sample test cases :
+Input 1 :
+7
+3 -36 15 35 -6 42 8
+Output 1 :
+3 -36 15 35 -6 42 8 
+Input 2 :
+0
+Output 2 :
+Exception caught. Array is empty.
+Input 3 :
+-5
+Output 3 :
+Exception caught. Array size should be a positive number.
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+void processArray(const int* data, int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << data[i] << " ";
+    }
+}
+
+int main() {
+    int size;
+    std::cin >> size;
+
+    if (size < 0) {
+        std::cout << "Exception caught. Array size should be a positive number.";
+        return 0;
+    }
+    if (size == 0) {
+        std::cout << "Exception caught. Array is empty.";
+        return 0;
+    }
+
+    int* numbers = new int[size];
+    for (int i = 0; i < size; i++) {
+        std::cin >> numbers[i];
+    }
+
+    try {
+        processArray(numbers, size);
+    } 
+    catch (const std::runtime_error& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+
+    delete[] numbers;
+
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+Charlie is developing a scientific calculator and aims to implement a power function that computes the result of raising a number to a given exponent. However, negative exponents are not supported in Charlie's calculator, and he plans to handle this scenario by throwing a custom exception named NegativeExponentException if the user attempts to calculate a negative exponent. Charlie intends to use exception handling and the concept of functions to achieve this. 
+
+Input format :
+The first line of input consists of the base value(double).
+
+The second line of input consists of the exponent value(integer).
+
+Output format :
+The output displays the result of raising the base to the power of the given exponent.
+
+If the exponent is a negative exponent, it will catch the NegativeExponentException and the output displays the error message.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Sample test cases :
+Input 1 :
+23.5
+2
+Output 1 :
+552.25
+Input 2 :
+98
+-9
+Output 2 :
+Exception caught. Error: Negative exponents are not supported.
+Input 3 :
+10
+0
+Output 3 :
+1
+Input 4 :
+-5.5
+3
+Output 4 :
+-166.375
+
+
+
+// You are using GCC
+#include <iostream> 
+#include <cmath> 
+#include <stdexcept> 
+
+class NegativeExponentException : public std::exception { 
+public: 
+    const char* what() const noexcept override { 
+        return "Error: Negative exponents are not supported."; 
+    } 
+}; 
+
+double power(double base, int exponent) { 
+    if (exponent < 0) { 
+        throw NegativeExponentException(); 
+    } 
+    return std::pow(base, exponent); 
+} 
+
+int main() { 
+    try { 
+        double base;
+        int exponent;
+        std::cin >> base;
+        std::cin >> exponent;
+
+        double result = power(base, exponent); 
+        std::cout << result ; 
+    } 
+    catch (const NegativeExponentException& e) { 
+        std::cout << "Exception caught. " << e.what(); 
+    } 
+
+    return 0; 
+}
+
+
+
+Problem Statement
+
+
+
+Ravi is working on a class that models a bank account. To ensure that the account balance remains a positive value, he plans to handle situations where the user attempts to deposit a negative amount by throwing a custom exception named NegativeDepositException. Ravi intends to implement this using exception handling.
+
+
+
+Note: This kind of question will be helpful in clearing Mettyl recruitment.
+
+Input format :
+The input consists of the deposit amount(double).
+
+Output format :
+The output displays the deposit status and the balance present.
+
+If the user enters a negative deposit amount, it will display an error message indicating that depositing a negative amount is not allowed.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+Deposit amount <= 105
+
+Sample test cases :
+Input 1 :
+1050.50
+Output 1 :
+Deposit successful. Balance: 1050.5
+Input 2 :
+0
+Output 2 :
+Exception caught: Error: Cannot deposit a negative amount or zero.
+Input 3 :
+-100
+Output 3 :
+Exception caught: Error: Cannot deposit a negative amount or zero.
+Whitelist
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+class NegativeDepositException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Cannot deposit a negative amount or zero.";
+    }
+};
+
+class BankAccount {
+private:
+    double balance;
+
+public:
+    BankAccount() : balance(0.0) {}
+
+    double getBalance() const {
+        return balance;
+    }
+
+    void deposit(double amount) {
+        if (amount <= 0) {
+            throw NegativeDepositException();
+        }
+        balance += amount;
+        std::cout << "Deposit successful. Balance: " << balance;
+    }
+};
+
+int main() {
+    try {
+        BankAccount account;
+        double depositAmount;
+        std::cin >> depositAmount;
+        account.deposit(depositAmount);
+    } 
+    catch (const NegativeDepositException& e) {
+        std::cout << "Exception caught: " << e.what();
+    }
+
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+Bibin Bala is working on a class that represents a geometric shape, particularly a circle. He ensures that the circle's radius should always be positive. To address situations where the user tries to set a negative radius, Bibin Bala plans to utilize exception handling in the C++ class concept by throwing a custom exception named NegativeRadiusException. 
+
+Input format :
+The input consists of the radius of a circle(double).
+
+Output format :
+The output displays the radius of the circle.
+
+If the radius is a negative value, the output displays an error message indicating that a negative radius value is not allowed.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+Radius of the circle <= 105
+
+Sample test cases :
+Input 1 :
+50.25
+Output 1 :
+Radius set successfully: 50.25
+Input 2 :
+0
+Output 2 :
+Exception caught.Error: Radius cannot be negative or zero.
+Input 3 :
+-89
+Output 3 :
+Exception caught.Error: Radius c
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+class NegativeRadiusException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Radius cannot be negative or zero.";
+    }
+};
+
+class Circle {
+private:
+    double radius;
+
+public:
+    Circle() : radius(0.0) {}
+
+    double getRadius() const {
+        return radius;
+    }
+
+    void setRadius(double r) {
+        if (r <= 0) {
+            throw NegativeRadiusException();
+        }
+        radius = r;
+        std::cout << "Radius set successfully: " << radius;
+    }
+};
+
+int main() {
+    try {
+        Circle circle;
+
+        double radiusInput;
+        std::cin >> radiusInput;
+        circle.setRadius(radiusInput);
+    } 
+    catch (const NegativeRadiusException& e) {
+        std::cout << "Exception caught." << e.what();
+    }
+
+    return 0;
+}
+
+
+
+
+
+Problem Statement
+
+
+
+Shrinika is working on a program for an optical showroom that handles eyeglasses sales. Each eyeglass is identified by a unique ID, and the showroom has the capacity to stock a maximum of 100 eyeglasses.
+
+
+
+To address potential issues, Shrinika plans to utilize exception handling by throwing custom exceptions named InvalidIDException and OutOfStockException.
+
+
+
+These exceptions will be thrown when a customer attempts to purchase an eyeglass with an invalid ID or when the showroom runs out of stock, respectively. 
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The first line contains an integer, 'n', representing the number of eyeglasses to be added to the showroom.
+
+The next line contains integer values, each representing the ID of an eyeglass to be added to the showroom separated by a space.
+
+The last line contains an integer, 'customerID', representing the ID of the eyeglass that a customer wants to buy.
+
+Output format :
+If an eyeglass is added to the showroom, the output will display: "Eyeglass with ID [ID] added to the showroom."
+
+If an eyeglass is sold to the customer, the output will display: "Eyeglass with ID [ID] sold."
+
+If there is an exception due to an invalid ID, the output will display: "Exception caught. Error: Invalid eyeglass ID."
+
+If there is an exception due to the showroom being out of stock, the output will display: "Exception caught. Error: Eyeglass out of stock."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of eyeglasses that can be added to the showroom is 100 (MAX_STOCK).
+
+Sample test cases :
+Input 1 :
+5
+10 56 87 99 36
+99
+Output 1 :
+Eyeglass with ID 10 added to the showroom.
+Eyeglass with ID 56 added to the showroom.
+Eyeglass with ID 87 added to the showroom.
+Eyeglass with ID 99 added to the showroom.
+Eyeglass with ID 36 added to the showroom.
+Eyeglass with ID 99 sold.
+Input 2 :
+4
+56 97 99 93
+100
+Output 2 :
+Eyeglass with ID 56 added to the showroom.
+Eyeglass with ID 97 added to the showroom.
+Eyeglass with ID 99 added to the showroom.
+Eyeglass with ID 93 added to the showroom.
+Exception caught. Error: Invalid eyeglass ID.
+Input 3 :
+101
+294 297 234 314 438 195 416 202 318 412 313 434 301 267 280 160 258 149 354 422 447 290 392 266 303 426 252 228 126 102 233 272 275 211 167 490 487 456 320 260 125 317 486 109 106 242 399 265 129 471 380 284 424 262 307 114 445 425 461 263 178 415 428 323 451 443 333 166 103 437 154 137 388 184 452 288 200 454 132 163 355 411 494 123 427 116 410 439 212 150 345 221 253 105 232 404 193 340 162 407 1111
+427
+Output 3 :
+Eyeglass with ID 294 added to the showroom.
+Eyeglass with ID 297 added to the showroom.
+Eyeglass with ID 234 added to the showroom.
+Eyeglass with ID 314 added to the showroom.
+Eyeglass with ID 438 added to the showroom.
+Eyeglass with ID 195 added to the showroom.
+Eyeglass with ID 416 added to the showroom.
+Eyeglass with ID 202 added to the showroom.
+Eyeglass with ID 318 added to the showroom.
+Eyeglass with ID 412 added to the showroom.
+Eyeglass with ID 313 added to the showroom.
+Eyeglass with ID 434 added to the showroom.
+Eyeglass with ID 301 added to the showroom.
+Eyeglass with ID 267 added to the showroom.
+Eyeglass with ID 280 added to the showroom.
+Eyeglass with ID 160 added to the showroom.
+Eyeglass with ID 258 added to the showroom.
+Eyeglass with ID 149 added to the showroom.
+Eyeglass with ID 354 added to the showroom.
+Eyeglass with ID 422 added to the showroom.
+Eyeglass with ID 447 added to the showroom.
+Eyeglass with ID 290 added to the showroom.
+Eyeglass with ID 392 added to the showroom.
+Eyeglass with ID 266 added to the showroom.
+Eyeglass with ID 303 added to the showroom.
+Eyeglass with ID 426 added to the showroom.
+Eyeglass with ID 252 added to the showroom.
+Eyeglass with ID 228 added to the showroom.
+Eyeglass with ID 126 added to the showroom.
+Eyeglass with ID 102 added to the showroom.
+Eyeglass with ID 233 added to the showroom.
+Eyeglass with ID 272 added to the showroom.
+Eyeglass with ID 275 added to the showroom.
+Eyeglass with ID 211 added to the showroom.
+Eyeglass with ID 167 added to the showroom.
+Eyeglass with ID 490 added to the showroom.
+Eyeglass with ID 487 added to the showroom.
+Eyeglass with ID 456 added to the showroom.
+Eyeglass with ID 320 added to the showroom.
+Eyeglass with ID 260 added to the showroom.
+Eyeglass with ID 125 added to the showroom.
+Eyeglass with ID 317 added to the showroom.
+Eyeglass with ID 486 added to the showroom.
+Eyeglass with ID 109 added to the showroom.
+Eyeglass with ID 106 added to the showroom.
+Eyeglass with ID 242 added to the showroom.
+Eyeglass with ID 399 added to the showroom.
+Eyeglass with ID 265 added to the showroom.
+Eyeglass with ID 129 added to the showroom.
+Eyeglass with ID 471 added to the showroom.
+Eyeglass with ID 380 added to the showroom.
+Eyeglass with ID 284 added to the showroom.
+Eyeglass with ID 424 added to the showroom.
+Eyeglass with ID 262 added to the showroom.
+Eyeglass with ID 307 added to the showroom.
+Eyeglass with ID 114 added to the showroom.
+Eyeglass with ID 445 added to the showroom.
+Eyeglass with ID 425 added to the showroom.
+Eyeglass with ID 461 added to the showroom.
+Eyeglass with ID 263 added to the showroom.
+Eyeglass with ID 178 added to the showroom.
+Eyeglass with ID 415 added to the showroom.
+Eyeglass with ID 428 added to the showroom.
+Eyeglass with ID 323 added to the showroom.
+Eyeglass with ID 451 added to the showroom.
+Eyeglass with ID 443 added to the showroom.
+Eyeglass with ID 333 added to the showroom.
+Eyeglass with ID 166 added to the showroom.
+Eyeglass with ID 103 added to the showroom.
+Eyeglass with ID 437 added to the showroom.
+Eyeglass with ID 154 added to the showroom.
+Eyeglass with ID 137 added to the showroom.
+Eyeglass with ID 388 added to the showroom.
+Eyeglass with ID 184 added to the showroom.
+Eyeglass with ID 452 added to the showroom.
+Eyeglass with ID 288 added to the showroom.
+Eyeglass with ID 200 added to the showroom.
+Eyeglass with ID 454 added to the showroom.
+Eyeglass with ID 132 added to the showroom.
+Eyeglass with ID 163 added to the showroom.
+Eyeglass with ID 355 added to the showroom.
+Eyeglass with ID 411 added to the showroom.
+Eyeglass with ID 494 added to the showroom.
+Eyeglass with ID 123 added to the showroom.
+Eyeglass with ID 427 added to the showroom.
+Eyeglass with ID 116 added to the showroom.
+Eyeglass with ID 410 added to the showroom.
+Eyeglass with ID 439 added to the showroom.
+Eyeglass with ID 212 added to the showroom.
+Eyeglass with ID 150 added to the showroom.
+Eyeglass with ID 345 added to the showroom.
+Eyeglass with ID 221 added to the showroom.
+Eyeglass with ID 253 added to the showroom.
+Eyeglass with ID 105 added to the showroom.
+Eyeglass with ID 232 added to the showroom.
+Eyeglass with ID 404 added to the showroom.
+Eyeglass with ID 193 added to the showroom.
+Eyeglass with ID 340 added to the showroom.
+Eyeglass with ID 162 added to the showroom.
+Eyeglass with ID 407 added to the showroom.
+Exception caught. Error: Eyeglass out of stock
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+class InvalidIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid eyeglass ID.";
+    }
+};
+
+class OutOfStockException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Eyeglass out of stock.";
+    }
+};
+
+class OpticalShowroom {
+private:
+    static const int MAX_STOCK = 100;
+    int eyeglassIDs[MAX_STOCK];
+    int stockSize;
+
+public:
+    OpticalShowroom() : stockSize(0) {}
+
+    void addEyeglass(int id) {
+        if (id <= 0) {
+            throw InvalidIDException();
+        }
+
+        if (stockSize >= MAX_STOCK) {
+            throw OutOfStockException();
+        }
+
+        eyeglassIDs[stockSize] = id;
+        stockSize++;
+        std::cout << "Eyeglass with ID " << id << " added to the showroom.\n";
+    }
+
+    void sellEyeglass(int id) {
+        int foundIndex = -1;
+        for (int i = 0; i < stockSize; i++) {
+            if (eyeglassIDs[i] == id) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            throw InvalidIDException();
+        }
+
+        for (int i = foundIndex; i < stockSize - 1; i++) {
+            eyeglassIDs[i] = eyeglassIDs[i + 1];
+        }
+
+        stockSize--;
+        std::cout << "Eyeglass with ID " << id << " sold.\n";
+    }
+};
+
+int main() {
+    try {
+        OpticalShowroom showroom;
+        int idInput;
+        int n;
+        std::cin >> n;
+        for (int i = 1; i <= n; ++i) {
+            std::cin >> idInput;
+            showroom.addEyeglass(idInput);
+        }
+
+        int customerID;
+        std::cin >> customerID;
+        showroom.sellEyeglass(customerID);
+    } 
+    catch (const InvalidIDException& e) {
+        std::cout << "Exception caught. " << e.what();
+    } 
+    catch (const OutOfStockException& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+Peter Joy is working on a program for a school management system that handles student records. Every student in the system has a unique ID, and the program can only accommodate a maximum of 30 student records. 
+
+
+
+In cases where a user attempts to add a new student with an existing ID or if the system reaches its maximum capacity, Peter Joy plans to implement exception handling. 
+
+
+
+He intends to throw custom exceptions named DuplicateIDException and FullDatabaseException, respectively, to address these situations. Help him write the code.
+
+Input format :
+The first line contains an integer, 'n', representing the number of students to be added to the school database.
+
+The next 'n' lines contain two values each:
+
+a. An integer representing the student ID.
+
+b. A string representing the name of the student.
+
+Output format :
+The output will depend on the actions performed in the code.
+
+
+
+If a student is added to the database, the output will display: "Student with ID [ID] added to the database."
+
+If there is an exception due to a duplicate student ID, the output will display: "Exception caught. Error: Student ID already exists."
+
+If there is an exception due to the database being full, the output will display: "Exception caught. Error: Student database is full."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum capacity of the student database is 30 (MAX_CAPACITY).
+
+Each student ID must be a positive integer.
+
+Sample test cases :
+Input 1 :
+3
+16 Sam
+87 Sabari
+43 Dani
+Output 1 :
+Student with ID 16 added to the database.
+Student with ID 87 added to the database.
+Student with ID 43 added to the database.
+Input 2 :
+3
+44 Udhesh
+33 Sandy
+44 Keerthi
+Output 2 :
+Student with ID 44 added to the database.
+Student with ID 33 added to the database.
+Exception caught. Error: Student ID already exists.
+Input 3 :
+32
+32 zen
+23 jazz
+16 sam
+87 santhiya
+43 dominic
+90 felicia
+17 tera
+85 wednesday
+81 sayari
+39 danny
+55 udhesh
+36 nani
+21 cheenu
+12 Sakshi
+49 madhan
+33 bons
+41 Ambika
+30 Sandy
+47 Charu
+59 Theju
+34 Sabari
+56 Udhesh
+40 Babu
+42 Sandeep
+102 nancy
+26 saxy
+13 doll
+11 craven
+211 kanaga
+94 veronic
+47 jansi
+33 yalini
+Output 3 :
+Student with ID 32 added to the database.
+Student with ID 23 added to the database.
+Student with ID 16 added to the database.
+Student with ID 87 added to the database.
+Student with ID 43 added to the database.
+Student with ID 90 added to the database.
+Student with ID 17 added to the database.
+Student with ID 85 added to the database.
+Student with ID 81 added to the database.
+Student with ID 39 added to the database.
+Student with ID 55 added to the database.
+Student with ID 36 added to the database.
+Student with ID 21 added to the database.
+Student with ID 12 added to the database.
+Student with ID 49 added to the database.
+Student with ID 33 added to the database.
+Student with ID 41 added to the database.
+Student with ID 30 added to the database.
+Student with ID 47 added to the database.
+Student with ID 59 added to the database.
+Student with ID 34 added to the database.
+Student with ID 56 added to the database.
+Student with ID 40 added to the database.
+Student with ID 42 added to the database.
+Student with ID 102 added to the database.
+Student with ID 26 added to the database.
+Student with ID 13 added to the database.
+Student with ID 11 added to the database.
+Student with ID 211 added to the database.
+Student with ID 94 added to the database.
+Exception caught. Error: Student database is full.
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+
+class DuplicateIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Student ID already exists.";
+    }
+};
+
+class FullDatabaseException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Student database is full.";
+    }
+};
+
+class Student {
+private:
+    int id;
+    std::string name;
+
+public:
+    Student(int studentID, const std::string& studentName) : id(studentID), name(studentName) {}
+
+    int getID() const {
+        return id;
+    }
+
+    const std::string& getName() const {
+        return name;
+    }
+};
+
+class SchoolManagement {
+private:
+    static const int MAX_CAPACITY = 30;
+    Student* students[MAX_CAPACITY];
+    int numStudents;
+
+public:
+    SchoolManagement() : numStudents(0) {}
+
+    void addStudent(const Student& student) {
+        if (numStudents >= MAX_CAPACITY) {
+            throw FullDatabaseException();
+        }
+
+        for (int i = 0; i < numStudents; i++) {
+            if (students[i]->getID() == student.getID()) {
+                throw DuplicateIDException();
+            }
+        }
+
+        students[numStudents] = new Student(student);
+        numStudents++;
+
+        std::cout << "Student with ID " << student.getID() << " added to the database.\n";
+    }
+
+    ~SchoolManagement() {
+        for (int i = 0; i < numStudents; i++) {
+            delete students[i];
+        }
+    }
+};
+
+int main() {
+    try {
+        SchoolManagement school;
+
+        int idInput;
+        std::string nameInput;
+        int n;
+        std::cin >> n;
+        for (int i = 1; i <= n; ++i) {
+            std::cin >> idInput >> nameInput;
+
+            Student student(idInput, nameInput);
+            school.addStudent(student);
+        }
+    } 
+    catch (const DuplicateIDException& e) {
+        std::cout << "Exception caught. " << e.what();
+    } 
+    catch (const FullDatabaseException& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+Dhivya is working on a program for a stock market application that handles stock prices. The program enables users to update the stock price of a specific company.
+
+
+
+However, Dhivya plans to implement exception handling to handle situations where the user tries to update the price of a non-existing company or provides a negative stock price.
+
+
+
+To address these scenarios, she intends to throw custom exceptions named CompanyNotFoundException and InvalidStockPriceException, respectively. 
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line contains an integer, 'numCompanies', representing the number of companies to be added to the stock market.
+
+The next 'numCompanies' lines contain two values each separated by a space:
+
+a. A string representing the name of the company.
+
+b. A floating-point number representing the initial stock price of the company.
+
+The last line contains a string, 'updateCompany', representing the name of the company for which the stock price needs to be updated and also a floating-point number, 'newPrice', representing the new stock price for the specified company.
+
+Output format :
+If a company is added to the stock market, the output will display: "Company [company_name] added to the stock market with an initial price of [initial_price]".
+
+If the stock price of a company is updated, the output will display: "Stock price of [company_name] updated to [new_price]".
+
+If there is an exception due to an invalid stock price (negative value), the output will display: "Exception caught. Error: Invalid stock price."
+
+If there is an exception due to the specified company not being found in the stock market, the output will display: "Exception caught. Error: Company not found."
+
+If there is an exception due to the maximum number of companies (20) being reached, the output will display: "Exception caught. Error: Maximum number of companies reached."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of companies that can be added to the stock market is 20 (MAX_COMPANIES).
+Each company name is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+The stock price of each company must be a non-negative floating-point number.
+Sample test cases :
+Input 1 :
+9
+Company1 100.50
+Company2 50.75
+Company3 75.25
+Company4 90.20
+Company5 120.80
+Company6 60.10
+Company7 85.50
+Company8 110.00
+Company9 70.25
+Company12 90
+Output 1 :
+Company Company1 added to the stock market with an initial price of 100.5
+Company Company2 added to the stock market with an initial price of 50.75
+Company Company3 added to the stock market with an initial price of 75.25
+Company Company4 added to the stock market with an initial price of 90.2
+Company Company5 added to the stock market with an initial price of 120.8
+Company Company6 added to the stock market with an initial price of 60.1
+Company Company7 added to the stock market with an initial price of 85.5
+Company Company8 added to the stock market with an initial price of 110
+Company Company9 added to the stock market with an initial price of 70.25
+Exception caught. Error: Company not found.
+Input 2 :
+9
+Company10 95.75
+Company11 78.50
+Company12 130.25
+Company13 40.50
+Company14 88.75
+Company15 105.60
+Company16 65.90
+Company17 150.25
+Company18 112.75
+Company11 -200.3
+Output 2 :
+Company Company10 added to the stock market with an initial price of 95.75
+Company Company11 added to the stock market with an initial price of 78.5
+Company Company12 added to the stock market with an initial price of 130.25
+Company Company13 added to the stock market with an initial price of 40.5
+Company Company14 added to the stock market with an initial price of 88.75
+Company Company15 added to the stock market with an initial price of 105.6
+Company Company16 added to the stock market with an initial price of 65.9
+Company Company17 added to the stock market with an initial price of 150.25
+Company Company18 added to the stock market with an initial price of 112.75
+Exception caught. Error: Invalid stock price.
+Input 3 :
+22
+Company1 100.50
+Company2 50.75
+Company3 75.25
+Company4 90.20
+Company5 120.80
+Company6 60.10
+Company7 85.50
+Company8 110.00
+Company9 70.25
+Company10 95.75
+Company11 78.50
+Company12 130.25
+Company13 40.50
+Company14 88.75
+Company15 105.60
+Company16 65.90
+Company17 150.25
+Company18 112.75
+Company19 80.40
+Company20 102.30
+Company21 75.50
+Company22 90.30
+Company25 25.33
+Output 3 :
+Company Company1 added to the stock market with an initial price of 100.5
+Company Company2 added to the stock market with an initial price of 50.75
+Company Company3 added to the stock market with an initial price of 75.25
+Company Company4 added to the stock market with an initial price of 90.2
+Company Company5 added to the stock market with an initial price of 120.8
+Company Company6 added to the stock market with an initial price of 60.1
+Company Company7 added to the stock market with an initial price of 85.5
+Company Company8 added to the stock market with an initial price of 110
+Company Company9 added to the stock market with an initial price of 70.25
+Company Company10 added to the stock market with an initial price of 95.75
+Company Company11 added to the stock market with an initial price of 78.5
+Company Company12 added to the stock market with an initial price of 130.25
+Company Company13 added to the stock market with an initial price of 40.5
+Company Company14 added to the stock market with an initial price of 88.75
+Company Company15 added to the stock market with an initial price of 105.6
+Company Company16 added to the stock market with an initial price of 65.9
+Company Company17 added to the stock market with an initial price of 150.25
+Company Company18 added to the stock market with an initial price of 112.75
+Company Company19 added to the stock market with an initial price of 80.4
+Company Company20 added to the stock market with an initial price of 102.3
+Exception caught. Error: Maximum number of companies reached.
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+class CompanyNotFoundException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Company not found.";
+    }
+};
+
+class InvalidStockPriceException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid stock price.";
+    }
+};
+
+class StockMarket {
+private:
+    static const int MAX_COMPANIES = 20;
+    std::string companies[MAX_COMPANIES];
+    double stockPrices[MAX_COMPANIES];
+    int numCompanies;
+
+public:
+    StockMarket() : numCompanies(0) {}
+
+    void updateStockPrice(const std::string& company, double price) {
+        if (price < 0) {
+            throw InvalidStockPriceException();
+        }
+
+        int foundIndex = -1;
+        for (int i = 0; i < numCompanies; i++) {
+            if (companies[i] == company) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            throw CompanyNotFoundException();
+        }
+
+        stockPrices[foundIndex] = price;
+        std::cout << "Stock price of " << company << " updated to " << price;
+    }
+
+    void addCompany(const std::string& company, double initialPrice) {
+        if (numCompanies >= MAX_COMPANIES) {
+            throw std::out_of_range("Error: Maximum number of companies reached.");
+        }
+
+        companies[numCompanies] = company;
+        stockPrices[numCompanies] = initialPrice;
+        numCompanies++;
+
+        std::cout << "Company " << company << " added to the stock market with an initial price of " << initialPrice << std::endl;
+    }
+};
+
+int main() {
+    try {
+        StockMarket market;
+
+        int numCompanies;
+        std::string company;
+        double initialPrice;
+
+        std::cin >> numCompanies;
+
+        for (int i = 0; i < numCompanies; i++) {
+            std::cin >> company;
+            std::cin >> initialPrice;
+
+            market.addCompany(company, initialPrice);
+        }
+
+        std::string updateCompany;
+        double newPrice;
+        std::cin >> updateCompany;
+        std::cin >> newPrice;
+
+        market.updateStockPrice(updateCompany, newPrice);
+    }
+    catch (const InvalidStockPriceException& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+    catch (const CompanyNotFoundException& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+    catch (const std::out_of_range& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+Chandran's Noble Trust is working on a program for a library management system that efficiently manages books and their availability. The program enables users to borrow books by specifying the book's ID. 
+
+
+
+However, in case a user attempts to borrow a book with an invalid ID or if the book is currently unavailable, Chandran's Noble Trust plans to utilize exception handling to address these scenarios. 
+
+
+
+Specifically, they aim to throw custom exceptions named InvalidBookIDException and BookNotAvailableException, respectively, to handle such situations effectively.
+
+Input format :
+The first line contains an integer, 'numBooks', representing the number of books to be added to the library.
+
+The next 'numBooks' lines contain one value each:
+
+a. A string representing the ID of the book.
+
+The last line contains a string, 'borrowID', representing the ID of the book that needs to be borrowed and also contains a string, 'returnID', representing the ID of the book that needs to be returned to the library.
+
+Output format :
+If a book is added to the library, the output will display: "Book with ID [book_id] added to the library."
+
+If a book is successfully borrowed, the output will display: "Book with ID [book_id] borrowed successfully."
+
+If a book is returned to the library, the output will display: "Book with ID [book_id] returned to the library."
+
+If there is an exception due to an invalid book ID (book not found), the output will display: "Exception caught. Error: Invalid book ID."
+
+If the maximum number of books (20) is reached, the output will display: "Exception caught. Error: Maximum number of books reached."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of books that can be managed in the library is 20 (MAX_BOOKS).
+Each book ID is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+Sample test cases :
+Input 1 :
+1
+MyBook
+MyBook
+MyBook
+Output 1 :
+Book with ID MyBook added to the library.
+Book with ID MyBook borrowed successfully.
+Book with ID MyBook returned to the library.
+Input 2 :
+3
+ScienceBook
+MathBook
+HistoryBook
+EnglishBook
+ScienceBook
+ScienceBook
+Output 2 :
+Book with ID ScienceBook added to the library.
+Book with ID MathBook added to the library.
+Book with ID HistoryBook added to the library.
+Exception caught. Error: Invalid book ID.
+Input 3 :
+22
+b1
+b2
+b3
+b4
+b5
+b6
+b7
+b8
+b9
+b10
+b11
+b12
+b13
+b14
+b15
+b16
+b17
+b18
+b19
+b20
+b1
+b1
+b21
+b22
+Output 3 :
+Book with ID b1 added to the library.
+Book with ID b2 added to the library.
+Book with ID b3 added to the library.
+Book with ID b4 added to the library.
+Book with ID b5 added to the library.
+Book with ID b6 added to the library.
+Book with ID b7 added to the library.
+Book with ID b8 added to the library.
+Book with ID b9 added to the library.
+Book with ID b10 added to the library.
+Book with ID b11 added to the library.
+Book with ID b12 added to the library.
+Book with ID b13 added to the library.
+Book with ID b14 added to the library.
+Book with ID b15 added to the library.
+Book with ID b16 added to the library.
+Book with ID b17 added to the library.
+Book with ID b18 added to the library.
+Book with ID b19 added to the library.
+Book with ID b20 added to the library.
+Exception caught. Error: Maximum number of books reached.
+
+
+// You are using GCC
+#include <iostream>
+#include <stdexcept>
+#include <string>
+
+const int MAX_BOOKS = 20;
+
+class InvalidBookIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Invalid book ID.";
+    }
+};
+
+class BookNotAvailableException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Error: Book not available.";
+    }
+};
+
+class Library {
+private:
+    std::string bookIDs[MAX_BOOKS];
+    bool bookAvailability[MAX_BOOKS];
+    int numBooks;
+
+public:
+    Library() : numBooks(0) {}
+
+    void addBook(const std::string& bookID) {
+        if (numBooks >= MAX_BOOKS) {
+            throw std::out_of_range("Error: Maximum number of books reached.");
+        }
+
+        bookIDs[numBooks] = bookID;
+        bookAvailability[numBooks] = true;
+        numBooks++;
+
+        std::cout << "Book with ID " << bookID << " added to the library.\n";
+    }
+
+    void borrowBook(const std::string& bookID) {
+        int foundIndex = -1;
+        for (int i = 0; i < numBooks; i++) {
+            if (bookIDs[i] == bookID) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            throw InvalidBookIDException();
+        }
+
+        if (!bookAvailability[foundIndex]) {
+            throw BookNotAvailableException();
+        }
+
+        bookAvailability[foundIndex] = false;
+        std::cout << "Book with ID " << bookID << " borrowed successfully." << std::endl;
+    }
+
+    void returnBook(const std::string& bookID) {
+        int foundIndex = -1;
+        for (int i = 0; i < numBooks; i++) {
+            if (bookIDs[i] == bookID) {
+                foundIndex = i;
+                break;
+            }
+        }
+
+        if (foundIndex == -1) {
+            throw InvalidBookIDException();
+        }
+
+        bookAvailability[foundIndex] = true;
+        std::cout << "Book with ID " << bookID << " returned to the library.";
+    }
+};
+
+int main() {
+    try {
+        Library library;
+
+        int numBooks;
+        std::string bookID;
+        std::cin >> numBooks;
+
+        for (int i = 0; i < numBooks; i++) {
+            std::cin >> bookID;
+            library.addBook(bookID);
+        }
+
+        std::string borrowID;
+        std::cin >> borrowID;
+        library.borrowBook(borrowID);
+
+        std::string returnID;
+        std::cin >> returnID;
+
+        library.returnBook(returnID);
+    } 
+    catch (const InvalidBookIDException& e) {
+        std::cout << "Exception caught. " << e.what();
+    } 
+    catch (const BookNotAvailableException& e) {
+        std::cout << "Exception caught. " << e.what();
+    } 
+    catch (const std::out_of_range& e) {
+        std::cout << "Exception caught. " << e.what();
+    }
+
+    return 0;
+}
+
+
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+You have been asked to create a program that calculates the sum of digits for a three-digit number provided by the user. The program should handle exceptional situations when the input number is not a valid three-digit number. Print the sum if it is a three-digit number, else print the error message.
+
+Input format :
+The input consists of a positive integer.
+
+Output format :
+The output prints the sum of the given positive number.
+
+If the given number is not a three-digit number or negative integer, the output throws the message.
+
+Code constraints :
+The input should be a positive three-digit number.
+
+Sample test cases :
+Input 1 :
+567
+Output 1 :
+Sum of the digits is 18
+Input 2 :
+1234
+Output 2 :
+It's not a three digit Number or valid number
+Input 3 :
+-88
+Output 3 :
+It's not a three digit Number or valid number
+Note :
+
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string input;
+    // cout << "Enter a three-digit number: ";
+    cin >> input;
+    try {
+        if (input.length() != 3) {
+            throw "It's not a three digit Number or valid number";
+        }
+        int n = stoi(input);
+        if (n < 100 || n > 999) {
+            throw "It's not a three digit Number or valid number";
+        }
+        int sum = 0;
+        while (n > 0) {
+            sum += n % 10;
+            n /= 10;
+        }
+        cout << "Sum of the digits is " << sum;
+    }
+    catch (const char* msg) {
+        cout <<msg;
+    }
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+You are assigned to create a program that calculates the sum of positive numbers in an array provided by the user. The program should also handle exceptional situations when a negative number is encountered in the array. 
+
+
+
+Example
+
+
+
+Input:
+
+5
+
+1 2 3 4 5
+
+
+
+Output:
+
+The sum is : 15
+
+
+
+Explanation:
+
+Suppose the array inputs are 1, 2, 3, -4, 5. Here we got negative number at index value of 3 and the sum is "6" before the index 3.
+
+Input format :
+The first line represents the size of an array, n.
+
+The second line consists of n space-separated array elements.
+
+Output format :
+The output prints the sum of the given array until a negative integer is encountered.
+
+If a negative integer is encountered, the output prints the message along with the index.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+Output 1 :
+The sum is : 15
+Input 2 :
+5
+1 2 3 -4 5
+Output 2 :
+Negative number found at index 3
+The sum is : 6
+
+
+#include <iostream>
+#include <vector>
+
+int main() {
+    // Input
+    int n;
+    // std::cout << "Enter the size of the array: ";
+    std::cin >> n;
+
+    // Check for valid array size
+    if (n <= 0) {
+        std::cout << "Invalid array size." << std::endl;
+        return 1;
+    }
+
+    std::vector<int> arr(n);
+
+    // Input array elements
+    // std::cout << "Enter the array elements separated by space: ";
+    for (int i = 0; i < n; ++i) {
+        std::cin >> arr[i];
+    }
+
+    // Calculate the sum until a negative number is encountered
+    int sum = 0;
+    int index = 0;
+
+    try {
+        for (index = 0; index < n; ++index) {
+            if (arr[index] < 0) {
+                throw index;  // Throw the index where a negative number is encountered
+            }
+            sum += arr[index];
+        }
+
+        // Output the sum if the loop completes without encountering a negative number
+        std::cout << "The sum is: " << sum << std::endl;
+    } catch (int negativeIndex) {
+        // Output the message and index when a negative number is encountered
+        std::cout << "Negative number found at index " << negativeIndex  << std::endl;
+        std::cout << "The sum is: " << sum << std::endl;
+    }
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Suppose you are developing a simple calculator program that takes two integers as input (num & den) and calculates their division. The program uses exception handling to handle the case when the denominator (den) is zero, preventing division by zero errors. You have been asked to create a calculator program to ensure its correctness and robustness.
+
+Input format :
+The input consists of two numbers: num and den separated by a space.
+
+Output format :
+The output prints the division of the two numbers.
+
+If the second number(den) is zero, the output prints the error message.
+
+Sample test cases :
+Input 1 :
+11 2
+Output 1 :
+5
+Input 2 :
+12 0
+Output 2 :
+Divide by Zero Exception
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int num, den;
+    // cout << "Enter two integers: ";
+    cin >> num >> den;
+    try {
+        if (den == 0) {
+            throw "Divide by Zero Exception";
+        }
+        int result = num / den;
+        cout << result;
+    }
+    catch (const char* msg) {
+        cout << msg;
+    }
+    return 0;
+}
+
+
+//UNIT 6-CPP
+
+
+//LEC_38_COD
+
+
+Problem Statement
+
+
+
+Suppose you are developing a program that takes input from users to determine the sentiment of their feedback. The program requires users to enter a numeric value representing their sentiment. The program uses exceptional handling to categorize the sentiment into three categories: positive, negative, or neutral.
+
+
+
+Write a program to find whether the given number is Positive, Negative, or zero using the exceptional handling technique. Pass different parameters for different catch methods.
+
+
+
+Note: This question helps in clearing TCS tests.
+
+Input format :
+The input consists of an integer.
+
+Output format :
+If the given integer is a positive integer, the output prints "You Entered Positive number".
+
+If the given integer is a negative integer, the output prints "You Entered Negative number".
+
+If the given integer is zero, the output prints "You Entered Zero".
+
+Sample test cases :
+Input 1 :
+12
+Output 1 :
+You Entered Positive number
+Input 2 :
+-20
+Output 2 :
+You Entered Negative Number
+Input 3 :
+0
+Output 3 :
+You Entered Zero
+
+
+
+
+
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int num;
+    cin>>num;
+    try
+    {
+        if(num>0)
+            throw num;
+        else if(num<0)
+            throw 'e';
+        else
+            throw 0.0;
+    }
+    catch(int x)
+    {
+        cout<<"You Entered Positive number";
+    }
+    catch(char c)
+    {
+        cout<<"You Entered Negative Number";
+    }
+    catch(double d)
+    {
+        cout<<"You Entered Zero";
+    }
+    return 0;
+}
+
+
+
+
+
+
+Problem Statement
+
+
+
+﻿Pankaj is working on a banking application, and a portion of his code deals with handling withdrawal transactions from a customer's account. 
+
+
+
+Prior to processing the withdrawal, he aims to verify whether the account balance is adequate to cover the requested amount. 
+
+
+
+In case the account balance is insufficient (less than the requested withdrawal amount), Pankaj plans to throw an exception of type std::underflow_error. How should he go about implementing this functionality in his banking application? 
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line of input consists of the initial balance of the bank account(double).
+
+The second line of input consists of the withdrawal amount to withdraw from the account(double).
+
+Output format :
+If the withdrawal amount is less than or equal to the account balance, the code will display the new account balance after the withdrawal.
+
+If the withdrawal amount is greater than the account balance, the code will catch the exception of type std::underflow_error and display a simple error message indicating insufficient funds.
+
+Code constraints :
+1 <= initial amount, withdraw amount <= 106
+
+Sample test cases :
+Input 1 :
+15000
+10000
+Output 1 :
+Withdrawal successful.
+New balance: 5000
+Input 2 :
+8000
+9000
+Output 2 :
+Exception caught.
+Error: Insufficient money for withdrawal.
+
+
+
+
+#include <iostream>
+#include <stdexcept>
+
+using namespace std;
+
+int main() {
+    double initial_balance, withdrawal_amount;
+    cin >> initial_balance >> withdrawal_amount;
+
+    try {
+        if (withdrawal_amount > initial_balance) {
+            throw underflow_error("Insufficient money for withdrawal.");
+        }
+        else {
+            cout << "Withdrawal successful." << endl;
+            cout << "New balance: " << initial_balance - withdrawal_amount << endl;
+        }
+    }
+    catch (const underflow_error& e) {
+        cout << "Exception caught." << endl;
+        cout << "Error: " << e.what() << endl;
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+Problem Statement
+
+
+
+Chandran's Noble Trust is working on a program for a library management system that efficiently manages books and their availability. The program enables users to borrow books by specifying the book's ID. 
+
+
+
+However, in case a user attempts to borrow a book with an invalid ID or if the book is currently unavailable, Chandran's Noble Trust plans to utilize exception handling to address these scenarios. 
+
+
+
+Specifically, they aim to throw custom exceptions named InvalidBookIDException and BookNotAvailableException, respectively, to handle such situations effectively.
+
+Input format :
+The first line contains an integer, 'numBooks', representing the number of books to be added to the library.
+
+The next 'numBooks' lines contain one value each:
+
+a. A string representing the ID of the book.
+
+The last line contains a string, 'borrowID', representing the ID of the book that needs to be borrowed and also contains a string, 'returnID', representing the ID of the book that needs to be returned to the library.
+
+Output format :
+If a book is added to the library, the output will display: "Book with ID [book_id] added to the library."
+
+If a book is successfully borrowed, the output will display: "Book with ID [book_id] borrowed successfully."
+
+If a book is returned to the library, the output will display: "Book with ID [book_id] returned to the library."
+
+If there is an exception due to an invalid book ID (book not found), the output will display: "Exception caught. Error: Invalid book ID."
+
+If the maximum number of books (20) is reached, the output will display: "Exception caught. Error: Maximum number of books reached."
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+The maximum number of books that can be managed in the library is 20 (MAX_BOOKS).
+Each book ID is a non-empty string that can contain any printable characters (letters, digits, symbols, spaces).
+Sample test cases :
+Input 1 :
+1
+MyBook
+MyBook
+MyBook
+Output 1 :
+Book with ID MyBook added to the library.
+Book with ID MyBook borrowed successfully.
+Book with ID MyBook returned to the library.
+Input 2 :
+3
+ScienceBook
+MathBook
+HistoryBook
+EnglishBook
+ScienceBook
+ScienceBook
+Output 2 :
+Book with ID ScienceBook added to the library.
+Book with ID MathBook added to the library.
+Book with ID HistoryBook added to the library.
+Exception caught. Error: Invalid book ID.
+Input 3 :
+22
+b1
+b2
+b3
+b4
+b5
+b6
+b7
+b8
+b9
+b10
+b11
+b12
+b13
+b14
+b15
+b16
+b17
+b18
+b19
+b20
+b1
+b1
+b21
+b22
+Output 3 :
+Book with ID b1 added to the library.
+Book with ID b2 added to the library.
+Book with ID b3 added to the library.
+Book with ID b4 added to the library.
+Book with ID b5 added to the library.
+Book with ID b6 added to the library.
+Book with ID b7 added to the library.
+Book with ID b8 added to the library.
+Book with ID b9 added to the library.
+Book with ID b10 added to the library.
+Book with ID b11 added to the library.
+Book with ID b12 added to the library.
+Book with ID b13 added to the library.
+Book with ID b14 added to the library.
+Book with ID b15 added to the library.
+Book with ID b16 added to the library.
+Book with ID b17 added to the library.
+Book with ID b18 added to the library.
+Book with ID b19 added to the library.
+Book with ID b20 added to the library.
+Exception caught. Error: Maximum number of books reached.
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+const int MAX_BOOKS = 20;
+
+class InvalidBookIDException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Invalid book ID.";
+    }
+};
+
+class BookNotAvailableException : public std::exception {
+public:
+    const char* what() const noexcept override {
+        return "Book not available.";
+    }
+};
+
+class Library {
+private:
+    std::vector<std::string> books;
+
+public:
+    void addBook(const std::string& bookID) {
+        if (books.size() >= MAX_BOOKS) {
+            throw BookNotAvailableException();
+        }
+        books.push_back(bookID);
+        std::cout << "Book with ID " << bookID << " added to the library." << std::endl;
+    }
+
+    void borrowBook(const std::string& bookID) {
+        auto it = std::find(books.begin(), books.end(), bookID);
+        if (it == books.end()) {
+            throw InvalidBookIDException();
+        }
+        books.erase(it);
+        std::cout << "Book with ID " << bookID << " borrowed successfully." << std::endl;
+    }
+
+    void returnBook(const std::string& bookID) {
+        books.push_back(bookID);
+        std::cout << "Book with ID " << bookID << " returned to the library." << std::endl;
+    }
+};
+
+int main() {
+    int numBooks;
+    std::cin >> numBooks;
+
+    Library library;
+
+    for (int i = 0; i < numBooks; i++) {
+        std::string bookID;
+        std::cin >> bookID;
+        library.addBook(bookID);
+    }
+
+    std::string borrowID, returnID;
+    std::cin >> borrowID >> returnID;
+
+    try {
+        library.borrowBook(borrowID);
+        library.returnBook(returnID);
+    } catch (const InvalidBookIDException& e) {
+        std::cout << "Exception caught. Error: " << e.what() << std::endl;
+    } catch (const BookNotAvailableException& e) {
+        std::cout << "Exception caught. Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+}
+
+
+
+
+
+Problem Statement
+
+
+
+Ravi is working on a class that models a bank account. To ensure that the account balance remains a positive value, he plans to handle situations where the user attempts to deposit a negative amount by throwing a custom exception named NegativeDepositException. Ravi intends to implement this using exception handling.
+
+
+
+Note: This kind of question will be helpful in clearing Mettyl recruitment.
+
+Input format :
+The input consists of the deposit amount(double).
+
+Output format :
+The output displays the deposit status and the balance present.
+
+If the user enters a negative deposit amount, it will display an error message indicating that depositing a negative amount is not allowed.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Code constraints :
+Deposit amount <= 105
+
+Sample test cases :
+Input 1 :
+1050.50
+Output 1 :
+Deposit successful. Balance: 1050.5
+Input 2 :
+0
+Output 2 :
+Exception caught: Error: Cannot deposit a negative amount or zero.
+Input 3 :
+-100
+Output 3 :
+Exception caught: Error: Cannot deposit a negative amount or zero.
+
+
+
+
+
+
+#include <iostream>
+#include <exception>
+using namespace std;
+
+class NegativeDepositException : public exception {
+    public:
+        const char* what() const throw() {
+            return "Error: Cannot deposit a negative amount or zero.";
+        }
+};
+
+class BankAccount {
+    private:
+        double balance;
+    public:
+        BankAccount() {
+            balance = 0;
+        }
+        void deposit(double amount) {
+            if(amount <= 0) {
+                throw NegativeDepositException();
+            }
+            balance += amount;
+            cout << "Deposit successful. Balance: " << balance << endl;
+        }
+};
+
+int main() {
+    BankAccount account;
+    double amount;
+    cin >> amount;
+    try {
+        account.deposit(amount);
+    }
+    catch(NegativeDepositException& e) {
+        cout << "Exception caught: " << e.what() << endl;
+    }
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+You are assigned to create a program that calculates the sum of positive numbers in an array provided by the user. The program should also handle exceptional situations when a negative number is encountered in the array. 
+
+
+
+Example
+
+
+
+Input:
+
+5
+
+1 2 3 4 5
+
+
+
+Output:
+
+The sum is : 15
+
+
+
+Explanation:
+
+Suppose the array inputs are 1, 2, 3, -4, 5. Here we got negative number at index value of 3 and the sum is "6" before the index 3.
+
+Input format :
+The first line represents the size of an array, n.
+
+The second line consists of n space-separated array elements.
+
+Output format :
+The output prints the sum of the given array until a negative integer is encountered.
+
+If a negative integer is encountered, the output prints the message along with the index.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+Output 1 :
+The sum is : 15
+Input 2 :
+5
+1 2 3 -4 5
+Output 2 :
+Negative number found at index 3
+The sum is : 6
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n, sum = 0;
+    cin >> n;
+    int arr[n];
+    try {
+        for(int i = 0; i < n; i++) {
+            cin >> arr[i];
+            if(arr[i] < 0) {
+                throw i;
+            }
+            sum += arr[i];
+        }
+        cout << "The sum is : " << sum << endl;
+    } catch(int i) {
+        cout << "Negative number found at index " << i << endl;
+        cout << "The sum is : " << sum << endl;
+    }
+    return 0;
+}
+
+
+

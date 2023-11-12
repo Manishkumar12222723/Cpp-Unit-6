@@ -1,0 +1,1135 @@
+
+Question No: 1
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+You are tasked with developing a template class with an inheritance-based Employee Management System to keep track of the employees in an organization. The system should allow adding both full-time and part-time employees, displaying employee details, and calculating the total salary expenditure for each category of employees.
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line contains the number of full-time employees (N1).
+
+N1 lines follow, each containing the employee's unique ID, name, and salary (separated by spaces).
+
+The next line contains the number of part-time employees (N2).
+
+N2 lines follow, each containing the employee's unique ID, name, and salary (separated by spaces).
+
+Output format :
+The program should display the details of full-time employees, including their ID, name, and salary.
+
+The program should display the total salary expenditure for full-time employees.
+
+The program should display the details of part-time employees, including their ID, name, and salary.
+
+The program should display the total salary expenditure for part-time employees.
+
+Code constraints :
+The system should support the management of both full-time and part-time employees.
+
+Each employee has a unique ID, name, and salary.
+
+The system should be implemented using a template class with inheritance to handle employees of different data types efficiently.
+
+The number of employees added should not exceed 100.
+
+Sample test cases :
+Input 1 :
+2
+101 John 3000
+102 Alice 2500
+1
+103 Bob 2000
+Output 1 :
+Full-time Employee Details:
+ID: 101, Name: John, Salary: 3000
+ID: 102, Name: Alice, Salary: 2500
+Total Salary Expenditure for Full-time Employees: 5500
+Part-time Employee Details:
+ID: 103, Name: Bob, Salary: 2000
+Total Salary Expenditure for Part-time Employees: 2000
+Input 2 :
+3
+201 Sarah 3500
+202 Mike 2800
+203 Emily 3200
+0
+Output 2 :
+Full-time Employee Details:
+ID: 201, Name: Sarah, Salary: 3500
+ID: 202, Name: Mike, Salary: 2800
+ID: 203, Name: Emily, Salary: 3200
+Total Salary Expenditure for Full-time Employees: 9500
+Part-time Employee Details:
+Total Salary Expenditure for Part-time Employees: 0
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template <class T>
+class EmployeeBase {
+protected:
+    struct Employee {
+        int id;
+        string name;
+        T salary;
+
+        Employee(int empId, const string& empName, T empSalary)
+            : id(empId), name(empName), salary(empSalary) {}
+    };
+
+    vector<Employee> employees;
+
+public:
+    void addEmployee(int empId, const string& empName, T empSalary) {
+        Employee newEmployee(empId, empName, empSalary);
+        employees.push_back(newEmployee);
+    }
+
+    void displayEmployeeDetails() {
+        for (const auto& emp : employees) {
+            cout << "ID: " << emp.id << ", Name: " << emp.name << ", Salary: " << emp.salary << endl;
+        }
+    }
+
+    T calculateTotalSalaryExpenditure() {
+        T totalSalary = 0;
+        for (const auto& emp : employees) {
+            totalSalary += emp.salary;
+        }
+        return totalSalary;
+    }
+};
+
+template <class T>
+class FullTimeEmployee : public EmployeeBase<T> {};
+template <class T>
+class PartTimeEmployee : public EmployeeBase<T> {};
+
+int main() {
+    FullTimeEmployee<double> fullTimeEmp;
+    PartTimeEmployee<double> partTimeEmp;
+    int numFullTimeEmp;
+    cin >> numFullTimeEmp;
+
+    for (int i = 0; i < numFullTimeEmp; i++) {
+        int empId;
+        string empName;
+        double empSalary;
+        cin >> empId >> empName >> empSalary;
+
+        fullTimeEmp.addEmployee(empId, empName, empSalary);
+    }
+    int numPartTimeEmp;
+    cin >> numPartTimeEmp;
+
+    for (int i = 0; i < numPartTimeEmp; i++) {
+        int empId;
+        string empName;
+        double empSalary;
+        cin >> empId >> empName >> empSalary;
+        partTimeEmp.addEmployee(empId, empName, empSalary);
+    }
+
+    cout << "Full-time Employee Details:" << endl;
+    fullTimeEmp.displayEmployeeDetails();
+    cout << "Total Salary Expenditure for Full-time Employees: " << fullTimeEmp.calculateTotalSalaryExpenditure() << endl;
+    cout << "Part-time Employee Details:" << endl;
+    partTimeEmp.displayEmployeeDetails();
+    cout << "Total Salary Expenditure for Part-time Employees: " << partTimeEmp.calculateTotalSalaryExpenditure() << endl;
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+A laptop manufacturing unit is facing a critical issue in its production process. The unit produces various models of laptops, and each model undergoes multiple assembly steps. Due to recent changes in the assembly process, some laptops are failing quality tests, leading to a decrease in overall production efficiency and an increase in defective products.
+
+
+
+The manufacturing unit needs to implement a program with multiple functions to identify and resolve the issues in the production process using function templates. Help them write the code.
+
+
+
+Function Names
+
+
+
+addLaptopModel - Adds a new laptop model to the production line.
+
+updateAssemblySteps - Updates the number of assembly steps for an existing laptop model.
+
+displayLaptopModels - Displays all laptop models and their respective assembly steps.
+
+Input format :
+The input is given in multiple lines. Each line contains an integer representing the user's choice (1, 2, 3, or 4) for the corresponding operation.
+
+
+
+For choice 1 (Add a new laptop model to the production line):
+
+The next two lines contain the laptop model name (a string) and the number of assembly steps (an integer).
+
+
+
+For choice 2 (Update the number of assembly steps for an existing laptop model):
+
+The next line contains the laptop model name (a string).
+
+The next line contains the new number of assembly steps (an integer).
+
+
+
+For choice 3 (Display all laptop models and their respective assembly steps), no additional input is required.
+
+
+
+For choice 4 (Exit the program), no additional input is required and this is a mandatory input that should be given for all inputs.
+
+Output format :
+The output is printed for each operation.
+
+
+
+For choice 1, the program prints the message "{Model Name} - Added to the production line" if successfully added or "Production line is full. Cannot add more laptop models!" if the production line is full.
+
+
+
+For choice 2, the program prints the message "{Model Name} - Updated" if the laptop model is found and updated, or "{Model Name} - Not found" if the laptop model is not found.
+
+
+
+For choice 3, the program prints the details of all laptop models in the production line, including their model names and assembly steps.
+
+
+
+For choice 4, the program exits, and no additional output is provided.
+
+Code constraints :
+1 <= The maximum number of laptop models that can be added to the production line <= 15
+
+Sample test cases :
+Input 1 :
+1
+Laptop Model 1
+10
+2
+Laptop Model 1
+20
+3
+4
+Output 1 :
+Laptop Model 1 - Added to the production line
+Laptop Model 1 - Updated
+
+Model Name: Laptop Model 1, Assembly Steps: 20
+Input 2 :
+1
+Laptop Model 1
+10
+2
+Laptop Model 2
+20
+3
+4
+Output 2 :
+Laptop Model 1 - Added to the production line
+Laptop Model 2 - Not found
+
+Model Name: Laptop Model 1, Assembly Steps: 10
+Input 3 :
+1
+Laptop Model 1
+10
+1
+Laptop Model 2
+20
+1
+Laptop Model 3
+30
+1
+Laptop Model 4
+40
+1
+Laptop Model 5
+50
+1
+Laptop Model 6
+60
+1
+Laptop Model 7
+70
+1
+Laptop Model 8
+80
+1
+Laptop Model 9
+90
+1
+Laptop Model 10
+100
+1
+Laptop Model 11
+110
+1
+Laptop Model 12
+120
+1
+Laptop Model 13
+130
+1
+Laptop Model 14
+140
+1
+Laptop Model 15
+150
+1
+Laptop Model 16
+160
+3
+4
+Output 3 :
+Laptop Model 1 - Added to the production line
+Laptop Model 2 - Added to the production line
+Laptop Model 3 - Added to the production line
+Laptop Model 4 - Added to the production line
+Laptop Model 5 - Added to the production line
+Laptop Model 6 - Added to the production line
+Laptop Model 7 - Added to the production line
+Laptop Model 8 - Added to the production line
+Laptop Model 9 - Added to the production line
+Laptop Model 10 - Added to the production line
+Laptop Model 11 - Added to the production line
+Laptop Model 12 - Added to the production line
+Laptop Model 13 - Added to the production line
+Laptop Model 14 - Added to the production line
+Laptop Model 15 - Added to the production line
+Production line is full. Cannot add more laptop models!
+
+Model Name: Laptop Model 1, Assembly Steps: 10
+Model Name: Laptop Model 2, Assembly Steps: 20
+Model Name: Laptop Model 3, Assembly Steps: 30
+Model Name: Laptop Model 4, Assembly Steps: 40
+Model Name: Laptop Model 5, Assembly Steps: 50
+Model Name: Laptop Model 6, Assembly Steps: 60
+Model Name: Laptop Model 7, Assembly Steps: 70
+Model Name: Laptop Model 8, Assembly Steps: 80
+Model Name: Laptop Model 9, Assembly Steps: 90
+Model Name: Laptop Model 10, Assembly Steps: 100
+Model Name: Laptop Model 11, Assembly Steps: 110
+Model Name: Laptop Model 12, Assembly Steps: 120
+Model Name: Laptop Model 13, Assembly Steps: 130
+Model Name: Laptop Model 14, Assembly Steps: 140
+Model Name: Laptop Model 15, Assembly Steps: 150
+Input 4 :
+1
+Model 1
+50
+6
+4
+Output 4 :
+Model 1 - Added to the production line
+Invalid choice! Please try ag
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+struct LaptopModel {
+    std::string modelName;
+    int assemblySteps;
+};
+
+template <size_t N>
+void addLaptopModel(LaptopModel (&laptopModels)[N], size_t& numModels) {
+    if (numModels < N) {
+        LaptopModel newModel;
+        std::cin.ignore(); 
+        std::getline(std::cin, newModel.modelName);
+        std::cin >> newModel.assemblySteps;
+        laptopModels[numModels++] = newModel;
+        std::cout << newModel.modelName << " - Added to the production line" << std::endl;
+    } else {
+        std::cout << "Production line is full. Cannot add more laptop models!" << std::endl;
+        std::cin.ignore(); 
+        std::string modelName;
+        int assemblySteps;
+        std::getline(std::cin, modelName);
+        std::cin >> assemblySteps; 
+    }
+}
+
+template <size_t N>
+void updateAssemblySteps(LaptopModel (&laptopModels)[N], size_t numModels) {
+    std::string modelName;
+    std::cin.ignore();
+    std::getline(std::cin, modelName);
+
+    int newAssemblySteps;
+    std::cin >> newAssemblySteps;
+
+    for (size_t i = 0; i < numModels; i++) {
+        if (laptopModels[i].modelName == modelName) {
+            laptopModels[i].assemblySteps = newAssemblySteps;
+            std::cout << modelName << " - Updated" << std::endl;
+            return;
+        }
+    }
+
+    std::cout << modelName << " - Not found" << std::endl;
+}
+
+template <size_t N>
+void displayLaptopModels(const LaptopModel (&laptopModels)[N], size_t numModels) {
+    std::cout << std::endl;
+    for (size_t i = 0; i < numModels; i++) {
+        std::cout << "Model Name: " << laptopModels[i].modelName
+                  << ", Assembly Steps: " << laptopModels[i].assemblySteps << std::endl;
+    }
+}
+
+int main() {
+    const size_t MAX_MODELS = 15;
+    LaptopModel laptopModels[MAX_MODELS];
+    size_t numModels = 0;
+
+    while (true) {
+        int choice;
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                addLaptopModel(laptopModels, numModels);
+                break;
+            case 2:
+                updateAssemblySteps(laptopModels, numModels);
+                break;
+            case 3:
+                displayLaptopModels(laptopModels, numModels);
+                break;
+            case 4:
+                return 0;
+            default:
+                std::cout << "Invalid choice! Please try again." << std::endl;
+        }
+    }
+
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+A space agency is preparing to launch a satellite into orbit. The satellite launch involves various critical tasks, including checking the weather conditions, conducting pre-launch tests, fueling the rocket, and performing final checks before liftoff. To ensure a successful satellite launch, the space agency needs to implement a C++ program with function templates that handle these tasks.
+
+
+
+You need to implement function templates for the following functions:
+
+
+
+bool checkWeather(): This function should prompt the user to enter the weather conditions as an integer value and check if it is between 0 and 69 (inclusive). If the weather is favorable (between 0 and 69), print "Weather conditions are favorable for the launch." and return true. Otherwise, if the weather is negative, print "Weather conditions are not suitable for the launch. Launch postponed." and return false. If the weather is greater than or equal to 70, print "Weather conditions are not suitable for the launch. Launch postponed." and return false.
+bool runPreLaunchTests(): This function should implement the pre-launch tests and print "Pre-launch tests are successful." Then, return true.
+void fuelRocket(): This function should implement the rocket fueling process and print "Rocket has been fueled up."
+bool performFinalChecks(): This function should perform the final checks before liftoff and print "Final checks are complete." Then, return true.
+void launchSatellite(): This function should print "Satellite launch successful!" to indicate a successful satellite launch.
+Input format :
+The input consists of the value of the weather.
+
+Output format :
+The output displays necessary messages if the satellite launch is successful or not successful.
+
+
+
+Refer to the sample outputs for the formatting specifications.
+
+Sample test cases :
+Input 1 :
+60
+Output 1 :
+Weather conditions are favorable for the launch.
+Pre-launch tests are successful.
+Rocket has been fueled up.
+Final checks are complete.
+Satellite launch successful!
+Input 2 :
+0
+Output 2 :
+Weather conditions are favorable for the launch.
+Pre-launch tests are successful.
+Rocket has been fueled up.
+Final checks are complete.
+Satellite launch successful!
+Input 3 :
+80
+Output 3 :
+Weather conditions are not suitable for the launch. Launch postponed.
+Code Size : 1024 kb
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+using namespace std;
+template <typename T>
+bool checkWeather() {
+    T weather;
+    cin >> weather;
+
+    if (weather >= 0 && weather < 70) {
+        cout << "Weather conditions are favorable for the launch." << endl;
+        return true;
+    } else if (weather < 0) {
+        cout << "Weather conditions are not suitable for the launch. Launch postponed." << endl;
+        return false;
+    } else {
+        cout << "Weather conditions are not suitable for the launch. Launch postponed." << endl;
+        return false;
+    }
+}
+template <typename T>
+bool runPreLaunchTests() {
+    cout << "Pre-launch tests are successful." << endl;
+    return true;
+}
+
+template <typename T>
+void fuelRocket() {
+    cout << "Rocket has been fueled up." << endl;
+}
+template <typename T>
+bool performFinalChecks() {
+    cout << "Final checks are complete." << endl;
+    return true;
+}
+void launchSatellite() {
+    cout << "Satellite launch successful!" << endl;
+}
+
+int main() {
+    bool weatherCheck = checkWeather<int>();
+    if (weatherCheck) {
+        bool testsPassed = runPreLaunchTests<bool>();
+        if (testsPassed) {
+            fuelRocket<double>();
+            bool finalChecksPassed = performFinalChecks<long>();
+
+            if (finalChecksPassed) {
+                launchSatellite();
+            } else {
+                cout << "Satellite launch aborted due to failed final checks." << endl;
+            }
+        } else {
+            cout << "Satellite launch aborted due to failed pre-launch tests." << endl;
+        }
+    }
+    return 0;
+}
+
+
+Single File Programming Question
+Problem statement
+
+
+
+You have been tasked with developing a generic Bank Account Management System that can handle various types of bank accounts, such as savings accounts, checking accounts, and fixed deposit accounts. The system should allow users to create and manage different bank accounts with ease.
+
+
+
+Your task is to implement a template class called BankAccount that can store and manage account details for different account types. The BankAccount class should have the following functionalities:
+
+
+
+setBalance(T b): Set the initial balance of the account.
+
+setInterestRate(T r): Set the interest rate for the account.
+
+getBalance(): Get the current balance of the account.
+
+getInterestRate(): Get the interest rate of the account.
+
+calculateInterest(): Calculate the interest earned by the account based on the current balance and interest rate.
+
+
+
+Using the BankAccount class, the Bank Account Management System should allow users to create different accounts by specifying the account type (savings, checking, or fixed deposit) and set the initial balance and interest rate. Users should be able to calculate the interest earned by each account after one year and display the balance and interest earned.
+
+
+
+You need to design the BankAccount class in such a way that it can handle different data types for account balances and interest rates, making it flexible and useful for managing accounts of varying monetary values.
+
+
+
+Your task is to implement the BankAccount template class and demonstrate its functionality in the Bank Account Management System.
+
+
+
+Example
+
+Input:
+
+10000
+
+5
+
+
+
+Output:
+
+Balance after one year: 10500
+
+Interest earned after one year: 500
+
+
+
+Explanation:
+
+The input values for balance and interest rate are 10000 and 5 respectively.
+
+The balance after one year will be the current balance plus the interest earned which is calculated as 10000*5/100 = 500..
+
+Therefore, the output displays the updated balance of 10500 and the interest earned of 500.
+
+Input format :
+The first line contains an integer representing the initial balance of the bank account.
+
+The second line contains an integer representing the interest rate of the bank account.
+
+Output format :
+The first line prints the balance after one year, which includes the initial balance and the interest earned.
+
+The second line prints the interest earned after one year, calculated based on the initial balance and interest rate.
+
+Sample test cases :
+Input 1 :
+10000
+5
+Output 1 :
+Balance after one year: 10500
+Interest earned after one year: 500
+Code Size : 1024 kb
+
+
+
+// You are using GCC
+#include <iostream>
+using namespace std;
+
+template <class T>
+class BankAccount {
+private:
+    T balance, interestRate;
+
+public:
+    void setBalance(T b) {
+        balance = b;
+    }
+
+    void setInterestRate(T r) {
+        interestRate = r;
+    }
+
+    T getBalance() {
+        return balance;
+    }
+
+    T getInterestRate() {
+        return interestRate;
+    }
+
+    T calculateInterest() {
+        return balance * interestRate / static_cast<T>(100);
+    }
+};
+
+int main() {
+    BankAccount<int> account;
+    int balance, interestRate;
+
+    cin >> balance;
+    account.setBalance(balance);
+
+    cin >> interestRate;
+    account.setInterestRate(interestRate);
+
+    cout << "Balance after one year: " << account.getBalance() + account.calculateInterest() << endl;
+    cout << "Interest earned after one year: " << account.calculateInterest();
+
+    return 0;
+}
+
+Problem Statement
+
+
+
+You are tasked with developing a template class with an inheritance-based Employee Management System to keep track of the employees in an organization. The system should allow adding both full-time and part-time employees, displaying employee details, and calculating the total salary expenditure for each category of employees.
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line contains the number of full-time employees (N1).
+
+N1 lines follow, each containing the employee's unique ID, name, and salary (separated by spaces).
+
+The next line contains the number of part-time employees (N2).
+
+N2 lines follow, each containing the employee's unique ID, name, and salary (separated by spaces).
+
+Output format :
+The program should display the details of full-time employees, including their ID, name, and salary.
+
+The program should display the total salary expenditure for full-time employees.
+
+The program should display the details of part-time employees, including their ID, name, and salary.
+
+The program should display the total salary expenditure for part-time employees.
+
+Code constraints :
+The system should support the management of both full-time and part-time employees.
+
+Each employee has a unique ID, name, and salary.
+
+The system should be implemented using a template class with inheritance to handle employees of different data types efficiently.
+
+The number of employees added should not exceed 100.
+
+Sample test cases :
+Input 1 :
+2
+101 John 3000
+102 Alice 2500
+1
+103 Bob 2000
+Output 1 :
+Full-time Employee Details:
+ID: 101, Name: John, Salary: 3000
+ID: 102, Name: Alice, Salary: 2500
+Total Salary Expenditure for Full-time Employees: 5500
+Part-time Employee Details:
+ID: 103, Name: Bob, Salary: 2000
+Total Salary Expenditure for Part-time Employees: 2000
+Input 2 :
+3
+201 Sarah 3500
+202 Mike 2800
+203 Emily 3200
+0
+Output 2 :
+Full-time Employee Details:
+ID: 201, Name: Sarah, Salary: 3500
+ID: 202, Name: Mike, Salary: 2800
+ID: 203, Name: Emily, Salary: 3200
+Total Salary Expenditure for Full-time Employees: 9500
+Part-time Employee Details:
+Total Salary Expenditure for Part-time Employees: 0
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+// Base Employee class
+class Employee {
+protected:
+    int id;
+    std::string name;
+    double salary;
+
+public:
+    Employee(int id, const std::string& name, double salary)
+        : id(id), name(name), salary(salary) {}
+
+    virtual void displayDetails() const {
+        std::cout << "ID: " << id << ", Name: " << name << ", Salary: " << salary << std::endl;
+    }
+
+    virtual double getSalary() const {
+        return salary;
+    }
+};
+
+// Full-time Employee class
+class FullTimeEmployee : public Employee {
+public:
+    FullTimeEmployee(int id, const std::string& name, double salary)
+        : Employee(id, name, salary) {}
+};
+
+// Part-time Employee class
+class PartTimeEmployee : public Employee {
+public:
+    PartTimeEmployee(int id, const std::string& name, double salary)
+        : Employee(id, name, salary) {}
+};
+
+// Employee Management System class
+template <typename T>
+class EmployeeManagementSystem {
+private:
+    std::vector<T> employees;
+
+public:
+    void addEmployee(const T& employee) {
+        employees.push_back(employee);
+    }
+
+    void displayEmployeeDetails() const {
+        for (const auto& employee : employees) {
+            employee.displayDetails();
+        }
+    }
+
+    double calculateTotalSalaryExpenditure() const {
+        double totalSalary = 0.0;
+        for (const auto& employee : employees) {
+            totalSalary += employee.getSalary();
+        }
+        return totalSalary;
+    }
+};
+
+int main() {
+    int numFullTimeEmployees;
+    std::cin >> numFullTimeEmployees;
+
+    EmployeeManagementSystem<FullTimeEmployee> fullTimeEmployeeManagementSystem;
+    for (int i = 0; i < numFullTimeEmployees; ++i) {
+        int id;
+        std::string name;
+        double salary;
+        std::cin >> id >> name >> salary;
+        FullTimeEmployee employee(id, name, salary);
+        fullTimeEmployeeManagementSystem.addEmployee(employee);
+    }
+
+    int numPartTimeEmployees;
+    std::cin >> numPartTimeEmployees;
+
+    EmployeeManagementSystem<PartTimeEmployee> partTimeEmployeeManagementSystem;
+    for (int i = 0; i < numPartTimeEmployees; ++i) {
+        int id;
+        std::string name;
+        double salary;
+        std::cin >> id >> name >> salary;
+        PartTimeEmployee employee(id, name, salary);
+        partTimeEmployeeManagementSystem.addEmployee(employee);
+    }
+
+    std::cout << "Full-time Employee Details:" << std::endl;
+    fullTimeEmployeeManagementSystem.displayEmployeeDetails();
+    std::cout << "Total Salary Expenditure for Full-time Employees: "
+              << fullTimeEmployeeManagementSystem.calculateTotalSalaryExpenditure() << std::endl;
+
+    std::cout << "Part-time Employee Details:" << std::endl;
+    partTimeEmployeeManagementSystem.displayEmployeeDetails();
+    std::cout << "Total Salary Expenditure for Part-time Employees: "
+              << partTimeEmployeeManagementSystem.calculateTotalSalaryExpenditure() << std::endl;
+
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+A laptop manufacturing unit is facing a critical issue in its production process. The unit produces various models of laptops, and each model undergoes multiple assembly steps. Due to recent changes in the assembly process, some laptops are failing quality tests, leading to a decrease in overall production efficiency and an increase in defective products.
+
+
+
+The manufacturing unit needs to implement a program with multiple functions to identify and resolve the issues in the production process using function templates. Help them write the code.
+
+
+
+Function Names
+
+
+
+addLaptopModel - Adds a new laptop model to the production line.
+
+updateAssemblySteps - Updates the number of assembly steps for an existing laptop model.
+
+displayLaptopModels - Displays all laptop models and their respective assembly steps.
+
+Input format :
+The input is given in multiple lines. Each line contains an integer representing the user's choice (1, 2, 3, or 4) for the corresponding operation.
+
+
+
+For choice 1 (Add a new laptop model to the production line):
+
+The next two lines contain the laptop model name (a string) and the number of assembly steps (an integer).
+
+
+
+For choice 2 (Update the number of assembly steps for an existing laptop model):
+
+The next line contains the laptop model name (a string).
+
+The next line contains the new number of assembly steps (an integer).
+
+
+
+For choice 3 (Display all laptop models and their respective assembly steps), no additional input is required.
+
+
+
+For choice 4 (Exit the program), no additional input is required and this is a mandatory input that should be given for all inputs.
+
+Output format :
+The output is printed for each operation.
+
+
+
+For choice 1, the program prints the message "{Model Name} - Added to the production line" if successfully added or "Production line is full. Cannot add more laptop models!" if the production line is full.
+
+
+
+For choice 2, the program prints the message "{Model Name} - Updated" if the laptop model is found and updated, or "{Model Name} - Not found" if the laptop model is not found.
+
+
+
+For choice 3, the program prints the details of all laptop models in the production line, including their model names and assembly steps.
+
+
+
+For choice 4, the program exits, and no additional output is provided.
+
+Code constraints :
+1 <= The maximum number of laptop models that can be added to the production line <= 15
+
+Sample test cases :
+Input 1 :
+1
+Laptop Model 1
+10
+2
+Laptop Model 1
+20
+3
+4
+Output 1 :
+Laptop Model 1 - Added to the production line
+Laptop Model 1 - Updated
+
+Model Name: Laptop Model 1, Assembly Steps: 20
+Input 2 :
+1
+Laptop Model 1
+10
+2
+Laptop Model 2
+20
+3
+4
+Output 2 :
+Laptop Model 1 - Added to the production line
+Laptop Model 2 - Not found
+
+Model Name: Laptop Model 1, Assembly Steps: 10
+Input 3 :
+1
+Laptop Model 1
+10
+1
+Laptop Model 2
+20
+1
+Laptop Model 3
+30
+1
+Laptop Model 4
+40
+1
+Laptop Model 5
+50
+1
+Laptop Model 6
+60
+1
+Laptop Model 7
+70
+1
+Laptop Model 8
+80
+1
+Laptop Model 9
+90
+1
+Laptop Model 10
+100
+1
+Laptop Model 11
+110
+1
+Laptop Model 12
+120
+1
+Laptop Model 13
+130
+1
+Laptop Model 14
+140
+1
+Laptop Model 15
+150
+1
+Laptop Model 16
+160
+3
+4
+Output 3 :
+Laptop Model 1 - Added to the production line
+Laptop Model 2 - Added to the production line
+Laptop Model 3 - Added to the production line
+Laptop Model 4 - Added to the production line
+Laptop Model 5 - Added to the production line
+Laptop Model 6 - Added to the production line
+Laptop Model 7 - Added to the production line
+Laptop Model 8 - Added to the production line
+Laptop Model 9 - Added to the production line
+Laptop Model 10 - Added to the production line
+Laptop Model 11 - Added to the production line
+Laptop Model 12 - Added to the production line
+Laptop Model 13 - Added to the production line
+Laptop Model 14 - Added to the production line
+Laptop Model 15 - Added to the production line
+Production line is full. Cannot add more laptop models!
+
+Model Name: Laptop Model 1, Assembly Steps: 10
+Model Name: Laptop Model 2, Assembly Steps: 20
+Model Name: Laptop Model 3, Assembly Steps: 30
+Model Name: Laptop Model 4, Assembly Steps: 40
+Model Name: Laptop Model 5, Assembly Steps: 50
+Model Name: Laptop Model 6, Assembly Steps: 60
+Model Name: Laptop Model 7, Assembly Steps: 70
+Model Name: Laptop Model 8, Assembly Steps: 80
+Model Name: Laptop Model 9, Assembly Steps: 90
+Model Name: Laptop Model 10, Assembly Steps: 100
+Model Name: Laptop Model 11, Assembly Steps: 110
+Model Name: Laptop Model 12, Assembly Steps: 120
+Model Name: Laptop Model 13, Assembly Steps: 130
+Model Name: Laptop Model 14, Assembly Steps: 140
+Model Name: Laptop Model 15, Assembly Steps: 150
+Input 4 :
+1
+Model 1
+50
+6
+4
+Output 4 :
+Model 1 - Added to the production line
+Invalid choice! Please try again.
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+// Structure to store laptop model details
+struct LaptopModel {
+    string name;
+    int assemblySteps;
+};
+
+// Function to add a new laptop model to the production line
+template <typename T>
+void addLaptopModel(vector<T>& models, const string& name, int assemblySteps) {
+    T model;
+    model.name = name;
+    model.assemblySteps = assemblySteps;
+    models.push_back(model);
+    cout << name << " - Added to the production line" << endl;
+}
+
+// Function to update the number of assembly steps for an existing laptop model
+template <typename T>
+void updateAssemblySteps(vector<T>& models, const string& name, int newAssemblySteps) {
+    for (auto& model : models) {
+        if (model.name == name) {
+            model.assemblySteps = newAssemblySteps;
+            cout << name << " - Updated\n" << endl;
+            return;
+        }
+    }
+    cout << name << " - Not found" << endl;
+}
+
+// Function to display all laptop models and their respective assembly steps
+template <typename T>
+void displayLaptopModels(const vector<T>& models) {
+    for (const auto& model : models) {
+        cout << "Model Name: " << model.name << ", Assembly Steps: " << model.assemblySteps<< endl;
+    }
+}
+
+int main() {
+    vector<LaptopModel> laptopModels;
+    int choice;
+    string name;
+    int assemblySteps;
+
+    while (true) {cin >> choice;
+
+        if (choice == 1) {
+            cin.ignore();
+            getline(cin, name);
+            cin >> assemblySteps;
+            addLaptopModel(laptopModels, name, assemblySteps);
+        } else if (choice == 2) {
+            cin.ignore();
+            getline(cin, name);
+            cin >> assemblySteps;
+            updateAssemblySteps(laptopModels, name, assemblySteps);
+        } else if (choice == 3) {
+            displayLaptopModels(laptopModels);
+        } else if (choice == 4) {
+            break;
+        } else {
+            cout << "Invalid choice! Please try again." << endl;
+        }
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+

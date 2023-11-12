@@ -1,0 +1,2143 @@
+
+
+
+ingle File Programming Question
+Problem Statement
+
+
+
+Usha is a university administrator responsible for managing the admission process for medical colleges. She needs a program that allows her to keep track of details for three medical colleges and handle student admissions.Write a program using class templates with inheritance.
+
+
+
+The program should have the following functionalities:
+
+
+
+Choice 1: Display Medical College Details: Usha should be able to view the name, establishment year, total seats, and available seats for each medical college.
+
+Choice 2: Admit Students to the MBBS Course: Usha should be able to admit a specified number of students to the MBBS course at a selected medical college. The program should check if there are enough available seats and display the number of seats remaining after admission.
+
+Choice 3: Exit: Usha should be able to exit the program when she is done managing the admissions.
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The input consists of the following details for each medical college (three colleges):
+
+Name of the medical college (string)
+Establishment year (integer)
+Total number of seats in the college (integer)
+Total number of MBBS seats available in the college (integer).
+
+
+For admitting students, The input is in the following format:
+
+Choice of medical college (integer)
+Number of students to admit (integer)
+Output format :
+The output displays appropriate messages based on the user's input choices.
+
+For option 1, it should display the details of all three medical colleges.
+
+For option 2, it should display the number of students admitted and the updated available seats in the college1.
+
+For option 3, it should display a goodbye message before exiting the program.
+
+If the user enters an invalid choice, it should display an error message.
+
+In the last line, output displays the endline for the first option.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The establishment year of each college should be a positive integer.
+
+The total number of seats and total MBBS seats in each college should be positive integers greater than zero.
+
+The number of students to admit should be a positive integer.
+
+Usha can only choose options 1, 2, or 3 as her input choices. Any other input should be considered invalid.
+
+Sample test cases :
+Input 1 :
+ABC Medical College
+2022
+100
+80
+XYZ Medical College
+2019
+120
+90
+PQR Medical College
+2020
+150
+100
+1
+Output 1 :
+Medical College Details:
+ABC Medical College 2022 100 100
+XYZ Medical College 2019 120 120
+PQR Medical College 2020 150 150
+Input 2 :
+ABC Medical College
+2022
+100
+80
+XYZ Medical College
+2019
+120
+90
+PQR Medical College
+2020
+150
+100
+2
+50
+Output 2 :
+50 students admitted to ABC Medical College
+Available Seats: 50
+Input 3 :
+ABC Medical College
+2022
+100
+80
+XYZ Medical College
+2019
+120
+90
+PQR Medical College
+2020
+150
+100
+4
+3
+Output 3 :
+Invalid choice
+Exiting the program
+Input 4 :
+ABC Medical College
+2022
+100
+80
+XYZ Medical College
+2019
+120
+90
+PQR Medical College
+2020
+150
+100
+2
+110
+Output 4 :
+Not enough seats available in ABC Medical College
+Cannot admit 110 students.
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <typename T>
+class MedicalCollege {
+public:
+    MedicalCollege(const string& name, int year, T totalSeats)
+        : name(name), year(year), totalSeats(totalSeats), availableSeats(totalSeats) {}
+
+    void displayDetails() const {
+        cout << name <<" "<< year << " " << totalSeats << " " << availableSeats << endl;
+    }
+
+    void admitStudents(T numStudents) {
+        if (numStudents <= availableSeats) {
+            availableSeats -= numStudents;
+            cout << numStudents << " students admitted to " << name << "\nAvailable Seats: " << availableSeats;
+        } else {
+            cout << "Not enough seats available in " << name << "\nCannot admit " << numStudents << " students.";
+        }
+    }
+
+    T getTotalSeats() const { 
+        return totalSeats;
+    }
+
+private:
+    string name;
+    int year;
+    T totalSeats;
+    T availableSeats;
+};
+
+template <typename T>
+class MBBSMedicalCollege : public MedicalCollege<T> {
+public:
+    MBBSMedicalCollege(const string& name, int year, T totalSeats, T totalMBBSSeats)
+        : MedicalCollege<T>(name, year, totalSeats), totalMBBSSeats(totalMBBSSeats) {}
+
+    void displayDetails() const {
+        MedicalCollege<T>::displayDetails();
+    }
+
+private:
+    T totalMBBSSeats;
+};
+
+int main() {
+    string college1Name, college2Name, college3Name;
+    int college1Year, college2Year, college3Year;
+    int college1TotalSeats, college2TotalSeats, college3TotalSeats;
+    int college1TotalMBBSSeats, college2TotalMBBSSeats, college3TotalMBBSSeats;
+    getline(cin, college1Name);
+    cin >> college1Year;
+    cin >> college1TotalSeats;
+    cin >> college1TotalMBBSSeats;
+    cin.ignore();
+    getline(cin, college2Name);
+    cin >> college2Year;
+    cin >> college2TotalSeats;
+    cin >> college2TotalMBBSSeats;
+    cin.ignore();
+    getline(cin, college3Name);
+    cin >> college3Year;
+    cin >> college3TotalSeats;
+    cin >> college3TotalMBBSSeats;
+    MBBSMedicalCollege<int> college1(college1Name, college1Year, college1TotalSeats, college1TotalMBBSSeats);
+    MBBSMedicalCollege<int> college2(college2Name, college2Year, college2TotalSeats, college2TotalMBBSSeats);
+    MBBSMedicalCollege<int> college3(college3Name, college3Year, college3TotalSeats, college3TotalMBBSSeats);
+    while (true) {
+        int choice;
+        cin >> choice;
+        if (choice == 1) {
+            cout << "Medical College Details:" << endl;
+            college1.displayDetails();
+            college2.displayDetails();
+            college3.displayDetails();
+            return 0;
+        } else if (choice == 2) {
+            int numStudents;
+            cin >> numStudents;
+            college1.admitStudents(numStudents);
+            return 0;
+        } else if (choice == 3) {
+            cout << "Exiting the program";
+            return 0;
+        } else {
+            cout << "Invalid choice" << endl;
+        }
+    }
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Dr. Savitha is a pediatrician who treats young patients in her clinic. She needs a simple software tool to manage the details of her patients, especially pediatric patients. The tool should allow her to add new patients, display patient details, and keep track of the vaccines administered to each pediatric patient. Write a program using class templates with inheritance.
+
+
+
+The program should provide the following functionality:
+
+
+
+Input Patient Details: The program should prompt Savitha to enter the name, age, and address of a new patient.
+
+
+
+Input Vaccination Details: After entering the patient's details, the program should prompt Savitha to enter the names of three vaccines that the patient has received.
+
+
+
+Display Pediatric Patient Details: Savitha should be able to view the details of all pediatric patients entered into the system, including their names, ages, addresses, and vaccination records.
+
+
+
+Exit: If Savitha chooses this option, the program should end gracefully.
+
+Input format :
+The input consists of the following format:
+
+
+
+For adding a new patient:
+
+The patient's name as a single word (no spaces).
+
+The patient's age as an integer.
+
+The patient's address as a string (may contain spaces).
+
+
+
+For recording vaccines for a pediatric patient:
+
+The names of three vaccines for the patient, separated by a space.
+
+For choosing options in the main menu:
+
+Choice 1: displays the pediatric details.
+
+Choice 2: Exit program
+
+Choice 3: Invalid input
+
+An integer (1, 2, or 3) to select an option.
+
+Output format :
+The output is displayed in the following format:
+
+
+
+For displaying patient details:
+
+The output displays the patient's name, age, and address in separate lines.
+
+For pediatric patients, the program displays the names of the vaccines administered.
+
+Include the endline for the last line.
+
+
+
+For exiting the program:
+
+The output prints "Exit" and terminates.
+
+
+
+If the value is invalid, print the Invalid Choice.
+
+Include the endline for the last line.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The patient's name is a single word with a maximum length of 100 characters.
+
+The patient's age is an integer between 0 and 150 (inclusive).
+
+The patient's address is a string with a maximum length of 500 characters.
+
+The names of the vaccines are single words with a maximum length of 50 characters.
+
+The program should handle a maximum of 100 patients.
+
+The program should handle a maximum of 3 vaccines per pediatric patient.
+
+Sample test cases :
+Input 1 :
+John 5 TamilNadu
+DTaP MMR Varicella
+1
+2
+Output 1 :
+Pediatric Patient Details:
+Name: John, Age: 5, Address: TamilNadu
+Vaccines: DTaP MMR Varicella
+Exit
+Input 2 :
+Jacob 3 555 Elm St
+HepB DTaP MMR
+3
+2
+Output 2 :
+Invalid choice
+Exit
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+template <typename T>
+class Patient {
+public:
+    Patient(const string& name, int age, const string& address)
+        : name(name), age(age), address(address) {}
+
+    void displayDetails() const {
+        cout << "Name: " << name << ", Age: " << age << ", Address: " << address << endl;
+    }
+
+private:
+    string name;
+    int age;
+    string address;
+};
+
+template <typename T>
+class PediatricPatient : public Patient<T> {
+public:
+    PediatricPatient(const string& name, int age, const string& address, const string vaccines[3])
+        : Patient<T>(name, age, address) {
+        for (int i = 0; i < 3; ++i) {
+            this->vaccines[i] = vaccines[i];
+        }
+    }
+
+    void displayDetails() const {
+        Patient<T>::displayDetails();
+        cout << "Vaccines:";
+        for (int i = 0; i < 3; ++i) {
+            cout << " " << vaccines[i];
+        }
+        cout << endl;
+    }
+
+private:
+    string vaccines[3];
+};
+
+int main() {
+    string patientName, patientAddress;
+    int patientAge;
+    string patientVaccines[3];
+
+    cin >> patientName >> patientAge;
+    cin.ignore();
+    getline(cin, patientAddress);
+
+    cin >> patientVaccines[0] >> patientVaccines[1] >> patientVaccines[2];
+
+    PediatricPatient<int> patient(patientName, patientAge, patientAddress, patientVaccines);
+
+    while (true) {
+        int choice;
+        cin >> choice;
+        switch (choice) {
+            case 1:
+                cout << "Pediatric Patient Details:" << endl;
+                patient.displayDetails();
+                break;
+            case 2:
+                cout << "Exit";
+                return 0;
+            default:
+                cout << "Invalid choice" << endl;
+        }
+    }
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+Ragu is managing a rental vehicle service, where customers can rent both cars and motorcycles. He needs a program to manage and display the details of the vehicles available for rent. The rental service deals with two types of vehicles: cars and motorcycles. Both cars and motorcycles have common attributes like make, model, year, and rental price, but they also have specific attributes. Cars have the number of doors, while motorcycles have the type (e.g., Sports, Cruiser, etc.).
+
+
+
+Write a program using class templates and inheritance to manage and display the details of cars and motorcycles in Ragu's rental service.
+
+
+
+Note: This kind of question will be helpful in clearing CTS recruitment.
+
+Input format :
+The input is taken from the standard input (cin) and consists of the following:
+
+For Car:
+
+A string representing the car's make.
+A string representing the car's model.
+An integer representing the car's year of manufacture.
+A double representing the car's rental price.
+An integer representing the number of doors in the car.
+For Motorcycle:
+
+A string representing the motorcycle's make.
+A string representing the motorcycle's model.
+An integer representing the motorcycle's year of manufacture.
+A double representing the motorcycle's rental price.
+A string representing the type of motorcycle (e.g., Sports, Cruiser, etc.).
+Output format :
+The output displays the details of both the car and the motorcycle in the following format:
+
+Vehicle Details:
+
+<Car Details>
+
+<Motorcycle Details>
+
+where <Car Details> and <Motorcycle Details> are the details of the car and motorcycle, respectively, as per the displayDetails() function of the respective classes.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The make and model strings for both cars and motorcycles will contain only alphanumeric characters and spaces.
+
+The year of manufacture will be an integer between 1900 and the current year.
+
+The rental price will be a positive floating-point number.
+
+For cars, the number of doors will be an integer between 2 and 5.
+
+For motorcycles, the type string will contain only alphanumeric characters and spaces.
+
+Sample test cases :
+Input 1 :
+Toyota Corolla 2022 50.00 4
+Honda CBR 2021 30.00 Sports
+Output 1 :
+Vehicle Details:
+Toyota Corolla 2022 50
+4
+Honda CBR 2021 30
+Sports
+
+
+
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <class T>
+class Vehicle {
+public:
+    Vehicle(const string& make, const string& model, int year, double rentalPrice, T additionalInfo)
+        : make(make), model(model), year(year), rentalPrice(rentalPrice), additionalInfo(additionalInfo) {}
+
+    virtual void displayDetails() const {
+        cout << make << " " << model << " " << year << " "<< rentalPrice << endl;
+    }
+
+    T getAdditionalInfo() const {
+        return additionalInfo;
+    }
+
+protected:
+    string make;
+    string model;
+    int year;
+    double rentalPrice;
+    T additionalInfo;
+};
+
+class Car : public Vehicle<int> {
+public:
+    Car(const string& make, const string& model, int year, double rentalPrice, int numDoors)
+        : Vehicle(make, model, year, rentalPrice, numDoors) {}
+
+    void displayDetails() const override {
+        Vehicle::displayDetails();
+        cout << this->getAdditionalInfo() << endl;
+    }
+};
+
+class Motorcycle : public Vehicle<string> {
+public:
+    Motorcycle(const string& make, const string& model, int year, double rentalPrice, const string& type)
+        : Vehicle(make, model, year, rentalPrice, type) {}
+
+    void displayDetails() const override {
+        Vehicle::displayDetails();
+        cout << this->getAdditionalInfo() << endl;
+    }
+};
+
+int main() {
+    string carMake, carModel, motorcycleMake, motorcycleModel, motorcycleType;
+    int carYear, motorcycleYear, carNumDoors;
+    double carRentalPrice, motorcycleRentalPrice;
+    cin >> carMake >> carModel >> carYear >> carRentalPrice >> carNumDoors;
+    cin.ignore(); 
+
+    cin >> motorcycleMake >> motorcycleModel >> motorcycleYear >> motorcycleRentalPrice >> motorcycleType;
+    cin.ignore();
+
+    Car car1(carMake, carModel, carYear, carRentalPrice, carNumDoors);
+    Motorcycle motorcycle1(motorcycleMake, motorcycleModel, motorcycleYear, motorcycleRentalPrice, motorcycleType);
+
+    cout << "Vehicle Details:" << endl;
+    car1.displayDetails();
+    motorcycle1.displayDetails();
+
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Yugitha is developing an online store product management system that allows sellers to add and manage various types of products on their online store. She wants to implement a flexible and scalable solution using class templates with inheritance. The system should support two types of products: Electronic Products and Clothing Items. Each product will have a product code, a product name,a price, and additional properties specific to its type.
+
+Input format :
+The input consists of the following for each product type:
+
+Electronic Product:
+
+Product Code (string)
+Product Name (string)
+Price (double)
+Brand (string)
+Clothing Item:
+
+Product Code (string)
+Product Name (string)
+Price (double)
+Size (string)
+Output format :
+The output displays the details of each product in the following format:
+
+
+
+For Electronic Product:
+
+Electronic Product Details: <Product Code> <Product Name> <Price>
+
+Brand: <Brand>
+
+For Clothing items:
+
+Clothing Item Details: <Product Code> <Product Name> <Price>
+
+Size: <Size>
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The product code will be a string of alphanumeric characters (no spaces).
+
+The product name will be a string containing alphanumeric characters and spaces.
+
+The price will be a positive floating-point number.
+
+The brand for Electronic Product and the size for Clothing Item will be strings containing alphanumeric characters and spaces.
+
+Sample test cases :
+Input 1 :
+E001 Smartphone 500.00 Apple
+C001 T-Shirt 25.00 M
+Output 1 :
+Product Details:
+Electronic Product Details: E001 Smartphone 500
+Brand: Apple
+Clothing Item Details: C001 T-Shirt 25
+Size: M
+Whitelist
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <typename T>
+class Product {
+public:
+    Product(const string& productCode, const string& productName, double price)
+        : productCode(productCode), productName(productName), price(price) {}
+
+    virtual void displayDetails() const {
+        cout << productCode << " " << productName << " " << price << endl;
+    }
+
+protected:
+    string productCode;
+    string productName;
+    double price;
+};
+
+template <typename T>
+class ElectronicProduct : public Product<T> {
+public:
+    ElectronicProduct(const string& productCode, const string& productName, double price, const string& brand)
+        : Product<T>(productCode, productName, price), brand(brand) {}
+
+    void displayDetails() const override {
+        cout << "Electronic Product Details: ";
+        Product<T>::displayDetails();
+        cout << "Brand: " << brand << endl;
+    }
+
+private:
+    string brand;
+};
+
+template <typename T>
+class ClothingItem : public Product<T> {
+public:
+    ClothingItem(const string& productCode, const string& productName, double price, const string& size)
+        : Product<T>(productCode, productName, price), size(size) {}
+
+    void displayDetails() const override {
+        cout << "Clothing Item Details: ";
+        Product<T>::displayDetails();
+        cout << "Size: " << size;
+    }
+
+private:
+    string size;
+};
+
+int main() {
+    string productCode, productName, brandOrSize;
+    double price;
+
+    cin >> productCode >> productName >> price >> brandOrSize;
+    ElectronicProduct<string> electronicProduct(productCode, productName, price, brandOrSize);
+
+    cin >> productCode >> productName >> price >> brandOrSize;
+    ClothingItem<string> clothingItem(productCode, productName, price, brandOrSize);
+
+    cout << "Product Details:" << endl;
+    electronicProduct.displayDetails();
+    clothingItem.displayDetails();
+
+    return 0;
+}
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Hema is a financial advisor who wants to create a template-based program to manage savings accounts for her clients. The program should allow her to add and manage multiple savings accounts, perform transactions like deposits and withdrawals, and display account details. 
+
+
+
+Each savings account will have an account number, the account holder's name, an initial balance, and an interest rate. Hema wants to efficiently manage the accounts and provide her clients with quick updates on their account details and transactions.
+
+
+
+Write a program using class templates using inheritance to fulfill Hema's requirements.
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The input consists of the following format:
+
+
+
+For each savings account:
+
+Savings Account Number (string)
+
+Account Holder Name (string)
+
+Initial Balance (floating-point number)
+
+Interest Rate (floating-point number)
+
+
+
+For transactions:
+
+Amount to deposit (floating-point number)
+
+Amount to withdraw (floating-point number)
+
+Output format :
+The output displays the following details:
+
+
+
+For each savings account:
+
+Savings Account Details:
+
+Account Number: <Account Number>
+
+Account Holder: <Account Holder Name>
+
+Balance: <Initial Balance>
+
+Interest Rate: <Interest Rate>%
+
+
+
+After each transaction (deposit or withdrawal), it will display the updated balance:
+
+<Updated Balance>
+
+If the withdrawal balance is insufficient, prints "Insufficient balance".
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The account number and account holder name are non-empty strings with a maximum length of 100 characters.
+
+The initial balance and interest rate are floating-point numbers.
+
+The interest rate is given as a percentage (e.g., 5.5 means 5.5% interest rate).
+
+Sample test cases :
+Input 1 :
+12345678
+John Doe
+1000.50
+5.5
+500.75
+200.25
+Output 1 :
+Savings Account Details: 
+12345678 John Doe 1000.5
+5.5%
+1501.25
+1301
+Input 2 :
+45678
+Michael Johnson
+500.00
+3.2
+250.50
+1000.00
+Output 2 :
+Savings Account Details: 
+45678 Michael Johnson 500
+3.2%
+750.5
+Insufficient balance
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <typename T>
+class BankAccount {
+public:
+    BankAccount(const string& accountNumber, const string& accountHolder, T balance)
+        : accountNumber(accountNumber), accountHolder(accountHolder), balance(balance) {}
+
+    void displayDetails() const {
+        cout << accountNumber << " " << accountHolder << " " << balance << endl;
+    }
+
+    void deposit(T amount) {
+        balance += amount;
+        cout << balance << endl;
+    }
+
+    void withdraw(T amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            cout << balance;
+        } else {
+            cout << "Insufficient balance";
+        }
+    }
+
+protected:
+    string accountNumber;
+    string accountHolder;
+    T balance;
+};
+template <typename T>
+class SavingsAccount : public BankAccount<T> {
+public:
+    SavingsAccount(const string& accountNumber, const string& accountHolder, T balance, double interestRate)
+        : BankAccount<T>(accountNumber, accountHolder, balance), interestRate(interestRate) {}
+
+    void displayDetails() const {
+        cout << "Savings Account Details: " << endl;
+        BankAccount<T>::displayDetails();
+        cout << interestRate << "%" << endl;
+    }
+
+private:
+    double interestRate;
+};
+
+int main() {
+    string accountNumber, accountHolder;
+    double balance, interestRate;
+    double depositAmount, withdrawAmount;
+    cin >> accountNumber;
+    cin.ignore();
+    getline(cin, accountHolder);
+    cin >> balance;
+    cin >> interestRate;
+    SavingsAccount<double> savingsAccount(accountNumber, accountHolder, balance, interestRate);
+    savingsAccount.displayDetails();
+    cin >> depositAmount;
+    savingsAccount.deposit(depositAmount);
+    cin >> withdrawAmount;
+    savingsAccount.withdraw(withdrawAmount);
+    return 0;
+}
+
+
+
+Question No: 6
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+You are tasked with designing a simple Library Management System to keep track of two types of books: Fiction and Non-Fiction. The system should allow users to add book details, display book information, and perform book checkout operations.
+
+
+
+Requirements:
+
+
+
+Implement a class template Book<T> to represent a book, where T is a placeholder for the derived book types (FictionBook and NonFictionBook).
+
+
+
+The Book class should have the following attributes and functionalities:
+
+Attributes:
+
+string title: representing the title of the book.
+
+string author: representing the author of the book.
+
+bool available: representing the availability status of the book (true for available, false for not available).
+
+Functions:
+
+Book(): default constructor.
+
+Book(const string& title, const string& author, bool available): parameterized constructor to initialize book details.
+
+void displayDetails() const: a virtual function to display book details.
+
+void checkout(): a function to perform book checkout.
+
+
+
+Implement two derived classes, FictionBook and NonFictionBook, from the Book class using class templates with inheritance for specific book types.
+
+
+
+The FictionBook class should have an additional attribute string, genre to store the genre of the fiction book.
+
+The NonFictionBook class should have an additional attribute string, subject to store the subject of the non-fiction book.
+
+The FictionBook and NonFictionBook classes should override the displayDetails() function to display book details along with their specific attributes.
+
+Input format :
+The input consists of the following format:
+
+
+
+For each Fiction Book:
+
+title: A string representing the title of the fiction book.
+
+author: A string representing the author of the fiction book.
+
+available: A boolean (1 or 0) indicating whether the fiction book is available for checkout.
+
+genre: A string representing the genre of the fiction book.
+
+
+
+For each Non-Fiction Book:
+
+title: A string representing the title of the non-fiction book.
+
+author: A string representing the author of the non-fiction book.
+
+available: A boolean (1 or 0) indicating whether the non-fiction book is available for checkout.
+
+subject: A string representing the subject of the non-fiction book.
+
+Output format :
+The output displays the following information for each book:
+
+
+
+For each Fiction Book:
+
+Fiction Book Details:
+
+Title: <title> Author: <author> Status: <available> Genre: <genre>
+
+For each Non-Fiction Book:
+
+Non-Fiction Book Details:
+
+Title: <title> Author: <author> Status: <available> Subject: <subject>
+
+
+
+After displaying the book details, the program will perform the checkout operation for each book and display the status of checkout.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The title and author of the book will be non-empty strings of at most 100 characters each.
+
+The genre and subject of the books will be non-empty strings of at most 50 characters each.
+
+The available attribute will be a boolean (1 or 0) representing whether the book is available (1) or not available (0) for checkout.
+
+The program should handle at most 1000 books in total (both fiction and non-fiction combined).
+
+The input data will be well-formatted and valid.
+
+Sample test cases :
+Input 1 :
+Gatsby
+F. Scott 
+1
+Romance
+The Catcher
+J.D. 
+0
+Age
+Output 1 :
+Fiction Book Details: 
+Gatsby F. Scott  Available Romance
+Non-Fiction Book Details: 
+The Catcher J.D.  Not Available Age
+Checking out books details: 
+Book "Gatsby" is available for checkout.
+Book "The Catcher" is not available for checkout.
+Input 2 :
+Harry
+J.K. 
+1
+Fantasy
+History
+Stephen
+1
+Physics
+Output 2 :
+Fiction Book Details: 
+Harry J.K.  Available Fantasy
+Non-Fiction Book Details: 
+History Stephen Available Physics
+Checking out books details: 
+Book "Harry" is available for checkout.
+Book "History" is available for checkout.
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+using namespace std;
+
+template <typename T>
+class Book {
+public:
+    Book() {}
+    Book(const string& title, const string& author, bool available)
+        : title(title), author(author), available(available) {}
+    virtual void displayDetails() const {
+        cout << title << " " << author << " " << (available ? "Available" : "Not Available");
+    }
+
+    void checkout() {
+        if (available) {
+            available = false;
+            cout << "Book \"" << title << "\" is available for checkout." << "\n";
+        } else {
+            cout << "Book \"" << title << "\" is not available for checkout.";
+        }
+    }
+
+protected:
+    string title;
+    string author;
+    bool available;
+};
+
+class FictionBook : public Book<FictionBook> {
+public:
+    FictionBook() {} 
+    FictionBook(const string& title, const string& author, bool available, const string& genre)
+        : Book(title, author, available), genre(genre) {}
+    void displayDetails() const override {
+        cout << "Fiction Book Details: " << endl;
+        Book::displayDetails();
+        cout << " " << genre << endl;
+    }
+
+private:
+    string genre;
+};
+
+class NonFictionBook : public Book<NonFictionBook> {
+public:
+    NonFictionBook() {}
+    NonFictionBook(const string& title, const string& author, bool available, const string& subject)
+        : Book(title, author, available), subject(subject) {}
+    void displayDetails() const override {
+        cout << "Non-Fiction Book Details: "<< endl;
+        Book::displayDetails();
+        cout << " " << subject;
+    }
+
+private:
+    string subject;
+};
+
+int main() {
+    string title, author, genreOrSubject;
+    bool available;
+    getline(cin, title);
+    getline(cin, author);
+    cin >> available;
+    cin.ignore();
+    getline(cin, genreOrSubject);
+    FictionBook fictionBook1(title, author, available, genreOrSubject);
+    getline(cin, title);
+    getline(cin, author);
+    cin >> available;
+    cin.ignore(); 
+    getline(cin, genreOrSubject);
+    NonFictionBook nonFictionBook1(title, author, available, genreOrSubject);
+    fictionBook1.displayDetails();
+    nonFictionBook1.displayDetails();
+    cout << "\nChecking out books details: " << endl;
+    fictionBook1.checkout();
+    nonFictionBook1.checkout();
+    return 0;
+}
+
+
+ingle File Programming Question
+Problem Statement
+
+
+
+In the company's onboarding process, ensuring that new employees complete the required training modules is essential for their professional growth. The HR department maintains two separate lists: vec1 and vec2, which represent the IDs of the training modules that each employee needs to undergo.
+
+
+
+To optimize the onboarding process, a custom function called "mergeAndSortVectors" has been designed to merge these two lists into a single list, mergedVec.
+
+
+
+The function guarantees that the training module IDs in the mergedVec are sorted in ascending order, ensuring a streamlined and effective onboarding experience for the new employees.
+
+
+
+Note: This kind of question will be helpful in clearing Mettl recruitment.
+
+Input format :
+The first line of input consists of the size of the first vector, M.
+
+The second line of input consists of M space-separated elements of the first vector.
+
+The third line of input consists of the size of the second vector, N.
+
+The fourth line of input consists of N space-separated elements of the second vector.
+
+Output format :
+The output displays the merged elements of both lists in sorted order separated by a space.
+
+Code constraints :
+1 <= M, N <= 103
+
+Sample test cases :
+Input 1 :
+5
+2 4 6 8 10
+5
+1 3 5 7 9
+Output 1 :
+1 2 3 4 5 6 7 8 9 10 
+
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+std::vector<int> mergeAndSortVectors(const std::vector<int>& vec1, const std::vector<int>& vec2) {
+    std::vector<int> mergedVec;
+    mergedVec.reserve(vec1.size() + vec2.size());
+    std::merge(vec1.begin(), vec1.end(), vec2.begin(), vec2.end(), std::back_inserter(mergedVec));
+    std::sort(mergedVec.begin(), mergedVec.end());
+    return mergedVec;
+}
+
+int main() {
+    int size1, size2;
+    std::cin >> size1;
+    std::vector<int> vec1(size1);
+    for (int i = 0; i < size1; ++i) {
+        std::cin >> vec1[i];
+    }
+    std::cin >> size2;
+    std::vector<int> vec2(size2);
+    for (int i = 0; i < size2; ++i) {
+        std::cin >> vec2[i];
+    }
+    std::vector<int> mergedVec = mergeAndSortVectors(vec1, vec2);
+    for (int num : mergedVec) {
+        std::cout << num << " ";
+    }
+    return 0;
+}
+
+
+
+
+uestion No: 8
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+In the music playlist application, offering a personalized and distinct listening experience to users is crucial. To ensure that users' playlists do not contain duplicate songs, the application has developed a custom function called getUniqueElements. 
+
+
+
+When users create a playlist and add songs to the "songsList," the "getUniqueElements" function efficiently filters out any duplicate song IDs. As a result, users receive a new list that contains only the unique song IDs, providing a well-curated and uninterrupted music-listening experience. 
+
+Input format :
+The first line consists of the number of songs in the songsList, N.
+
+The second line consists of N song IDs separated by a space.
+
+Output format :
+The output displays the filtered list after removing the duplicates in a sorted order.
+
+Code constraints :
+1 <= N <= 104
+
+Sample test cases :
+Input 1 :
+5
+14 8 65 65 14
+Output 1 :
+8 14 65 
+Input 2 :
+5
+64 64 64 64 64
+Output 2 :
+64 
+
+
+// You are using GCC
+#include <iostream>
+#include <list>
+#include <algorithm>
+std::list<int> getUniqueElements(const std::list<int>& numbersList) {
+    std::list<int> uniqueList = numbersList;
+    uniqueList.sort();
+    uniqueList.unique();
+    return uniqueList;
+}
+int main() {
+    int size;
+    std::cin >> size;
+    std::list<int> numbersList;
+    int input;
+    for (int i = 0; i < size; ++i) {
+        std::cin >> input;
+        numbersList.push_back(input);
+    }
+    std::list<int> uniqueList = getUniqueElements(numbersList);
+    for (int num : uniqueList) {
+        std::cout << num << " ";
+    }
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+﻿In a gynecologist's clinic, efficiently managing doctor appointments is crucial for providing timely care to patients. The clinic maintains a record where each element represents a patient's ID based on their arrival time. To offer flexibility to patients, the clinic has designed a custom function called "removeElement" that allows patients to cancel their appointments.
+
+
+
+When a patient requests to cancel their appointment (represented by the target patient ID), the function efficiently removes all occurrences of that patient's ID from the appointment queue, ensuring a smooth and well-organized appointment process. 
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The first line of input consists of the number of patients, N.
+
+The second line of input consists of N space-separated patient IDs.
+
+The third line of input consists of the ID, M for which the appointment has to be canceled.
+
+Output format :
+If M is present in the patients' IDs, the output displays all IDs in exact order after removing M.
+
+If M is not present in the patients' IDs, the output displays all IDs in exact order.
+
+Code constraints :
+1 <= M, N <= 104
+
+Sample test cases :
+Input 1 :
+5
+2 4 6 8 10
+6
+Output 1 :
+2 4 8 10 
+Input 2 :
+5
+2 4 6 8 10
+1
+Output 2 :
+2 4 6 8 10 
+
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+void removeElement(std::vector<int>& dataVec, int target) {
+    dataVec.erase(std::remove(dataVec.begin(), dataVec.end(), target), dataVec.end());
+}
+int main() {
+    int size;
+    std::cin >> size;
+    std::vector<int> dataVec;
+    int input;
+    for (int i = 0; i < size; ++i) {
+        std::cin >> input;
+        dataVec.push_back(input);
+    }
+    int target;
+    std::cin >> target;
+    removeElement(dataVec, target);
+    for (int num : dataVec) {
+        std::cout << num << " ";
+    }
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+You are tasked with developing a simple Food Ordering System for a restaurant. The system allows customers to add food items to their order, update the quantity of items, and calculate the total bill. The restaurant can handle up to 100 different food items. Implement the system using iterators to efficiently manage the orders.
+
+Input format :
+The input consists of the following format:
+
+
+
+The user is presented with a menu of options:
+
+Add Order: The user can add a new food item to the order by providing the following details:
+
+Food item name (a string)
+
+Quantity of the food item (an integer)
+
+Price of the food item (a floating-point number)
+
+Update Quantity: The user can update the quantity of an already ordered food item by providing the following details:
+
+Food item name (a string)
+
+New quantity of the food item (an integer)
+
+Calculate Total Bill: The user can calculate the total bill for the current order.
+
+Exit: The user can choose to exit the system, ending the program.
+
+Output format :
+The output displays the following format:
+
+
+
+When the user chooses option 1, 2, or 4, there is no specific output other than the appropriate status messages as per the user's actions.
+
+When the user chooses option 3 to calculate the total bill, the program should display the total bill for the current order in the format: "Total Bill: $<total_bill>".
+
+If the user chooses option 2 (Update Quantity) for an item that is not present in the order, the program should display the following message:
+
+Item not found in the order.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The food item's name will be a single word without any spaces.
+
+The quantity of a food item will be a positive integer.
+
+The price of a food item will be a positive floating-point number.
+
+Sample test cases :
+Input 1 :
+1
+Pizza
+2
+12.5
+1
+Coke
+3
+2.0
+2
+Pizza
+6
+3
+4
+Output 1 :
+Total Bill: $81
+Input 2 :
+1
+Burger
+1
+8.0
+2
+Pizza
+2
+3
+7
+4
+Output 2 :
+Item not found in the order.
+Total Bill: $8
+Invalid choice
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <algorithm>
+const int MAX_ITEMS = 100;
+
+struct FoodItem {
+    std::string name;
+    int quantity;
+    double price;
+};
+
+class OrderManagement {
+private:
+    FoodItem items[MAX_ITEMS];
+    int itemCount = 0; 
+
+public:
+    void addOrder(const std::string& name, int quantity, double price) {
+        if (itemCount < MAX_ITEMS) {
+            items[itemCount] = {name, quantity, price};
+            itemCount++;
+        }
+        else {
+            std::cout << "Maximum order items reached" << std::endl;
+        }
+    }
+
+    void updateQuantity(const std::string& name, int newQuantity) {
+        auto it = std::find_if(std::begin(items), std::begin(items) + itemCount, [name](const FoodItem& item) {
+            return item.name == name;
+        });
+        if (it != std::begin(items) + itemCount) {
+            it->quantity = newQuantity;
+        }
+        else {
+            std::cout << "Item not found in the order." << std::endl;
+        }
+    }
+
+    double getTotalBill() {
+        double total = 0.0;
+        for (auto it = std::begin(items); it != std::begin(items) + itemCount; ++it) {
+            total += it->price * it->quantity;
+        }
+        return total;
+    }
+};
+
+int main() {
+    OrderManagement order;
+    while (true) {
+        int choice;
+        std::cin >> choice;
+        if (choice == 1) {
+            std::string name;
+            int quantity;
+            double price;
+            std::cin >> name;
+            std::cin >> quantity;
+            std::cin >> price;
+            order.addOrder(name, quantity, price);
+        }
+        else if (choice == 2) {
+            std::string name;
+            int quantity;
+            std::cin >> name;
+            std::cin >> quantity;
+            order.updateQuantity(name, quantity);
+        }
+        else if (choice == 3) {
+            double bill = order.getTotalBill();
+            std::cout << "Total Bill: $" << bill << std::endl;
+        }
+        else if (choice == 4) {
+            break; 
+        }
+        else {
+            std::cout << "Invalid choice";
+        }
+    }
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+Happy Paws, owned by Kaushik, is a pet onboarding system that prioritizes maintaining accurate and up-to-date records of all registered pets. The system utilizes a list called "petDataList" to store comprehensive details about each pet, including their unique ID.
+
+
+
+To empower pet owners with control over their pets' information, the system has implemented a custom function called "removeElement." This function allows pet owners to request the removal of their pet's record from the system by providing the pet's ID (target) as input.
+
+
+
+The "removeElement" function efficiently handles these requests, ensuring a well-organized and streamlined pet onboarding process for all pet owners. 
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line of input consists of the number of pets of the "petDataList", N.
+
+The second line of input consists of the pet IDs separated by a space.
+
+The third line of input consists of the pet ID to be removed from the list, M.
+
+Output format :
+The program will display the updated "petDataList" after removing all occurrences of the specified pet ID.
+
+If it is not present in the list, the input will be printed as such.
+
+Code constraints :
+1 <= M, N <= 105
+
+Sample test cases :
+Input 1 :
+5
+6 69 1 26 15
+15
+Output 1 :
+6 69 1 26 
+Input 2 :
+5
+6 69 1 26 15
+158
+Output 2 :
+6 69 1 26 15 
+
+
+// You are using GCC
+#include <iostream>
+#include <list>
+
+void removeElement(std::list<int>& dataList, int target) {
+    dataList.remove(target);
+}
+
+int main() {
+    int size;
+    std::cin >> size;
+    std::list<int> dataList;
+    int input;
+    for (int i = 0; i < size; ++i) {
+        std::cin >> input;
+        dataList.push_back(input);
+    }
+    int target;
+    std::cin >> target;
+    removeElement(dataList, target);
+    for (int num : dataList) {
+        std::cout << num << " ";
+    }
+    std::cout << std::endl;
+    return 0;
+}
+
+
+
+
+ingle File Programming Question
+Problem Statement
+
+
+
+Isha is a store manager at a local supermarket. She needs a program to manage the inventory at the supermarket. The inventory management system should allow her to perform various tasks like adding products to the inventory, updating the quantity of existing products, and displaying the inventory details.
+
+
+
+Isha's Requirements:
+
+
+
+The program should use algorithms and iterators to efficiently search for products and update their quantities.
+
+The inventory system should support a maximum of 100 different products.
+
+The user should be able to choose from the following options:
+
+1: Add a new product to the inventory.
+
+2: Update the quantity of an existing product in the inventory.
+
+3: Display the details of all the products in the inventory.
+
+4: Exit the program.
+
+Input format :
+The input consists of an integer representing their choice from the available options (1, 2, 3, or 4).
+
+
+
+For option 1 (Add Product), the user will enter the product name (a string with no spaces), the product quantity (an integer), and the product price (a floating-point number).
+
+For option 2 (Update Quantity), the user will enter the product name (a string with no spaces) and the new quantity (an integer).
+
+For option 3 (Display Inventory), there is no additional input required.
+
+Output format :
+The output displays the following format:
+
+
+
+For choices 1, 2, and 4, there should be no specific output other than appropriate status messages for adding products, updating quantities, and exiting the loop.
+
+
+
+For choice 3 (Display Inventory), the program should display the current inventory details in the following format:
+
+Inventory Details:
+
+Name: <product_name>, Quantity: <quantity>, Price: $<price>
+
+The details of each product should be displayed on separate lines.
+
+
+
+If Isha chooses option 2 (Update Quantity) for a product that is not present in the inventory, the program should display the following message:
+
+Product not found in inventory.
+
+
+
+If Isha chooses option 4 (exit program), The program should display the Invalid choice.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The product name is a string without spaces and contains at most 100 characters.
+
+The quantity of a product is a positive integer not exceeding 1000.
+
+The price of a product is a floating-point number not exceeding 10000.00.
+
+Sample test cases :
+Input 1 :
+1
+Laptop
+10
+90000
+2
+Laptop
+11
+3
+7
+4
+Output 1 :
+Inventory Details:
+Name: Laptop, Quantity: 11, Price: $90000
+Invalid choice
+Input 2 :
+1
+Laptop
+10
+800.50
+2
+Mouse
+8
+3
+4
+Output 2 :
+Product not found in inventory.
+Inventory Details:
+Name: Laptop, Quantity: 10, Price: $800.5
+
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+struct Product {
+    std::string name;
+    int quantity;
+    double price;
+};
+class InventoryManagement {
+private:
+    std::vector<Product> products;
+public:
+    void addProduct(const std::string& name, int quantity, double price) {
+        products.push_back({name, quantity, price});
+    }
+    void updateQuantity(const std::string& name, int newQuantity) {
+        auto it = std::find_if(products.begin(), products.end(), [name](const Product& p) {
+            return p.name == name;
+        });
+        if (it != products.end()) {
+            it->quantity = newQuantity;
+        }
+        else {
+            std::cout << "Product not found in inventory." << std::endl;
+        }
+    }
+
+    void displayInventory() {
+        std::cout << "Inventory Details:" << std::endl;
+        for (const Product& p : products) {
+            std::cout << "Name: " << p.name << ", Quantity: " << p.quantity << ", Price: $" << p.price << std::endl;
+        }
+    }
+};
+
+int main() {
+    InventoryManagement inventory;
+    while (true) {
+        int choice;
+        std::cin >> choice;
+        std::cin.ignore(); 
+        if (choice == 1) {
+            std::string name;
+            int quantity;
+            double price;
+            std::getline(std::cin, name);
+            std::cin >> quantity;
+            std::cin.ignore();
+            std::cin >> price;
+            std::cin.ignore(); 
+            inventory.addProduct(name, quantity, price);
+        }
+        else if (choice == 2) {
+            std::string name;
+            int quantity;
+            std::getline(std::cin, name);
+            std::cin >> quantity;
+            std::cin.ignore(); 
+            inventory.updateQuantity(name, quantity);
+        }
+        else if (choice == 3) {
+            inventory.displayInventory();
+        }
+        else if (choice == 4) {
+            break;
+        }
+        else {
+            std::cout << "Invalid choice" << std::endl;
+        }
+    }
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Renuga is a math teacher who wants to create a program to calculate and manipulate geometric shapes. She wants to write a program that allows her to create and analyze various shapes, including circles and cubes. Renuga wants to use class templates and inheritance to achieve code reusability and flexibility. She also wants to incorporate methods to calculate the area of shapes and display their details.
+
+
+
+Renuga wants to define a base class called Shape that serves as an interface for different shapes. The Shape class should be a template class to support different numeric types.
+
+
+
+Renuga wants to implement two specialized classes, Circle and Cube, that inherit from the Shape class. Each specialized class should provide its own implementation of the pure virtual functions defined in the Shape class.
+
+
+
+Note: This kind of sample question is asked in the HCL requirement.
+
+Input format :
+The first line consists of an integer to select the shape type: 1 for Circle or 2 for Cube.
+
+Depending on the shape type chosen, you need to provide the following inputs:
+
+For a Circle:
+
+The radius (a double value).
+
+The X and Y coordinates of the center point (two double values).
+
+For a Cube:
+
+The side length (a double value)
+
+The X, Y, and Z coordinates of the center point (three double values)
+
+Output format :
+The output displays the following information:
+
+
+
+For a Circle:
+
+The details of the circle, including the radius and area,
+
+For a Cube:
+
+The details of the cube, including the side length and surface area.
+
+
+
+If the values are invalid, print the invalid message.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+The radius, side length, coordinates, and translation values should be valid double values.
+
+The shape type should be either 1 (Circle) or 2 (Cube).
+
+Sample test cases :
+Input 1 :
+1
+4.0
+1.0 2.0 3.0
+Output 1 :
+Circle Details:
+Circle with radius: 4
+Area: 50.2655
+Input 2 :
+2
+5.0
+2.0 3.0
+Output 2 :
+Cube Details:
+Cube with side length: 5
+Surface area: 150
+Input 3 :
+3
+Output 3 :
+Invalid shape type selected.
+
+
+#include <iostream>
+#include <cmath>
+
+template <typename T>
+class Shape {
+public:
+    virtual void input() = 0;
+    virtual void display() = 0;
+    virtual T area() = 0;
+};
+
+template <typename T>
+class Circle : public Shape<T> {
+private:
+    T radius;
+    T x, y;
+
+public:
+    void input() {
+        std::cin >> radius >> x >> y;
+    }
+
+    void display() {
+        std::cout << "Circle Details:" << std::endl;
+        std::cout << "Circle with radius: " << radius << std::endl;
+        std::cout << "Area: " << area() << std::endl;
+    }
+
+    T area() {
+        return M_PI * radius * radius;
+    }
+};
+
+template <typename T>
+class Cube : public Shape<T> {
+private:
+    T sideLength;
+    T x, y, z;
+
+public:
+    void input() {
+        std::cin >> sideLength >> x >> y >> z;
+    }
+
+    void display() {
+        std::cout << "Cube Details:" << std::endl;
+        std::cout << "Cube with side length: " << sideLength << std::endl;
+        std::cout << "Surface area: " << area() << std::endl;
+    }
+
+    T area() {
+        return 6 * sideLength * sideLength;
+    }
+};
+
+int main() {
+    int shapeType;
+    std::cin >> shapeType;
+
+    Shape<double>* shape;
+
+    if (shapeType == 1) {
+        shape = new Circle<double>();
+    } else if (shapeType == 2) {
+        shape = new Cube<double>();
+    } else {
+        std::cout << "Invalid shape type selected." << std::endl;
+        return 0;
+    }
+
+    shape->input();
+    shape->display();
+
+    delete shape;
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Thamizh is organizing a charity event to raise funds for various causes. As part of the event, he planned to conduct a unique auction for special items donated by the participants. To make the auction more interesting, he wants to ensure that each item to be auctioned has a unique starting bid.
+
+
+
+Write a program to help you manage the unique starting bids for the auction items. The program should take input for the number of auction items (not more than 15) and their respective starting bids. However, since you want to avoid any complications during the auction, you need to ensure that each starting bid is unique. If there are any duplicate starting bids, the program should remove the duplicates and calculate the total sum of the unique starting bids.
+
+
+
+Note: This kind of question will help in clearing Capgemini recruitment.
+
+Input format :
+The first line of the input represents the number of elements.
+
+The second line contains the elements.
+
+Output format :
+The output displays the sum of unique elements.
+
+Print -1 if constraints are violated.
+
+Code constraints :
+Number of elements <= 15
+
+Sample test cases :
+Input 1 :
+5
+1 5 4 4 1
+Output 1 :
+Sum of unique elements:10
+Input 2 :
+20
+Output 2 :
+-1
+
+
+
+#include <iostream>
+#include <unordered_set>
+#include <list>
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    if (n > 15) {
+        std::cout << "-1" << std::endl;
+        return 0;
+    }
+
+    std::unordered_set<int> uniqueBids;
+    int bid, sum = 0;
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> bid;
+        uniqueBids.insert(bid);
+    }
+
+    for (int uniqueBid : uniqueBids) {
+        sum += uniqueBid;
+    }
+
+    std::cout << "Sum of unique elements: " << sum << std::endl;
+
+    std::list<int> emptyList;
+
+    return 0;
+}
+
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Beula is working on a data analysis project where you need to determine the number of characters except for the input character in a given text. Write a program that prints the number of characters except for the input character without using loops.
+
+
+
+Hint: Use the count_if function template.
+
+Input format :
+The first line contains a string c (up to 50 characters) consisting of uppercase and lowercase letters only.
+
+The second line contains a single character, ch, which is the character to be counted in the string c.
+
+Output format :
+The output consists of a single integer representing the count of occurrences of the character ch in the string c.
+
+Code constraints :
+The length of the string c will be at most 50 characters.
+
+The character ch will be a valid ASCII character (uppercase or lowercase letter).
+
+Sample test cases :
+Input 1 :
+government
+n
+Output 1 :
+8
+Input 2 :
+businesS@34
+s
+Output 2 :
+9
+Input 3 :
+ProgrammingwithCPP
+P
+Output 3 :
+15
+
+
+#include <iostream>
+#include <algorithm>
+#include <string>
+
+int main() {
+    std::string c;
+    std::getline(std::cin, c);
+
+    char ch;
+    std::cin >> ch;
+
+    int count = std::count_if(c.begin(), c.end(), [ch](char c) {
+        return c != ch;
+    });
+
+    std::cout << count << std::endl;
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Ragul is a software developer who wants to create a program that can execute different programming languages. He wants to design a code that uses templates and inheritance to support multiple programming languages such as C++, Java, and Python. Ragul wants to provide a common interface for executing programs in these languages and implement language-specific execution logic for each language.
+
+
+
+Ragul wants to define a base class template called ProgrammingLanguage that represents a programming language. The class should have a constructor that takes the name of the programming language as a parameter.
+
+
+
+Ragul wants to implement specialized classes for each programming language, including CPlusPlus, Java, and Python. Each specialized class should inherit from the ProgrammingLanguage class template and provide an implementation for the execute method.
+
+
+
+Ragul wants to provide a method called executeProgram in the ProgrammingLanguage class template that takes a program as input and executes it. This method should internally call the language-specific execute method.
+
+Input format :
+The input consists of a program for each programming language.
+
+The input should be entered as a single line of text.
+
+Output format :
+The program should display the output of the executed program for each programming language.
+
+The output should be displayed on a single line.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+Strings only
+
+Sample test cases :
+Input 1 :
+Hello, C++
+Hello, Java
+Hello, Python
+Output 1 :
+C++ program output: Hello, C++
+Java program output: Hello, Java
+Python program output: Hello, Python
+Note :
+
+

@@ -1,0 +1,2002 @@
+
+
+
+Problem Statement
+
+
+
+You have been tasked with creating a Generic Pair Management System that can store and manage pairs of different data types. Each pair consists of two values - a float and a double. The system should provide functionalities to swap the values in the pair and display the pair details.
+
+
+
+Your task is to implement a template class called PairBase that can represent the base class for managing pairs of float and double values. The PairBase class should have the following functionalities:
+
+
+
+swap(): Swap the values in the pair.
+
+display(): Display the details of the pair, including both float and double values.
+
+Using the PairBase class, create a derived class template called PairDerived that inherits from PairBase to represent specific pairs of float and double values. The PairDerived class should inherit the functionalities from the base class and provide methods to work with the pair of values.
+
+
+
+Your task is to design the PairBase template class and the PairDerived derived class template to represent the float and double pairs effectively. Demonstrate the functionality of the classes by creating an instance of PairDerived and performing the swap operation on the pair values. Display the pair details before and after the swap to verify the correctness of your implementation.
+
+
+
+Note: This kind of question will be helpful in clearing CTS recruitment.
+
+Input format :
+The input consists of a floating-point and double-point values
+
+Output format :
+The output consists of swapping of two numbers
+
+
+
+Refer to the sample input and output for format specifications.
+
+Sample test cases :
+Input 1 :
+45.43
+96.25
+Output 1 :
+Values before swap: 
+First: 45.43
+Second: 96.25
+Values after swap: 
+First: 96.25
+Second: 45.43
+Input 2 :
+968.32
+478.25
+Output 2 :
+Values before swap: 
+First: 968.32
+Second: 478.25
+Values after swap: 
+First: 478.25
+Second: 968.32
+
+
+// You are using GCC
+#include <iostream>
+using namespace std;
+
+// Base class template
+template <class T1, class T2>
+class PairBase {
+protected:
+    T1 first;
+    T2 second;
+
+public:
+    PairBase(T1 f, T2 s) : first(f), second(s) {}
+
+    void swap() {
+        T1 temp = first;
+        first = second;
+        second = temp;
+    }
+
+    void display() {
+        cout << "First: " << first << endl;
+        cout << "Second: " << second << endl;
+    }
+};
+
+// Derived class template
+template <class T1, class T2>
+class PairDerived : public PairBase<T1, T2> {
+public:
+    PairDerived(T1 f, T2 s) : PairBase<T1, T2>(f, s) {}
+};
+
+int main() {
+    float a;
+    double b;
+    cin >> a;
+    cin >> b;
+    PairDerived<float, double> p(a, b);
+
+    cout << "Values before swap: " << endl;
+    p.display();
+
+    p.swap();
+
+    cout << "Values after swap: " << endl;
+    p.display();
+
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+You have been tasked with developing a generic Stack Data Structure to handle different types of data. The system should allow users to create and manage stacks of integers and doubles with ease.
+
+
+
+Your task is to implement a template class called StackBase that can store and manage elements of different data types (integers and doubles). The StackBase class should have the following functionalities:
+
+
+
+push(T x): Add an element to the stack.
+
+pop(): Remove the top element from the stack.
+
+display(): Display the elements in the stack.
+
+Using the StackBase class, the system should allow users to create two stacks: one for integers and another for doubles. Users should be able to push elements into the stacks, pop elements from the stacks, and display the elements in the stacks.
+
+
+
+Your task is to implement the StackBase template class and demonstrate its functionality in the Stack Data Structure System.
+
+Input format :
+The first line of input contains an integer n, the number of elements to be pushed onto the integer stack.
+
+The second line contains n space-separated integers, the elements to be pushed onto the integer stack.
+
+The third line contains an integer m, the number of elements to be pushed onto the double stack.
+
+The fourth line contains m space-separated doubles, the elements to be pushed onto the double stack.
+
+Output format :
+The program outputs the elements of the integer stack after initialization and after popping an element from it.
+
+The program outputs the elements of the double stack after initialization and after popping an element from it.
+
+
+
+Refer to the sample input and output for format specifications.
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+2
+2.5 3.5
+Output 1 :
+Stack elements: 5 4 3 2 1 
+Stack elements: 4 3 2 1 
+Stack elements: 3.5 2.5 
+Stack elements: 2.5 
+Input 2 :
+3
+10 20 30
+0
+Output 2 :
+Stack elements: 30 20 10 
+Stack elements: 20 10 
+Stack elements: 
+Stack underflow!
+Stack elements: 
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Base class template
+template <class T>
+class StackBase {
+protected:
+    vector<T> st;
+
+public:
+    void push(T x) {
+        st.push_back(x);
+    }
+
+    void pop() {
+        if (st.empty()) {
+            cout << "Stack underflow!" << endl;
+            return;
+        }
+        st.pop_back();
+    }
+
+    void display() {
+        cout << "Stack elements: ";
+        for (int i = st.size() - 1; i >= 0; i--) {
+            cout << st[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+// Derived class template
+template <class T>
+class StackDerived : public StackBase<T> {
+public:
+    // Inheriting the constructors of the base class
+    using StackBase<T>::StackBase;
+};
+
+int main() {
+    StackDerived<int> s1;
+    int n, x;
+
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> x;
+        s1.push(x);
+    }
+
+    StackDerived<double> s2;
+    double y;
+
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        cin >> y;
+        s2.push(y);
+    }
+
+    s1.display();
+    s1.pop();
+    s1.display();
+
+    s2.display();
+    s2.pop();
+    s2.display();
+
+    return 0;
+}
+
+
+
+roblem Statement
+
+
+
+Implement a template class Queue that stores elements of any data type. The class should have functions to enqueue an element into the queue, dequeue an element from the queue, and display the elements in the queue.
+
+
+
+Take user input to enqueue elements into the queue and output the dequeued elements and the elements remaining in the queue.
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The first line of input should contain an integer n, the number of elements to be enqueued in the integer queue.
+
+The second line of input should contain n integers separated by spaces, the elements to be enqueued in the integer queue.
+
+The third line of input should contain an integer m, the number of elements to be enqueued in the double queue.
+
+The fourth line of input should contain m doubles separated by spaces, the elements to be enqueued in the double queue.
+
+Output format :
+The output should display the elements of the integer queue and the double queue after enqueuing all the elements.
+
+After dequeuing one element from each queue, the output should display the updated elements of both queues.
+
+
+
+Refer to the sample input and output for format specifications.
+
+Sample test cases :
+Input 1 :
+3
+10 20 30
+2
+4.5 5.6
+Output 1 :
+Queue elements: 10 20 30 
+Dequeueing an element from the integer queue
+Queue elements: 20 30 
+Queue elements: 4.5 5.6 
+Dequeueing an element from the double queue
+Queue elements: 5.6 
+Input 2 :
+5
+2 4 6 8 10
+3
+1.2 3.4 5.6
+Output 2 :
+Queue elements: 2 4 6 8 10 
+Dequeueing an element from the integer queue
+Queue elements: 4 6 8 10 
+Queue elements: 1.2 3.4 5.6 
+Dequeueing an element from the double queue
+Queue elements: 3.4 5.6 
+
+
+// You are using GCC
+#include <iostream>
+#include <vector>
+using namespace std;
+
+// Base class template
+template <class T>
+class QueueBase {
+protected:
+    vector<T> q;
+
+public:
+    void enqueue(T x) {
+        q.push_back(x);
+    }
+
+    void dequeue() {
+        if (q.empty()) {
+            cout << "Queue underflow!" << endl;
+            return;
+        }
+        q.erase(q.begin());
+    }
+
+    void display() {
+        cout << "Queue elements: ";
+        for (int i = 0; i < q.size(); i++) {
+            cout << q[i] << " ";
+        }
+        cout << endl;
+    }
+};
+
+// Derived class template
+template <class T>
+class QueueDerived : public QueueBase<T> {
+public:
+    using QueueBase<T>::QueueBase;
+};
+
+int main() {
+    QueueDerived<int> q1;
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        int x;
+        cin >> x;
+        q1.enqueue(x);
+    }
+
+    QueueDerived<double> q2;
+
+    cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        double x;
+        cin >> x;
+        q2.enqueue(x);
+    }
+
+    q1.display();
+    cout << "Dequeueing an element from the integer queue" << endl;
+    q1.dequeue();
+    q1.display();
+
+    q2.display();
+    cout << "Dequeueing an element from the double queue" << endl;
+    q2.dequeue();
+    q2.display();
+
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+"PerfectMatch" is a matrimony site that helps people find their life partners. Users can create profiles with three attributes: Age, Height, and Education Level. To enhance the user experience, the site wants to implement a compatibility score calculation function. The compatibility score will help users assess how well they match with potential partners based on their profiles.
+
+
+
+The compatibility score is calculated by comparing the attributes of the two profiles, and for each matching attribute, the score increases by 10 points. If any of the attributes do not match, the score remains unchanged.
+
+
+
+Write a program that implements a function to calculate the compatibility score between two profiles. 
+
+Input format :
+The first line of input consists of the attributes for Profile 1: age, height, and education level (separated by spaces).
+
+The second line of input consists of the attributes for Profile 2: age, height, and education level (separated by spaces).
+
+Output format :
+The output displays the compatibility Score between the two profiles.
+
+Refer to the problem statement on how the compatibility score is calculated.
+
+Sample test cases :
+Input 1 :
+25 5 8
+25 5 8
+Output 1 :
+Compatibility Score: 30
+Input 2 :
+30 6 7
+25 8 4
+Output 2 :
+Compatibility Score: 0
+Input 3 :
+25 180 9
+25 177 9
+Output 3 :
+Compatibility Score: 20
+Input 4 :
+25 180 9
+27 177 9
+Output 4 :
+Compatibility Score: 10
+
+
+
+// You are using GCC
+#include <iostream>
+
+template <size_t N>
+int calculateCompatibilityScore(const int (&profile1)[N], const int (&profile2)[N]) {
+    int compatibilityScore = 0;
+
+    for (size_t i = 0; i < N; ++i) {
+        // Increase the compatibility score if attributes match
+        if (profile1[i] == profile2[i]) {
+            compatibilityScore += 10;
+        }
+    }
+
+    return compatibilityScore;
+}
+
+int main() {
+    int profile1[3]; // Age, Height, Education Level
+    int profile2[3]; // Age, Height, Education Level
+
+    std::cin >> profile1[0] >> profile1[1] >> profile1[2];
+    std::cin >> profile2[0] >> profile2[1] >> profile2[2];
+
+    int compatibilityScore = calculateCompatibilityScore(profile1, profile2);
+    std::cout << "Compatibility Score: " << compatibilityScore ;
+
+    return 0;
+}
+
+
+
+
+
+Single File Programming Question
+Problem statement
+
+
+
+The L1 Support Team at Jio is responsible for handling customer complaints and technical issues related to Jio services. To efficiently manage customer complaints, the team wants to implement a custom function that takes customer details and the nature of the complaint as input.
+
+
+
+The function should categorize the complaints into different types and prioritize them based on the severity level. The function should also keep track of the number of complaints received for each category. Use a function template to solve the program.
+
+
+
+Function Name: void processComplaint
+
+
+
+Note: This kind of question will be helpful in clearing TCS recruitment.
+
+Input format :
+The first line consists of an integer numComplaints, which represents the number of complaints.
+
+For each complaint, there will be two lines:
+
+The first line contains the customer's name.
+The second line contains the complaint type (Internet Issue, Network Problem, Billing Query, or Other).
+Output format :
+The output displays the count of each type of complaint.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+1 <= numComplaints <= 30
+
+Sample test cases :
+Input 1 :
+5
+John Doe
+Internet Issue
+Alice Smith
+Network Problem
+Bob Johnson
+Billing Query
+Eva Brown
+Other
+Joe
+Billing Query
+Output 1 :
+Complaint Count:
+Internet Issue: 1
+Network Problem: 1
+Billing Query: 2
+Other: 1
+
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+struct Complaint {
+    std::string customerName;
+    std::string complaintType;
+};
+
+void processComplaint(const Complaint* complaints, size_t numComplaints, int (&complaintCount)[4]) {
+    for (size_t i = 0; i < numComplaints; ++i) {
+        // Categorize complaints based on the nature of the complaint
+        if (complaints[i].complaintType == "Internet Issue") {
+            complaintCount[0]++;
+        } else if (complaints[i].complaintType == "Network Problem") {
+            complaintCount[1]++;
+        } else if (complaints[i].complaintType == "Billing Query") {
+            complaintCount[2]++;
+        } else {
+            complaintCount[3]++;
+        }
+    }
+}
+
+int main() {
+    size_t numComplaints;
+    std::cin >> numComplaints;
+
+    Complaint* complaints = new Complaint[numComplaints];
+
+    for (size_t i = 0; i < numComplaints; ++i) {
+        std::cin.ignore(); // Ignore the newline character left in the buffer by previous input
+        std::getline(std::cin, complaints[i].customerName);
+        std::getline(std::cin, complaints[i].complaintType);
+    }
+
+    int complaintCount[4] = {0}; // Initialize complaint count for each category
+
+    // Process each complaint
+    processComplaint(complaints, numComplaints, complaintCount);
+
+    // Display complaint count for each category
+    std::cout << "Complaint Count:" << std::endl;
+    std::cout << "Internet Issue: " << complaintCount[0] << std::endl;
+    std::cout << "Network Problem: " << complaintCount[1] << std::endl;
+    std::cout << "Billing Query: " << complaintCount[2] << std::endl;
+    std::cout << "Other: " << complaintCount[3];
+
+    delete[] complaints;
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+A Kid's Daycare Centre is responsible for managing the care and activities of young children. The daycare center wants to maintain a record of each child enrolled, including their name, age, and parent's contact information.
+
+
+
+To efficiently handle this information, the daycare center plans to implement a program using classes. The program will allow staff to add new children and display the list of enrolled children using a class template.
+
+Input format :
+The first line of input consists of an integer 'n' representing the number of children to be added to the daycare center.
+
+The next n lines of input consist of the details of a child, one per line.
+
+Each line consists of three values separated by spaces: the child's name, age, and parent's contact information.
+
+Output format :
+The output displays the list of enrolled children along with their details.
+
+Each child's details will be displayed on a separate line, showing their name, age, and parent's contact information.
+
+Code constraints :
+1 <= n <= 20
+
+Sample test cases :
+Input 1 :
+3
+Alice 5 9876543210
+Bob 4 9876543211
+Charlie 3 9876543212
+Output 1 :
+Enrolled Children:
+Child Name: Alice, Age: 5, Parent's Contact: 9876543210
+Child Name: Bob, Age: 4, Parent's Contact: 9876543211
+Child Name: Charlie, Age: 3, Parent's Contact: 9876543212
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+const int MAX_CHILDREN = 20;
+
+template <typename NameType, typename AgeType, typename ContactType>
+class Child {
+public:
+    Child(const NameType& name, const AgeType& age, const ContactType& parentContact) :
+        name(name), age(age), parentContact(parentContact) {}
+
+    void displayDetails() const {
+        std::cout << "Child Name: " << name << ", Age: " << age << ", Parent's Contact: " << parentContact << std::endl;
+    }
+
+private:
+    NameType name;
+    AgeType age;
+    ContactType parentContact;
+};
+
+int main() {
+    Child<std::string, int, std::string>* children[MAX_CHILDREN];
+    int childCount = 0;
+
+    int numChildren;
+    std::cin >> numChildren;
+
+    std::string name, parentContact;
+    int age;
+
+    for (int i = 0; i < numChildren; i++) {
+        std::cin >> name >> age;
+        std::cin >> parentContact;
+        children[childCount++] = new Child<std::string, int, std::string>(name, age, parentContact);
+    }
+
+    if (childCount > 0) {
+        std::cout << "Enrolled Children:" << std::endl;
+        for (int i = 0; i < childCount; i++) {
+            children[i]->displayDetails();
+        }
+
+        // Free allocated memory
+        for (int i = 0; i < childCount; i++) {
+            delete children[i];
+        }
+    } else {
+        std::cout << "No children enrolled." << std::endl;
+    }
+
+    return 0;
+}
+
+
+
+Problem Statement
+
+
+
+Ria owns a spa called "Ria's Aqua Spa," where customers can book various spa treatments and services. She wants to create a program to calculate the total revenue earned from spa bookings.
+
+
+
+The program should take an array of booking amounts as input and return the total revenue after deducting any applicable taxes or service charges using function templates. 
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The first line of input consists of the number of spa bookings, n.
+
+The second line of input consists of n space-separated spa booking amounts.
+
+Output format :
+The output displays the total amount cost for n spa bookings.
+
+Code constraints :
+n >= 1
+
+Sample test cases :
+Input 1 :
+5
+1200.0 1800.5 1500.0 2000.0 950.75
+Output 1 :
+7451.25
+
+
+
+
+
+// You are using GCC
+#include <iostream>
+
+template <typename T>
+T calculateTotalRevenue(const T bookings[], size_t numBookings) {
+    T totalRevenue = 0;
+
+    for (size_t i = 0; i < numBookings; ++i) {
+        totalRevenue += bookings[i];
+    }
+    return totalRevenue;
+}
+
+int main() {
+    size_t numBookings;
+    std::cin >> numBookings;
+    double* bookingAmounts = new double[numBookings];
+    for (size_t i = 0; i < numBookings; ++i) {
+        std::cin >> bookingAmounts[i];
+    }
+
+    double totalRevenue = calculateTotalRevenue(bookingAmounts, numBookings);
+    std::cout << totalRevenue;
+
+    delete[] bookingAmounts; 
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+BestOne is an e-commerce platform that sells a wide range of products. The platform wants to implement a custom function to calculate the total cost of a customer's shopping cart. The function should take an array of product prices as input and return the total cost after applying for any discounts or promotions. Use a function template to solve the program.
+
+Input format :
+The first line of input consists of the number of items in the cart, n.
+
+The second line of input consists of the n space-separated product prices.
+
+Output format :
+The output prints the total price of all products in the cart.
+
+Code constraints :
+n >= 1
+
+Sample test cases :
+Input 1 :
+4
+50.99 25.49 30.0 10.99
+Output 1 :
+117.47
+
+// You are using GCC
+#include <iostream>
+
+template <typename T>
+T calculateTotalCost(const T prices[], size_t numItems) {
+    T totalCost = 0;
+
+    for (size_t i = 0; i < numItems; ++i) {
+        totalCost += prices[i];
+    }
+
+    return totalCost;
+}
+
+int main() {
+    size_t numItems;
+    std::cin >> numItems;
+
+    double* cartPrices = new double[numItems];
+    for (size_t i = 0; i < numItems; ++i) {
+        std::cin >> cartPrices[i];
+    }
+
+    double totalCost = calculateTotalCost(cartPrices, numItems);
+    std::cout << totalCost;
+    delete[] cartPrices;
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+Pranav is a professional wedding photographer. He wants to create a program using a function template that can calculate the total revenue earned from wedding photography bookings.
+
+
+
+The program should take an array of booking amounts as input and return the total revenue after deducting any applicable taxes or fees.
+
+
+
+Note: This kind of question will be helpful in clearing Mettyl recruitment.
+
+Input format :
+The first line of input consists of the number of wedding photography bookings, n.
+
+The second line of input consists of n space-separated booking amounts.
+
+Output format :
+The output displays the total amount for n bookings.
+
+Code constraints :
+n >= 1
+
+Sample test cases :
+Input 1 :
+4
+1200.0 1500.0 1800.5 950.75
+Output 1 :
+5451.25
+
+
+
+// You are using GCC
+#include <iostream>
+
+template <typename T>
+T calculateTotalRevenue(const T bookings[], size_t numBookings) {
+    T totalRevenue = 0;
+
+    for (size_t i = 0; i < numBookings; ++i) {
+        totalRevenue += bookings[i];
+    }
+
+    return totalRevenue;
+}
+
+int main() {
+    size_t numBookings;
+    std::cin >> numBookings;
+
+    double* bookingAmounts = new double[numBookings];
+
+    for (size_t i = 0; i < numBookings; ++i) {
+        std::cin >> bookingAmounts[i];
+    }
+
+    double totalRevenue = calculateTotalRevenue(bookingAmounts, numBookings);
+    std::cout << totalRevenue;
+    delete[] bookingAmounts; 
+
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+AV's Construction Company specializes in building residential and commercial properties. They are currently working on multiple construction projects simultaneously, and each project requires different construction materials. 
+
+
+
+To manage the inventory efficiently, the company needs a system to keep track of the available construction materials and their quantities. They want to implement a program with functions to add new materials, update material quantities, and display the current inventory status. 
+
+
+
+Help them write a program for the same using function templates.
+
+Input format :
+The first line consists of an integer 'n' representing the number of materials to add to the inventory.
+
+In the next 'n' lines, each line consists of a string 'name' and an integer 'quantity', separated by a space, representing the name and quantity of material to add to the inventory.
+
+The last line consists of a string 'name' and an integer 'quantity', separated by a space, representing the name and updated quantity of a material in the inventory.
+
+Output format :
+The program displays the messages as it adds materials to the inventory, updates the quantity of existing material, and displays the current inventory status.
+
+The output displays the name and quantity of each material in the current inventory status.
+
+
+
+Refer to the sample output for the formatting specifications.
+
+Code constraints :
+1 <= n <= 10
+
+Sample test cases :
+Input 1 :
+3
+Cement 100
+Bricks 500
+SteelBars 200
+Cement 50
+Output 1 :
+Added 100 units of Cement to the inventory.
+Added 500 units of Bricks to the inventory.
+Added 200 units of SteelBars to the inventory.
+Updated Cement quantity to 50 units in the inventory.
+Current Inventory Status:
+Cement: 50 units
+Bricks: 500 units
+SteelBars: 200 units
+Input 2 :
+3
+Cement 100
+Bricks 500
+SteelBars 200
+Steel 50
+Output 2 :
+Added 100 units of Cement to the inventory.
+Added 500 units of Bricks to the inventory.
+Added 200 units of SteelBars to the inventory.
+Material Steel not found in the inventory.
+Current Inventory Status:
+Cement: 100 units
+Bricks: 500 units
+SteelBars: 200 units
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+struct Material {
+    std::string name;
+    int quantity;
+};
+
+template <typename T>
+void addMaterial(Material* inventory, size_t& size, size_t capacity, const std::string& name, T quantity) {
+    if (size >= capacity) {
+        // Increase capacity if needed
+        capacity *= 2;
+        Material* newInventory = new Material[capacity];
+        for (size_t i = 0; i < size; i++) {
+            newInventory[i] = inventory[i];
+        }
+        delete[] inventory;
+        inventory = newInventory;
+    }
+
+    bool found = false;
+    for (size_t i = 0; i < size; i++) {
+        if (inventory[i].name == name) {
+            inventory[i].quantity += quantity;
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        inventory[size].name = name;
+        inventory[size].quantity = quantity;
+        size++;
+    }
+
+    std::cout << "Added " << quantity << " units of " << name << " to the inventory." << std::endl;
+}
+
+// Function template to update the quantity of an existing material in the inventory
+template <typename T>
+void updateQuantity(Material* inventory, size_t size, const std::string& name, T quantity) {
+    for (size_t i = 0; i < size; i++) {
+        if (inventory[i].name == name) {
+            inventory[i].quantity = quantity;
+            std::cout << "Updated " << name << " quantity to " << quantity << " units in the inventory." << std::endl;
+            return;
+        }
+    }
+
+    std::cout << "Material " << name << " not found in the inventory." << std::endl;
+}
+
+// Function to display the current inventory status
+void displayInventory(Material* inventory, size_t size) {
+    std::cout << "Current Inventory Status:" << std::endl;
+    for (size_t i = 0; i < size; i++) {
+        std::cout << inventory[i].name << ": " << inventory[i].quantity << " units" << std::endl;
+    }
+}
+
+int main() {
+    size_t capacity = 10;
+    Material* inventory = new Material[capacity];
+    size_t size = 0;
+
+    std::string name;
+    int quantity;
+    int n;
+    std::cin >> n;
+    while (n!=0) {
+        std::cin >> name;
+        std::cin >> quantity;
+        addMaterial(inventory, size, capacity, name, quantity);
+        n--;
+    }
+
+    std::cin >> name;
+    std::cin >> quantity;
+    updateQuantity(inventory, size, name, quantity);
+
+    displayInventory(inventory, size);
+    delete[] inventory;
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+Google, being one of the largest search engines, continuously crawls and indexes web pages from across the internet to provide relevant search results to users. 
+
+
+
+To efficiently manage the site indexing process, Google wants to implement a custom function that takes a list of web page URLs as input and indexes them for search. The function should return the number of URLs indexed and provide an index status for each URL, indicating whether it was successfully indexed or encountered any issues during the process. 
+
+
+
+
+
+At last, display all the URLs along with the status. Use function templates to solve the program.
+
+Input format :
+The first line of input consists of an integer N, representing the number of web page URLs to be indexed.
+
+The next N lines consist of a web page URL and its indexing status.
+
+Note:
+
+The indexing status will be represented by an integer:
+
+1: The URL was successfully indexed.
+
+0: The URL encountered issues during the indexing process.
+
+Output format :
+The output displays of the following:
+
+-The total number of URLs indexed (including both successful and unsuccessful indexing attempts).
+
+-For each URL, print its name and indexing status:
+
+Print "Indexed successfully" if the status is 1.
+
+Print "Indexing failed" if the status is 0.
+
+Code constraints :
+1 ≤ N ≤ 20
+
+Each web page URL should be unique in the input.
+
+The URL will be a string containing alphanumeric characters and special symbols, not exceeding 100 characters in length.
+
+Sample test cases :
+Input 1 :
+3
+https://www.example.com 1
+https://www.google.com 0
+https://www.website.com 1
+Output 1 :
+https://www.example.com: Indexed successfully
+https://www.google.com: Indexing failed
+https://www.website.com: Indexed successfully
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+struct WebPage {
+    std::string name;
+    bool status;
+};
+
+template <typename T>
+void push_back(T*& arr, size_t& size, size_t& capacity, const T& value) {
+    if (size >= capacity) {
+        if (capacity == 0) {
+            capacity = 1;
+        } else {
+            capacity *= 2;
+        }
+
+        T* newArr = new T[capacity];
+        for (size_t i = 0; i < size; ++i) {
+            newArr[i] = arr[i];
+        }
+
+        delete[] arr;
+        arr = newArr;
+    }
+
+    arr[size++] = value;
+}
+
+template <typename T>
+void displayArray(const T* arr, size_t size) {
+    for (size_t i = 0; i < size; ++i) {
+        std::cout << arr[i].name << ": " << (arr[i].status ? "Indexed successfully" : "Indexing failed") << std::endl;
+    }
+}
+
+int main() {
+    size_t n;
+    std::cin >> n;
+
+    WebPage* webPageUrls = new WebPage[n];
+    size_t size = 0;
+    size_t capacity = n;
+
+    for (size_t i = 0; i < n; ++i) {
+        std::cin >> webPageUrls[i].name;
+        std::cin >> webPageUrls[i].status;
+        size++;
+    }
+
+    std::string updateUrl;
+    std::cin >> updateUrl;
+    bool newStatus;
+    std::cin >> newStatus;
+
+    for (size_t i = 0; i < n; ++i) {
+        if (webPageUrls[i].name == updateUrl) {
+            webPageUrls[i].status = newStatus;
+            break;
+        }
+    }
+
+    displayArray(webPageUrls, size);
+
+    delete[] webPageUrls;
+    return 0;
+}
+
+
+Problem Statement
+
+
+
+Audi, a luxury car manufacturer, offers customers the opportunity to book test drives for their latest car models. To streamline the test drive booking process, Audi wants to implement a custom function that takes customer details and preferred test drive dates as input. 
+
+
+
+The function should check for the availability of test drive slots on the given date and book the test drive for the customer if a slot is available. 
+
+
+
+It should also handle any clashes or boundary conditions during the booking process. 
+
+Input format :
+The input starts with a single integer N, representing the number of test drive slots.
+
+Then, there are N lines, each containing a date in the format "yyyy-mm-dd" followed by a space and a binary value (0 or 1), representing the availability status of the test drive slot.
+
+Output format :
+The output will be either "Test Drive Booked Successfully for {customerName} on {preferredDate}" if the test drive slot is available and booked successfully, or "Test Drive Slot not available for {customerName} on {preferredDate}" if the slot is not available. The {customerName} and {preferredDate} will be replaced with actual values based on the inputs provided during runtime.
+
+Code constraints :
+The code should handle up to 10^5 test drive slots efficiently.
+The date string should be limited to a practical length (e.g., 10 characters for "YYYY-MM-DD" format).
+The boolean isAvailable can have two possible values: 0 (false) or 1 (true).
+Sample test cases :
+Input 1 :
+3
+2023-07-25 1
+2023-07-26 1
+2023-07-27 0
+2023-07-27 
+Output 1 :
+Test Drive Slot not available on 2023-07-27
+Input 2 :
+3
+2023-07-25 1
+2023-07-26 1
+2023-07-27 1
+2023-07-27 
+Output 2 :
+Test Drive Booked Successfully on 2023-07-27
+
+
+// You are using GCC
+#include <iostream>
+#include <string>
+
+struct TestDriveSlot {
+    std::string date;
+    bool isAvailable;
+};
+
+// Function template to book a test drive slot on the preferred date
+template <typename T>
+bool bookTestDrive(const std::string& preferredDate, T* testDriveSlots, size_t size) {
+    for (size_t i = 0; i < size; ++i) {
+        if (testDriveSlots[i].date == preferredDate) {
+            if (testDriveSlots[i].isAvailable) {
+                testDriveSlots[i].isAvailable = false;
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+    // Handle boundary condition for invalid date
+    return false;
+}
+
+int main() {
+    size_t numSlots;
+    std::cin >> numSlots;
+
+    TestDriveSlot* testDriveSlots = new TestDriveSlot[numSlots];
+    for (size_t i = 0; i < numSlots; ++i) {
+        std::cin >> testDriveSlots[i].date;
+        std::cin >> testDriveSlots[i].isAvailable;
+    }
+
+    std::string preferredDate;
+    std::cin >> preferredDate;
+
+    bool isBookingSuccessful = bookTestDrive(preferredDate, testDriveSlots, numSlots);
+
+    if (isBookingSuccessful) {
+        std::cout << "Test Drive Booked Successfully on " << preferredDate;
+    } else {
+        std::cout << "Test Drive Slot not available on " << preferredDate;
+    }
+
+    delete[] testDriveSlots;
+    return 0;
+}
+
+
+
+Problem Statement 
+
+
+
+Ricky is building a flexible concatenation program that can merge data of various types. The program prompts the user to enter two arrays of 3 integers and two strings, along with a delimiter string. Once the inputs are provided, the program concatenates the arrays without any delimiter and displays the concatenated result.
+
+
+
+Additionally, it concatenates the strings using the given delimiter and prints the merged string. The program is designed using template functions to accommodate different data types, allowing users to conveniently concatenate arrays and strings with ease.
+
+
+
+Note: This kind of question will help in clearing Capgemini recruitment.
+
+Input format :
+The first line contains three space-separated integers, a1, a2, and a3, denoting the elements of the first array.
+
+The second line contains three space-separated integers b1, b2, and b3, denoting the elements of the second array.
+
+The third line contains the string s1, denoting the first string.
+
+The fourth line contains the string s2, denoting the second string.
+
+The fifth line contains a string delimiter, denoting the delimiter to use when concatenating the two strings.
+
+Output format :
+The concatenated array of integers is separated by a space.
+
+The concatenated string, with the specified delimiter between the two original strings.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The integers in the arrays and the delimiter string are each of length at most 100.
+
+The strings s1 and s2 are each of length at most 1000.
+
+Sample test cases :
+Input 1 :
+1 2 3
+4 5 6
+hello
+world
+,
+Output 1 :
+Concatenated array: 5 7 9 
+Concatenated string: hello,world
+Input 2 :
+2 4 6
+1 3 5
+hi
+there
+-
+Output 2 :
+Concatenated array: 3 7 11 
+Concatenated string: hi-there
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+
+template<typename T>
+void concatenateArrays(T arr1[], T arr2[], int size) {
+    for (int i = 0; i < size; i++) {
+        std::cout << arr1[i] + arr2[i] << " ";
+    }
+    std::cout << std::endl;
+}
+
+template<typename T>
+void concatenateStrings(T str1, T str2, std::string delimiter) {
+    std::cout << str1 << delimiter << str2 << std::endl;
+}
+
+int main() {
+    int arr1[3], arr2[3];
+    std::string str1, str2, delimiter;
+
+    // Input arrays
+    for (int i = 0; i < 3; i++) {
+        std::cin >> arr1[i];
+    }
+    for (int i = 0; i < 3; i++) {
+        std::cin >> arr2[i];
+    }
+
+    // Input strings
+    std::cin >> str1;
+    std::cin >> str2;
+
+    // Input delimiter
+    std::cin >> delimiter;
+
+    // Concatenate arrays
+    std::cout << "Concatenated array: ";
+    concatenateArrays(arr1, arr2, 3);
+
+    // Concatenate strings
+    std::cout << "Concatenated string: ";
+    concatenateStrings(str1, str2, delimiter);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+Problem Statement
+
+
+
+A Kid's Daycare Centre is responsible for managing the care and activities of young children. The daycare center wants to maintain a record of each child enrolled, including their name, age, and parent's contact information.
+
+
+
+To efficiently handle this information, the daycare center plans to implement a program using classes. The program will allow staff to add new children and display the list of enrolled children using a class template.
+
+Input format :
+The first line of input consists of an integer 'n' representing the number of children to be added to the daycare center.
+
+The next n lines of input consist of the details of a child, one per line.
+
+Each line consists of three values separated by spaces: the child's name, age, and parent's contact information.
+
+Output format :
+The output displays the list of enrolled children along with their details.
+
+Each child's details will be displayed on a separate line, showing their name, age, and parent's contact information.
+
+Code constraints :
+1 <= n <= 20
+
+Sample test cases :
+Input 1 :
+3
+Alice 5 9876543210
+Bob 4 9876543211
+Charlie 3 9876543212
+Output 1 :
+Enrolled Children:
+Child Name: Alice, Age: 5, Parent's Contact: 9876543210
+Child Name: Bob, Age: 4, Parent's Contact: 9876543211
+Child Name: Charlie, Age: 3, Parent's Contact: 9876543212
+
+
+
+
+
+
+
+#include <iostream>
+#include <string>
+
+template <class T>
+class Child {
+public:
+    std::string name;
+    int age;
+    T parentContact;
+};
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    Child<std::string> children[n];
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> children[i].name >> children[i].age >> children[i].parentContact;
+    }
+
+    std::cout << "Enrolled Children:" << std::endl;
+    for (int i = 0; i < n; i++) {
+        std::cout << "Child Name: " << children[i].name << ", Age: " << children[i].age << ", Parent's Contact: " << children[i].parentContact << std::endl;
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+Problem Statement
+
+
+
+Ria owns a spa called "Ria's Aqua Spa," where customers can book various spa treatments and services. She wants to create a program to calculate the total revenue earned from spa bookings.
+
+
+
+The program should take an array of booking amounts as input and return the total revenue after deducting any applicable taxes or service charges using function templates. 
+
+
+
+Note: This kind of question will be helpful in clearing Accenture recruitment.
+
+Input format :
+The first line of input consists of the number of spa bookings, n.
+
+The second line of input consists of n space-separated spa booking amounts.
+
+Output format :
+The output displays the total amount cost for n spa bookings.
+
+Code constraints :
+n >= 1
+
+Sample test cases :
+Input 1 :
+5
+1200.0 1800.5 1500.0 2000.0 950.75
+Output 1 :
+7451.25
+
+
+
+
+
+
+
+#include <iostream>
+using namespace std;
+
+template <typename T>
+T calculateTotalRevenue(T bookings[], int n) {
+    T totalRevenue = 0;
+    for (int i = 0; i < n; i++) {
+        totalRevenue += bookings[i];
+    }
+    return totalRevenue;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    double bookings[n];
+    for (int i = 0; i < n; i++) {
+        cin >> bookings[i];
+    }
+    double totalRevenue = calculateTotalRevenue(bookings, n);
+    cout << totalRevenue << endl;
+    return 0;
+}
+
+
+
+
+
+
+
+Problem Statement
+
+
+
+"PerfectMatch" is a matrimony site that helps people find their life partners. Users can create profiles with three attributes: Age, Height, and Education Level. To enhance the user experience, the site wants to implement a compatibility score calculation function. The compatibility score will help users assess how well they match with potential partners based on their profiles.
+
+
+
+The compatibility score is calculated by comparing the attributes of the two profiles, and for each matching attribute, the score increases by 10 points. If any of the attributes do not match, the score remains unchanged.
+
+
+
+Write a program that implements a function to calculate the compatibility score between two profiles. 
+
+Input format :
+The first line of input consists of the attributes for Profile 1: age, height, and education level (separated by spaces).
+
+The second line of input consists of the attributes for Profile 2: age, height, and education level (separated by spaces).
+
+Output format :
+The output displays the compatibility Score between the two profiles.
+
+Refer to the problem statement on how the compatibility score is calculated.
+
+Sample test cases :
+Input 1 :
+25 5 8
+25 5 8
+Output 1 :
+Compatibility Score: 30
+Input 2 :
+30 6 7
+25 8 4
+Output 2 :
+Compatibility Score: 0
+Input 3 :
+25 180 9
+25 177 9
+Output 3 :
+Compatibility Score: 20
+Input 4 :
+25 180 9
+27 177 9
+Output 4 :
+Compatibility Score: 10
+
+
+
+
+#include <iostream>
+#include <sstream>
+
+using namespace std;
+
+template <size_t N>
+int compatibilityScore(int (&profile1)[N], int (&profile2)[N]) {
+    int score = 0;
+    for (int i = 0; i < N; i++) {
+        if (profile1[i] == profile2[i]) {
+            score += 10;
+        }
+    }
+    return score;
+}
+
+int main() {
+    int profile1[3], profile2[3];
+    string line;
+    getline(cin, line);
+    istringstream iss(line);
+    for (int i = 0; i < 3; i++) {
+        iss >> profile1[i];
+    }
+    getline(cin, line);
+    istringstream iss2(line);
+    for (int i = 0; i < 3; i++) {
+        iss2 >> profile2[i];
+    }
+    int score = compatibilityScore(profile1, profile2);
+    cout << "Compatibility Score: " << score << endl;
+    return 0;
+}
+
+
+
+
+Problem Statement
+
+
+
+Audi, a luxury car manufacturer, offers customers the opportunity to book test drives for their latest car models. To streamline the test drive booking process, Audi wants to implement a custom function that takes customer details and preferred test drive dates as input. 
+
+
+
+The function should check for the availability of test drive slots on the given date and book the test drive for the customer if a slot is available. 
+
+
+
+It should also handle any clashes or boundary conditions during the booking process. 
+
+Input format :
+The input starts with a single integer N, representing the number of test drive slots.
+
+Then, there are N lines, each containing a date in the format "yyyy-mm-dd" followed by a space and a binary value (0 or 1), representing the availability status of the test drive slot.
+
+Output format :
+The output will be either "Test Drive Booked Successfully for {customerName} on {preferredDate}" if the test drive slot is available and booked successfully, or "Test Drive Slot not available for {customerName} on {preferredDate}" if the slot is not available. The {customerName} and {preferredDate} will be replaced with actual values based on the inputs provided during runtime.
+
+Code constraints :
+The code should handle up to 10^5 test drive slots efficiently.
+The date string should be limited to a practical length (e.g., 10 characters for "YYYY-MM-DD" format).
+The boolean isAvailable can have two possible values: 0 (false) or 1 (true).
+Sample test cases :
+Input 1 :
+3
+2023-07-25 1
+2023-07-26 1
+2023-07-27 0
+2023-07-27 
+Output 1 :
+Test Drive Slot not available on 2023-07-27
+Input 2 :
+3
+2023-07-25 1
+2023-07-26 1
+2023-07-27 1
+2023-07-27 
+Output 2 :
+Test Drive Booked Successfully on 2023-07-27
+
+
+
+
+
+#include <iostream>
+#include <string>
+#include <map>
+
+using namespace std;
+
+template <typename T>
+void bookTestDrive(map<string, T>& slots, string customerName, string preferredDate) {
+    if (slots.find(preferredDate) == slots.end()) {
+        cout << "Test Drive Slot not available on " << customerName  << preferredDate << endl;
+        return;
+    }
+    if (slots[preferredDate] == 0) {
+        cout << "Test Drive Slot not available on " << customerName << preferredDate << endl;
+        return;
+    }
+    slots[preferredDate] = 0;
+    cout << "Test Drive Booked Successfully on " << customerName << preferredDate << endl;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    map<string, int> slots;
+    for (int i = 0; i < n; i++) {
+        string date;
+        int availability;
+        cin >> date >> availability;
+        slots[date] = availability;
+    }
+    string customerName, preferredDate;
+    cin >> customerName >> preferredDate;
+    bookTestDrive(slots, customerName, preferredDate);
+    return 0;
+}
+
+
+
+
+5
+6
+Answered
+3/6
+Bookmarked
+0/6
+Skipped
+3/6
+Not Viewed
+0/6
+Saved in Server
+3/6
+View More
+Question No : 2 / 6
+bookmarkIcon
+reportIcon
+Single File Programming Question
+Problem Statement
+
+
+
+Madhu is designing a program to handle various types of pairs, where each pair consists of a float value and a double value. You need to implement a class template called Pair that can store and swap the float and double values within the pair. The program should take user input for a float value and a double value and then use the Pair class template to swap the values and display the pair before and after the swap.
+
+
+
+Implement a template class called Pair that stores two members of any data type. The class should have a constructor to initialize the data members and a function swap to swap the values of the data members.
+
+
+
+Take user input to initialize the data members and output the values before and after the swap operation.
+
+
+
+Note: This kind of question will help in clearing Amcat recruitment.
+
+Input format :
+The first line contains a single float value.
+
+The second line contains a single double value .
+
+Output format :
+The output displays the following format:
+
+The "Values before swap" section displays the original float and double values.
+
+The "Values after swap" section displays the float and double values after swapping the Celsius and Fahrenheit values.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+The float value a should be within the range -1.0e9 to 1.0e9.
+
+The double value b should be within the range -1.0e18 to 1.0e18.
+
+Sample test cases :
+Input 1 :
+45.43
+96.25
+Output 1 :
+Values before swap: 
+First: 45.43
+Second: 96.25
+Values after swap: 
+First: 96.25
+Second: 45.43
+Input 2 :
+968.32
+478.25
+Output 2 :
+Values before swap: 
+First: 968.32
+Second: 478.25
+Values after swap: 
+First: 478.25
+Second: 968.32
+
+
+#include <iostream>
+
+template<class T1, class T2>
+class Pair {
+public:
+    Pair(T1 first, T2 second) : first(first), second(second) {}
+
+    void swap() {
+        T1 temp = first;
+        first = second;
+        second = temp;
+    }
+
+    T1 getFirst() const {
+        return first;
+    }
+
+    T2 getSecond() const {
+        return second;
+    }
+
+private:
+    T1 first;
+    T2 second;
+};
+
+int main() {
+    float f;
+    double d;
+
+    std::cin >> f >> d;
+
+    Pair<float, double> pair(f, d);
+
+    std::cout << "Values before swap:" << std::endl;
+    std::cout << "First: " << pair.getFirst() << std::endl;
+    std::cout << "Second: " << pair.getSecond() << std::endl;
+
+    pair.swap();
+
+    std::cout << "Values after swap:" << std::endl;
+    std::cout << "First: " << pair.getFirst() << std::endl;
+    std::cout << "Second: " << pair.getSecond() << std::endl;
+
+    return 0;
+}
+Single File Programming Question
+Problem Statement
+
+
+
+Akshaya is developing a program to calculate the sum of elements in arrays of different data types. Create a program that calculates the sum of elements in two different arrays of integers and floating-point numbers using a template function named arraySum. The program should first prompt the user to enter the size of the arrays, followed by the elements of the two arrays.
+
+
+
+The arraySum function should take two parameters: the array of any data type and the size of the array, and it should return the sum of all the elements in the array.
+
+
+
+The program should print the sum of elements in the integer array and the floating-point array separately.
+
+Input format :
+The input consists of an integer and a floating-point array on separate lines.
+
+Output format :
+Output prints the sum of an integer and a floating-point array.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 <= n <= 1000: The size of the arrays will be between 1 and 1000 (inclusive).
+
+For the integer array arr1, -109 <= arr1[i] <= 109
+
+For the floating-point array arr2, -109 <= arr2[i] <= 109
+
+Sample test cases :
+Input 1 :
+5
+1 2 3 4 5
+1.5 2.5 3.5 4.5 5.5
+Output 1 :
+Sum of integer array: 15
+Sum of floating-point array: 17.5
+Input 2 :
+3
+10 20 30
+1.1 2.2 3.3
+Output 2 :
+Sum of integer array: 60
+Sum of floating-point array: 6.6
+
+
+#include <iostream>
+
+template<class T>
+T arraySum(T arr[], int n) {
+    T sum = 0;
+    for (int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+int main() {
+    int n;
+    std::cin >> n;
+
+    int intArr[n];
+    float floatArr[n];
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> intArr[i];
+    }
+
+    for (int i = 0; i < n; i++) {
+        std::cin >> floatArr[i];
+    }
+
+    int intSum = arraySum(intArr, n);
+    float floatSum = arraySum(floatArr, n);
+
+    std::cout << "Sum of integer array: " << intSum << std::endl;
+    std::cout << "Sum of floating-point array: " << floatSum << std::endl;
+
+    return 0;
+}
+
+
+
+Single File Programming Question
+Problem Statement
+
+
+
+Mahi is developing a program to print elements from arrays based on their indices. Write a program to print the Array elements that are present at odd positions using class templates.
+
+
+
+Note: This kind of question will help in clearing Wipro recruitment.
+
+Input format :
+The first line consists of an array of size N.
+
+The second line consists of N Integers separated by a space.
+
+The third line consists of N strings separated by spaces.
+
+Output format :
+The output prints the Array of elements which are present in an odd position.
+
+
+
+Refer to the sample output for formatting specifications.
+
+Code constraints :
+1 <= n <= 1000: The size of the arrays will be between 1 and 1000 (inclusive).
+
+-109 <= a[i] <= 109
+
+1 <= |b[i]| <= 100: The length of each string in the string array b will be between 1 and 100 characters (inclusive).
+
+Sample test cases :
+Input 1 :
+5
+10 20 30 40 50
+Apple orange Pineapple Banana Strawberry
+Output 1 :
+10 30 50 
+Apple Pineapple Strawberry 
+Input 2 :
+6
+190 180 170 160 150 140
+Mask Mobile Diary NotePad Water Bottle
+Output 2 :
+190 170 150 
+Mask Diary Water 
+
+
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+
+template <class T>
+class ArrayPrinter {
+private:
+    vector<T> elements;
+
+public:
+    void setElements(vector<T> arr) {
+        elements = arr;
+    }
+
+    void printOddElements() {
+        for (int i = 0; i < elements.size(); i++) {
+            if (i % 2 == 0) {
+                cout << elements[i] << " ";
+            }
+        }
+        cout << endl;
+    }
+
+    void printStringElements(vector<string> arr) {
+        for (int i = 0; i < arr.size(); i++) {
+            if (i % 2 == 0) {
+                cout << arr[i] << " ";
+            }
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> intArr(n);
+    vector<string> strArr(n);
+
+    for (int i = 0; i < n; i++) {
+        cin >> intArr[i];
+    }
+
+    cin.ignore(); // Ignore the newline character
+
+    for (int i = 0; i < n; i++) {
+        cin >> strArr[i];
+    }
+
+    ArrayPrinter<int> intPrinter;
+    intPrinter.setElements(intArr);
+    intPrinter.printOddElements();
+
+    ArrayPrinter<string> strPrinter;
+    strPrinter.printStringElements(strArr);
+
+    return 0;
+}
+
